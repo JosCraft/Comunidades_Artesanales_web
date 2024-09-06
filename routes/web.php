@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductoController;
 
+
+use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +23,13 @@ Route::get('/', function () {
 });
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('productos.show');
 Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
+
+Route::controller(GestionUsuario::class)->group(function(){
+        Route::get('/admin/gestion_usuario','index')->name('admin.gestion_usuario');
+        Route::post('/admin/gestion_usuario','store')->name('admin.gestion_usuario.store');
+        Route::put('/admin/gestion_usuario/{id}','update')->name('admin.gestion_usuario.update');
+
+});
 
 Auth::routes();
 

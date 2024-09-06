@@ -1,15 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\CRUD\UserController;
+use App\Models\User;
+use App\Models\UserRol;
 
-class GestionUsuario extends Controller
+class GestionUsuarioController extends Controller
 {
     public function index()
     {
-        return view('admin.gestion_usuario');
+        $users = User::all();
+        $rolesUser = UserRol::all();
+
+        return view('/admin/gestion_usuario',['users'=>$users, 'rolesUser'=>$rolesUser]);
     }
 
 
