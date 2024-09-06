@@ -1,22 +1,41 @@
 <x-layouts.app
     :title="'Inicio'">
-    <?php
-        $categorias = App\Models\Categoria::all();
-    ?>
 
-
-<form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <select name="id_categoria" required>
-        <option value="">Seleccione una categoria</option>
-        @foreach ($categorias as $categoria)
-            <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-        @endforeach
-    </select>
-    <input type="text" name="nombre_producto" placeholder="Nombre del producto" required>
-    <input type="file" name="imagen" required>
-    <button type="submit">Subir Producto</button>
-</form>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Bienvenido a la tienda de Comunario</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center">Categorias</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <ul>
+                    @foreach ($categorias as $categoria)
+                        <li>{{ $categoria->nombre }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center">Productos</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <ul>
+                    @foreach ($productos as $producto)
+                        <li>{{ $producto->nombre }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
 
 
 </x-layouts.app>

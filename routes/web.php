@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductoController;
-
+use App\Http\Controllers\VisitorController;
 
 use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
 
@@ -18,9 +18,13 @@ use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(VisitorController::class)->group(function(){
+    Route::get('/', 'welcome')->name('welcome');
+    Route::get('/comunidades', 'comunidades')->name('comunidades');
+    Route::get('/productos', 'productos')->name('productos');
+    Route::get('/contacto', 'contacto')->name('contacto');
 });
+
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('productos.show');
 Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
 
