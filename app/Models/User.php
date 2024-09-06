@@ -18,10 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',
-        'name',
-        'email',
-        'password',
+        'id','nombre', 'apePaterno', 'apeMaterno', 'genero', 'celular', 'email', 'password', 'fechaNac'
     ];
 
     /**
@@ -43,6 +40,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Relación uno a muchos: un usuario puede ser administrador, comprador, comunario o delivery.
+    public function administrador()
+    {
+        return $this->hasOne(Administrador::class, 'id');
+    }
+
+    public function comunario()
+    {
+        return $this->hasOne(Comunario::class, 'id');
+    }
+
+    public function comprador()
+    {
+        return $this->hasOne(Comprador::class, 'id');
+    }
+
+    public function delivery()
+    {
+        return $this->hasOne(Delivery::class, 'id');
+    }
 
     /**
      * Get the roles that belong to the user.

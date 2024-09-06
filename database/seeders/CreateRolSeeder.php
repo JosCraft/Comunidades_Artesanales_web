@@ -19,8 +19,8 @@ class CreateRolSeeder extends Seeder
                 'slug' => 'user',
             ],
             [
-                'name' => 'Vendedor',
-                'slug' => 'vendedor',
+                'name' => 'Comunario',
+                'slug' => 'comunario',
             ],
             [
                 'name' => 'Admin',

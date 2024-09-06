@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ProductoController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('productos.show');
+Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
 
 Auth::routes();
 
