@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comprador extends Model
 {
     protected $table = 'compradores';
-    protected $fillable = ['id'];
+    protected $fillable = ['id','user_id'];
     // Relación uno a uno con usuario
     public function user()
     {

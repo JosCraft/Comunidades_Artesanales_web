@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Delivery extends Model
 {
     protected $table = 'deliveries';
-    protected $fillable = ['id','servicio', 'salario', 'turno', 'id_comunidad'];
+    protected $fillable = ['id','servicio', 'salario', 'turno', 'id_comunidad','user_id'];
 
     // Relación uno a uno con usuario
     public function user()

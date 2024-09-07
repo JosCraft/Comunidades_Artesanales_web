@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comunario extends Model
 {
     protected $table = 'comunarios';
-    protected $fillable = ['id','especialidad', 'id_comunidad'];
+    protected $fillable = ['id','especialidad', 'id_comunidad','user_id'];
 
     // Relación uno a uno con usuario
     public function user()

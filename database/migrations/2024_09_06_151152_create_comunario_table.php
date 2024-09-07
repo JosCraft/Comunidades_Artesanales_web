@@ -12,12 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comunarios', function (Blueprint $table) {
-            $table->foreignId('id')->constrained('users')->primary(); // FK to USUARIO (PK)
-            $table->foreignId('id_comunidad')->constrained('comunidades'); // FK to COMUNIDAD
+            // Definir 'id' como PK y agregarla como clave foránea hacia 'users'
+            $table->unsignedBigInteger('id')->primary(); // PK
+
+            // Agregar la clave foránea hacia 'users'
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            // Definir la clave foránea hacia 'comunidades'
+            $table->foreignId('id_comunidad')->constrained('comunidades')->onDelete('cascade'); // FK hacia 'comunidades'
+
             $table->string('especialidad');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

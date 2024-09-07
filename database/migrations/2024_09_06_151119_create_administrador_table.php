@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('administradores', function (Blueprint $table) {
-            $table->foreignId('id')->constrained('users')->primary(); // FK to USUARIO (PK)
-            $table->string('cod_Adm');
+        Schema::create('compradores', function (Blueprint $table) {
+            $table->id(); // PK separado
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Relación uno a uno con 'users'
             $table->timestamps();
         });
     }

@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('deliveries', function (Blueprint $table) {
-            $table->foreignId('id')->constrained('users')->primary(); // FK to USUARIO (PK)
+            $table->id(); // Clave primaria propia de la tabla deliveries
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->unique(); // FK a users
             $table->string('servicio');
             $table->decimal('salario', 8, 2);
             $table->string('turno');
-            $table->foreignId('id_comunidad')->constrained('comunidades'); // FK to COMUNIDAD
+            $table->foreignId('id_comunidad')->constrained('comunidades'); // FK a comunidades
             $table->timestamps();
         });
     }

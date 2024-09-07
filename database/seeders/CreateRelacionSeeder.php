@@ -19,19 +19,19 @@ class CreateRelacionSeeder extends Seeder
     public function run()
     {
         Administrador::create([
-            'id' => 3,
+            'user_id' => 3,
             'cod_Adm' => 'ADM001',
         ]);
         Comprador::create([
-            'id' => 4,
+            'user_id' => 4,
         ]);
         Comunario::create([
-            'id' => 2,
+            'user_id' => 2,
             'especialidad'=> 'Carpintero',
             'id_comunidad'=> 1,
         ]);
         Delivery::create([
-            'id' => 5,
+            'user_id' => 5,
             'servicio' => 'expres',
             'salario' => 2000 ,
             'turno' => 'mañana',
