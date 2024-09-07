@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id(); // PK
             $table->string('tipo');
             $table->text('descripcion');
-            $table->foreignId('id_comunario')->constrained('comunarios'); // FK to COMUNARIO
+            $table->foreignId('id_comunarios')->constrained('comunarios'); // FK to COMUNARIO
             $table->timestamps();
         });
     }
