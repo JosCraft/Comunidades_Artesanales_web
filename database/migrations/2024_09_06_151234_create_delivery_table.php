@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('deliveries', function (Blueprint $table) {
-            $table->id(); // Clave primaria propia de la tabla deliveries
+            $table->unsignedBigInteger('id')->primary();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->unique(); // FK a users
             $table->string('servicio');
             $table->decimal('salario', 8, 2);
