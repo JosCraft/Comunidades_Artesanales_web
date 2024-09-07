@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Producto;
 use App\Models\Categoria;
+use App\Models\Comunidad;
 
 class VisitorController extends Controller
 {

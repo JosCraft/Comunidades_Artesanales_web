@@ -39,29 +39,32 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// Rutas para los roles
+
+
 Route::middleware(['auth','user-role:Comunario'])->group(function()
-{
+{ // Rutas para el rol Comunario
     Route::get('/comunario', function(){
         return view('/Comunario/app');
     })->name('comunario');
 });
 
 Route::middleware(['auth','user-role:Comprador'])->group(function()
-{
+{ // Rutas para el rol Comprador
     Route::get('/comprador', function(){
         return view('/comprador/app');
     })->name('comprador');
 });
 
 Route::middleware(['auth','user-role:Delivery'])->group(function()
-{
+{ // Rutas para el rol Delivery
     Route::get('/delivery', function(){
         return view('/delivery/app');
     })->name('delivery');
 });
 
 Route::middleware(['auth','user-role:Admin'])->group(function()
-{
+{ // Rutas para el rol Admin
     Route::get('/admin', function(){
         return view('/admin/app');
     })->name('admin');
