@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('deliveries', function (Blueprint $table) {
-            $table->foreignId('id')->constrained('users'); // FK to USUARIO (PK)
+            $table->foreignId('id')->constrained('users')->primary(); // FK to USUARIO (PK)
             $table->string('servicio');
             $table->decimal('salario', 8, 2);
             $table->string('turno');

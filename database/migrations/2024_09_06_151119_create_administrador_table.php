@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('administradores', function (Blueprint $table) {
-            $table->foreignId('id')->constrained('users'); // FK to USUARIO (PK)
+            $table->foreignId('id')->constrained('users')->primary(); // FK to USUARIO (PK)
             $table->string('cod_Adm');
             $table->timestamps();
         });

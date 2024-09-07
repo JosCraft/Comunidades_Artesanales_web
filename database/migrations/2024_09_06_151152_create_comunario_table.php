@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comunarios', function (Blueprint $table) {
-            $table->foreignId('id')->constrained('users'); // FK to USUARIO (PK)
+            $table->foreignId('id')->constrained('users')->primary(); // FK to USUARIO (PK)
             $table->foreignId('id_comunidad')->constrained('comunidades'); // FK to COMUNIDAD
             $table->string('especialidad');
             $table->timestamps();
