@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-layouts.app>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -8,16 +6,24 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}"  enctype="multipart/form-data" >
                         @csrf
-
+                        <!-- ci -->
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+                            <label for="ci" class="col-md-4 col-form-label text-md-end">{{ __('CI') }}</label>
+                            <div class="col-md-6">
+                                <input id="ci" type="text" class="form-control @error('ci') is-invalid @enderror" name="ci" value="{{ old('ci') }}" required autocomplete="ci" autofocus>
+                            </div>
+                        </div>
+
+                        <!-- nombre -->
+                        <div class="row mb-3">
+                            <label for="nombre" class="col-md-4 col-form-label text-md-end">{{ __('Nombre') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus>
 
-                                @error('name')
+                                @error('nombre')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -25,6 +31,66 @@
                             </div>
                         </div>
 
+                        <!-- apellidos  apePaterno -->
+                        <div class="row mb-3">
+                            <label for="apePaterno" class="col-md-4 col-form-label text-md-end">{{ __('Apellido Paterno') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="apePaterno" type="text" class="form-control @error('apePaterno') is-invalid @enderror" name="apePaterno" value="{{ old('apePaterno') }}" required autocomplete="apePaterno" autofocus>
+
+                                @error('apePaterno')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <!-- apellidos  apeMaterno -->
+                        <div class="row mb-3">
+                            <label for="apeMaterno" class="col-md-4 col-form-label text-md-end">{{ __('Apellido Materno') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="apeMaterno" type="text" class="form-control @error('apeMaterno') is-invalid @enderror" name="apeMaterno" value="{{ old('apeMaterno') }}" required autocomplete="apeMaterno" autofocus>
+
+                                @error('apeMaterno')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <!-- genero -->
+                        <div class="row mb-3">
+                            <label for="genero" class="col-md-4 col-form-label text-md-end">{{ __('Genero') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="genero" class="form-select @error('genero') is-invalid @enderror" name="genero" value="{{ old('genero') }}" required autocomplete="genero" autofocus>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                                @error('genero')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <!-- Celular -->
+                        <div class="row mb-3">
+                            <label for="celular" class="col-md-4 col-form-label text-md-end">{{ __('Celular') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="celular" type="text" class="form-control @error('celular') is-invalid @enderror" name="celular" value="{{ old('celular') }}" required autocomplete="celular" autofocus>
+
+                                @error('celular')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- email -->
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
@@ -39,6 +105,7 @@
                             </div>
                         </div>
 
+                        <!-- password -->
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
@@ -61,6 +128,30 @@
                             </div>
                         </div>
 
+                        <!-- fecha de Nacimiento -->
+                        <div class="row mb-3">
+                            <label for="fechaNac" class="col-md-4 col-form-label text-md-end">{{ __('Fecha de Nacimiento') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="fechaNac" type="date" class="form-control @error('fechaNac') is-invalid @enderror" name="fechaNac" value="{{ old('fechaNac') }}" required autocomplete="fechaNac" autofocus>
+
+                                @error('fechaNac')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- foto -->
+                        <div class="row mb-3">
+                            <label for="foto" class="col-md-4 col-form-label text-md-end">{{ __('Foto') }}</label>
+                            <div class="col-md-6">
+                                <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto" value="{{ old('foto') }}" required autocomplete="foto" autofocus>
+                            </div>
+                        </div>
+
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -74,4 +165,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-layouts.app>

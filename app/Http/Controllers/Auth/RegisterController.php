@@ -48,10 +48,18 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'id' => ['required', 'integer'],
+            'nombre' => ['required', 'string', 'max:255'],
+            'apePaterno' => ['required', 'string', 'max:255'],
+            'apeMaterno' => ['required', 'string', 'max:255'],
+            'genero' => ['required'],
+            'celular' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'fechaNac' => ['required', 'date'],
+            'foto' => ['nullable','image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
     }
 
@@ -63,10 +71,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if (isset($data['foto'])) {
+            $imageFile = $data['foto'];
+            $imageBinary = file_get_contents($imageFile->getRealPath());
+            $data['foto'] = $imageBinary;
+        }
+
+        else {
+            $data['foto'] = null;
+        }
+
         return User::create([
-            'name' => $data['name'],
+            'id' => $data['id'],
+            'nombre' => $data['nombre'],
+            'apePaterno' => $data['apePaterno'],
+            'apeMaterno' => $data['apeMaterno'],
+            'genero' => $data['genero'],
+            'celular' => $data['celular'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'fechaNac' => $data['fechaNac'],
+            'foto' => $data['foto'],
         ]);
     }
 }
