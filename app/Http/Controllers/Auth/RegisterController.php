@@ -50,7 +50,7 @@ class RegisterController extends Controller
     {
 
         return Validator::make($data, [
-            'id' => ['required', 'integer'],
+            'ci' => ['required', 'integer'],
             'nombre' => ['required', 'string', 'max:255'],
             'apePaterno' => ['required', 'string', 'max:255'],
             'apeMaterno' => ['required', 'string', 'max:255'],
@@ -59,7 +59,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'fechaNac' => ['required', 'date'],
-            'foto' => ['nullable','image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'foto' => ['image'],
         ]);
     }
 
@@ -70,28 +70,27 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-    {
-        if (isset($data['foto'])) {
-            $imageFile = $data['foto'];
-            $imageBinary = file_get_contents($imageFile->getRealPath());
-            $data['foto'] = $imageBinary;
-        }
-
-        else {
-            $data['foto'] = null;
-        }
-
-        return User::create([
-            'id' => $data['id'],
-            'nombre' => $data['nombre'],
-            'apePaterno' => $data['apePaterno'],
-            'apeMaterno' => $data['apeMaterno'],
-            'genero' => $data['genero'],
-            'celular' => $data['celular'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'fechaNac' => $data['fechaNac'],
-            'foto' => $data['foto'],
-        ]);
+{
+    // Check if 'foto' is present in the $data array and is a file
+    if (isset($data['foto']) && $data['foto'] instanceof \Illuminate\Http\UploadedFile) {
+        $imageFile = $data['foto'];
+        $imageBinary = file_get_contents($imageFile->getRealPath());
+        $data['foto'] = $imageBinary;
+    } else {
+        $data['foto'] = null;
     }
+
+    return User::create([
+        'id' => $data['ci'],
+        'nombre' => $data['nombre'],
+        'apePaterno' => $data['apePaterno'],
+        'apeMaterno' => $data['apeMaterno'],
+        'genero' => $data['genero'],
+        'celular' => $data['celular'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'fechaNac' => $data['fechaNac'],
+        'foto' => $data['foto'],
+    ]);
+}
 }

@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    @vite(['resources/css/nav.css',])
     <div class="container-fluid">
         <i class="fa-solid fa-store"></i>
       <a class="navbar-brand" href="{{ '/' }}">E-COMERCE</a>
@@ -56,6 +57,7 @@
                 @if(auth()->check())
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="data:image/jpeg;base64,{{base64_encode(auth()->user()->foto) }}" alt="{{ auth()->user()->nombre }}" class="fotoPerfilNav">
                         {{ auth()->user()->nombre }} <!-- Muestra el nombre del usuario autenticado -->
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">

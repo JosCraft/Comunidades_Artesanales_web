@@ -146,11 +146,17 @@
                         <!-- foto -->
                         <div class="row mb-3">
                             <label for="foto" class="col-md-4 col-form-label text-md-end">{{ __('Foto') }}</label>
+
                             <div class="col-md-6">
                                 <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto" value="{{ old('foto') }}" required autocomplete="foto" autofocus>
+
+                                @error('foto')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
-
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
