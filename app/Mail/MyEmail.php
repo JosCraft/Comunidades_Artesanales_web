@@ -16,7 +16,7 @@ class MyEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(private $nombre, private $code)
     {
         //
     }
@@ -37,9 +37,12 @@ class MyEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.code',
+            with: ['code'=> $this->code,'nombre'=> $this->nombre ],
         );
     }
+
+
 
     /**
      * Get the attachments for the message.

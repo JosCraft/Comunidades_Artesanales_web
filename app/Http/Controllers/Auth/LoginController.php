@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Mail\MyEmail;
+use Illuminate\Support\Facades\Mail;
+
 
 class LoginController extends Controller
 {
@@ -50,10 +53,19 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (auth()->attempt($credentials)) {
-            return redirect()->route('welcome');
+            $code = $this->genCode();
+            auth()->user()->codeValidacion = $code;
+            auth()->user()->save();
+            Mail::to(auth()->user()->email)->send(new MyEmail(auth()->user()->nombre, $code ));
+            return redirect()->route('validarCodigo');
         }
 
         return redirect()->route('login')->with('error', 'Invalid credentials');
+    }
+
+    private function genCode(){
+        // Genera un código aleatorio de 6 dígitos
+        return rand(100000,999999);
     }
 
     public function logout()
