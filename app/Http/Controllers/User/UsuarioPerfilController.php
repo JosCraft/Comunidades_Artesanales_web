@@ -29,7 +29,7 @@ class UsuarioPerfilController extends Controller
             'apePaterno' => 'required|string|max:255',
             'apeMaterno' => 'required|string|max:255',
             'genero' => 'required|string|max:255',
-            'celular' => 'required|string|max:255',
+            'celular' => 'required',
             'email' => 'required|string|max:255',
             'fechaNac' => 'required|date',
             'foto' => 'nullable|image|max:2048', // Hacemos que la imagen sea opcional
