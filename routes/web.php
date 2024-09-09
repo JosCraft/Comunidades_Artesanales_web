@@ -9,6 +9,10 @@ use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
 
 use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
 
+use App\Http\Controller\CodeController;
+
+use App\Mail\MyEmail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -81,3 +85,7 @@ Route::middleware(['auth','user-role:Admin'])->group(function()
         return view('/admin/app');
     })->name('admin');
 });
+
+
+Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo');
+Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');

@@ -1,6 +1,20 @@
 <x-layouts.app
     :title="'Inicio'">
 
+    @if (session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire(
+                'Codigo Correcto',
+                '{{ session('status') }}',
+                'success'
+            );
+        });
+    </script>
+    @else
+
+    @endif
+
     <div class="container">
         <div class="row">
             <div class="col-12">
