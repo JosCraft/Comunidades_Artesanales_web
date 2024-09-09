@@ -57,7 +57,8 @@ class RegisterController extends Controller
             'genero' => ['required'],
             'celular' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            // la passsword tiene que tener almenos 1 mayuscula 1 minuscula 1 numero y 1 caracter especial
+            'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
             'fechaNac' => ['required', 'date'],
             'foto' => ['image'],
         ]);

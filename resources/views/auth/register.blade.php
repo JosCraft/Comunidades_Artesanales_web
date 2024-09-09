@@ -108,7 +108,7 @@
                         <!-- password -->
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
+                            <!-- a passsword tiene que tener almenos 1 mayuscula 1 minuscula 1 numero y 1 caracter especial -->
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
@@ -148,7 +148,7 @@
                             <label for="foto" class="col-md-4 col-form-label text-md-end">{{ __('Foto') }}</label>
 
                             <div class="col-md-6">
-                                <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto" value="{{ old('foto') }}" required autocomplete="foto" autofocus>
+                                <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto" value="{{ old('foto') }}" autocomplete="foto" autofocus>
 
                                 @error('foto')
                                     <span class="invalid-feedback" role="alert">
