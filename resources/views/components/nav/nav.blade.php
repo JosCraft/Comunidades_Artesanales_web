@@ -57,7 +57,11 @@
                 @if(auth()->check())
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="data:image/jpeg;base64,{{base64_encode(auth()->user()->foto) }}" alt="{{ auth()->user()->nombre }}" class="fotoPerfilNav">
+                        @if (auth()->user()->imagen)
+                            <img src="data:image/jpeg;base64,{{base64_encode(auth()->user()->foto) }}" alt="{{ auth()->user()->nombre }}" class="fotoPerfilNav">
+                        @else
+                        <i class="fa-solid fa-user fotoPerfilNav"></i>
+                        @endif
                         {{ auth()->user()->nombre }} <!-- Muestra el nombre del usuario autenticado -->
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
