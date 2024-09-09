@@ -1,6 +1,6 @@
 # Comunidades Artesanales Web
 
-Este repositorio contiene el proyecto **Comunidades Artesanales Web**, desarrollado para gestionar las ventas y compras dentro de una comunidad artesanal. El proyecto está dividido en diferentes módulos que corresponden a distintas ramas de trabajo.
+Este repositorio contiene el proyecto **Comunidades Artesanales Web**, desarrollado para gestionar las ventas y compras. El proyecto está dividido en diferentes módulos que corresponden a distintas ramas de trabajo.
 
 ## Ramas del Repositorio
 
@@ -71,12 +71,12 @@ git push origin nombre_rama
 
 ## Configuración del Proyecto
 
-#### 1. Archivo .env
+### 1. Archivo .env
 El archivo .env es necesario para la configuración del entorno. Sigue estos pasos para configurarlo:
 
-    1. Copia el archivo .env.example y pégalo en la misma ubicación.
-    2. Renombra el archivo copiado a .env.
-    
+a. Copia el archivo .env.example y pégalo en la misma ubicación.
+b. Renombra el archivo copiado a .env.
+
 #### 2. Instalación de dependencias
 Para instalar las dependencias del proyecto, ejecuta los siguientes comandos:
 
