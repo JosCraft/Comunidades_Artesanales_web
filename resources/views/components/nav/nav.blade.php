@@ -56,9 +56,16 @@
                 @if(auth()->check())
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ auth()->user()->name }} <!-- Muestra el nombre del usuario autenticado -->
+                        {{ auth()->user()->nombre }} <!-- Muestra el nombre del usuario autenticado -->
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+
+                        <li>
+                            <a class="dropdown-item" href="{{ route('user') }}">
+                                Perfil
+                            </a>
+                        </li>
+
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

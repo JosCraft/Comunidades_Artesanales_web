@@ -7,6 +7,8 @@ use App\Http\Controllers\VisitorController;
 
 use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
 
+use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +26,16 @@ Route::controller(VisitorController::class)->group(function(){
     Route::get('/productos', 'productos')->name('productos');
     Route::get('/contacto', 'contacto')->name('contacto');
 });
+
+
+
+Route::controller(UsuarioPerfil::class)->group(function(){
+    Route::get('/user','index')->name('user');
+    Route::get('/user/edit','update')->name('user.edit');
+    Route::put('/user','updateProfile')->name('user.update');
+});
+
+
 
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('productos.show');
 Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');

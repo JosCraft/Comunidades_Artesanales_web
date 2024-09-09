@@ -12,7 +12,7 @@ class Delivery extends Model
     // Relación uno a uno con usuario
     public function user()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // Relación de muchos a muchos con comunarios (designa)

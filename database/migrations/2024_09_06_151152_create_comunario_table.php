@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('comunarios', function (Blueprint $table) {
             // Definir 'id' como PK y agregarla como clave foránea hacia 'users'
-            $table->unsignedBigInteger('id')->primary(); // PK
+            $table->id(); // PK
 
             // Agregar la clave foránea hacia 'users'
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
