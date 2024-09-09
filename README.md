@@ -74,8 +74,8 @@ git push origin nombre_rama
 ### 1. Archivo .env
 El archivo .env es necesario para la configuración del entorno. Sigue estos pasos para configurarlo:
 
-a. Copia el archivo .env.example y pégalo en la misma ubicación.
-b. Renombra el archivo copiado a .env.
+1. Copia el archivo .env.example y pégalo en la misma ubicación.
+2. Renombra el archivo copiado a .env.
 
 #### 2. Instalación de dependencias
 Para instalar las dependencias del proyecto, ejecuta los siguientes comandos:
