@@ -102,6 +102,7 @@ npm run dev
 
 ### Notas adicionales:
 
+<<<<<<< HEAD
 - Utiliza el `commit` con mensajes descriptivos y concisos.
 - Asegúrate de trabajar siempre en la rama correcta antes de empezar cualquier tarea.
 - Es buena práctica realizar `pull` antes de hacer cambios para asegurarte de que tienes la versión más actualizada del proyecto.
@@ -109,4 +110,8 @@ npm run dev
 ---
 
 # QUE COMIENCEN LOS JUEGOS 
+=======
+git clone https://github.com/JosCraft/Comunidades_Artesanales_web.git
+usuario
+>>>>>>> b19ad4d059a6991bfc5bb35f29cbabc64a5fb80e
 
