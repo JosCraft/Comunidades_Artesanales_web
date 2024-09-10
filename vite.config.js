@@ -10,6 +10,8 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/sass/404.scss',
                 'resources/js/app.js',
+                'resources/js/admin_gestionUsuarios.js',
+                'resources/js/buscar_en_tabla.js',
             ],
             refresh: true,
         }),

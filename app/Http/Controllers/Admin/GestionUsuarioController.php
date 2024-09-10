@@ -33,4 +33,11 @@ class GestionUsuarioController extends Controller
         return redirect()->route('admin.gestion_usuario');
     }
 
+    public function destroy($id)
+    {
+        $user = new UserController();
+        $user->destroy($id);
+        return redirect()->route('admin.gestion_usuario');
+    }
+
 }

@@ -15,6 +15,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ route('admin.gestion_usuario') }}">
+                    Administrar Usuarios
+                </a>
+
+            <li>
+            <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ route('comunidades') }}">
                     <i class="fa-solid fa-users"></i>
                     Comunidad
@@ -71,6 +77,10 @@
                                 Perfil
                             </a>
                         </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('admin.gestion_usuario') }}">
+                                Administrar Usuarios
+                            </a>
 
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}"

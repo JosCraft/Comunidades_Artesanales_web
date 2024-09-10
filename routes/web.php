@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
 
 use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
 
+
 use App\Http\Controller\CodeController;
 
 use App\Mail\MyEmail;
@@ -48,8 +49,11 @@ Route::controller(GestionUsuario::class)->group(function(){
         Route::get('/admin/gestion_usuario','index')->name('admin.gestion_usuario');
         Route::post('/admin/gestion_usuario','store')->name('admin.gestion_usuario.store');
         Route::put('/admin/gestion_usuario/{id}','update')->name('admin.gestion_usuario.update');
+        Route::delete('/admin/gestion_usuario/{id}','destroy')->name('admin.gestion_usuario.destroy');
 
 });
+
+
 
 Auth::routes();
 
@@ -87,5 +91,8 @@ Route::middleware(['auth','user-role:Admin'])->group(function()
 });
 
 
+
+// Rutas para el envio de correos
+//Validacion de logueo
 Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo');
 Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');

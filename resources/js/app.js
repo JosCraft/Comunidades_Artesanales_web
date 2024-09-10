@@ -1,3 +1,5 @@
 import './bootstrap';
 import Swal from 'sweetalert2';
-window.Swal = Swal;  // Esto es clave para hacer que Swal esté disponible globalmente
+import jQuery from 'jquery';
+window.Swal = Swal;
+window.$ = jQuery;

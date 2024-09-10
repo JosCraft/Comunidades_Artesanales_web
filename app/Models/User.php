@@ -77,8 +77,19 @@ class User extends Authenticatable
      * Get the roles that belong to the user.
      */
     public function roles()
+{
+    return $this->belongsToMany(Rol::class, 'rolesuser', 'user_id', 'role_id');
+}
+
+
+    /**
+     * Check one role
+     * @param string $role
+     * @return bool
+     */
+    public function getRoleNames()
     {
-        return $this->belongsToMany(UserRol::class,'rolesuser');
+        return $this->roles()->pluck('name');
     }
 
 }
