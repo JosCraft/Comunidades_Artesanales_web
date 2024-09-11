@@ -1,0 +1,14 @@
+.sideadmin {
+    background-color: #104f8e;
+}
+
+.sideadmin a {
+    color: white;
+    width: 100%;
+    padding: 10px;
+}
+
+.sideadmin a:hover
+{
+    color : #839db9;
+}

@@ -1,5 +1,5 @@
 <x-layouts.app>
-    @vite(['resources/css/style_validation.css',])
+    @vite(['resources/css/style_validation.css'])
     <div class="container-body">
         <div class="container-page" id="container">
           <div class="login-container" id="LoginContainer">
