@@ -86,6 +86,10 @@ Route::middleware(['auth','user-role:Admin'])->group(function()
     })->name('admin');
 });
 
+Route::get('/admin', function(){
+    return view('/admin/app');
+})->name('admin');
 
-Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo');
-Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');
+Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo'); //mandar datos
+Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');//recibir datos
+
