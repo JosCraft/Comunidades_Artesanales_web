@@ -1,6 +1,16 @@
 .sideadmin {
     background-color: #104f8e;
+    width: 15%;
+    min-height: 100vh;
+
 }
+
+.sideadmin li {
+    list-style-type: none;
+    padding: 5px;
+    border-bottom: 1px solid #839db9;
+}
+
 
 .sideadmin a {
     color: white;
@@ -8,7 +18,19 @@
     padding: 10px;
 }
 
-.sideadmin a:hover
-{
-    color : #839db9;
+.sideadmin a:hover {
+    color: #000000;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+@media (max-width: 768px) {
+    .sideadmin {
+        width: 20%;
+        position: relative; /* Elimina la posición fija en pantallas pequeñas */
+    }
+
+    body {
+        padding-left: 0;
+    }
 }

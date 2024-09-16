@@ -47,6 +47,7 @@ Route::post('/productos', [ProductoController::class, 'store'])->name('productos
 
 Route::controller(GestionUsuario::class)->group(function(){
         Route::get('/admin/gestion_usuario','index')->name('admin.gestion_usuario');
+        Route::get('/admin/gestion_usuario/create','create_user')->name('admin.gestion_usuario.create');
         Route::post('/admin/gestion_usuario','store')->name('admin.gestion_usuario.store');
         Route::put('/admin/gestion_usuario/{id}','update')->name('admin.gestion_usuario.update');
         Route::delete('/admin/gestion_usuario/{id}','destroy')->name('admin.gestion_usuario.destroy');
@@ -97,11 +98,4 @@ Route::get('/admin', function(){
 Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo'); //mandar datos
 Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');//recibir datos
 
-<<<<<<< HEAD
 
-// Rutas para el envio de correos
-//Validacion de logueo
-Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo');
-Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');
-=======
->>>>>>> admin

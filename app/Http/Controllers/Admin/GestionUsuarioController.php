@@ -18,12 +18,17 @@ class GestionUsuarioController extends Controller
         return view('/admin/gestion_usuario',['users'=>$users, 'rolesUser'=>$rolesUser]);
     }
 
+    public function create_user()
+    {
+        return view('/admin/create_user');
+    }
 
     public function store(Request $request)
     {
         $user = new UserController();
         $user->store($request);
-        return redirect()->route('admin.gestion_usuario');
+        //regresar a la vista anterior con un mensaje de confirmación
+        return  redirect()->back()->with('message', 'Usuario creado correctamente');
     }
 
     public function update(Request $request, $id)

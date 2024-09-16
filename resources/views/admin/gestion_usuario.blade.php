@@ -1,12 +1,12 @@
-<x-layouts.app>
-    @vite(['resources/js/admin_gestionUsuarios.js','resources/js/buscar_en_tabla.js',])
+<x-layouts.app-admin>
+    @vite(['resources/js/admin_gestionUsuarios.js', 'resources/js/buscar_en_tabla.js'])
     <h1>Gestion de usuarios</h1>
 
-    <div class="d-flex flex-row bd-highlight mb-3" >
+    <div class="d-flex flex-row bd-highlight mb-3">
         <div class="p-2 bd-highlight">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearModal">
+            <a class="btn btn-primary" href="{{ route('admin.gestion_usuario.create') }}">
                 Crear Usuario
-            </button>
+            </a>
         </div>
         <div class="p-2 bd-highlight">
             <input type="text" class="form-control" id="buscar" placeholder="Buscar....">
@@ -34,8 +34,7 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->getRoleNames() }}</td>
                         <td>
-                            <button type="button" class="btn btn-primary show-user-details"
-                                data-bs-toggle="modal"
+                            <button type="button" class="btn btn-primary show-user-details" data-bs-toggle="modal"
                                 data-bs-target="#datosModal"
                                 data-user="{{ json_encode([
                                     'nombre' => $user->nombre,
@@ -46,7 +45,7 @@
                                     'celular' => $user->celular,
                                     'fechaNac' => $user->fechaNac,
                                     'ci' => $user->id,
-                                    'rol' => $user->roles->pluck('id')->first() // Obtener el ID del rol
+                                    'rol' => $user->roles->pluck('id')->first(), // Obtener el ID del rol
                                 ]) }}">
                                 Editar
                             </button>
@@ -62,94 +61,66 @@
         </table>
     </div>
 
-    <!-- Modal EDITAR -->
-    <div class="modal fade" id="datosModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Datos</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre">
-                        </div>
-                        <div class="mb-3">
-                            <label for="apePaterno" class="form-label">Apellido Paterno</label>
-                            <input type="text" class="form-control" id="apePaterno" name="apePaterno">
-                        </div>
-                        <div class="mb-3">
-                            <label for="apeMaterno" class="form-label">Apellido Materno</label>
-                            <input type="text" class="form-control" id="apeMaterno" name="apeMaterno">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Correo</label>
-                            <input type="email" class="form-control" id="email" name="email">
-                        </div>
+   <!-- Modal EDITAR -->
+<div class="modal fade" id="datosModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Datos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.gestion_usuario.update', ['id' => $user->id]) }}" method="POST" id="editarForm">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <!-- Formulario de edición reutilizable -->
+                    <x-form.register />
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="celular" class="form-label">Celular</label>
-                            <input type="text" class="form-control" id="celular" name="celular">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="fechaNac" class="form-label">Fecha de Nacimiento</label>
-                            <input type="date" class="form-control" id="fechaNac" name="fechaNac">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="rol" class="form-label">Rol</label>
-                            <select class="form-select" aria-label="Default select example" id="rol" name="rol">
-                                <option selected>Seleccionar</option>
+                    <!-- Roles -->
+                    <div class="row mb-3" id="roles-container">
+                        <label for="rol" class="col-md-4 col-form-label text-md-end">{{ __('Rol') }}</label>
+                        <div class="col-md-6">
+                            <select id="rol" class="form-select @error('rol') is-invalid @enderror" name="roles[]" required>
                                 <option value="1">Administrador</option>
                                 <option value="2">Usuario</option>
+                                <option value="3">Comunario</option>
+                                <option value="4">Delivery</option>
                             </select>
+                            @error('rol')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-     </div>
 
-     <!-- Modal CREAR -->
-        <div class="modal fade" id="crearModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Usuario</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('admin.gestion_usuario.store') }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <x-form.register />
-                        <!-- boton guardar o cancelar-->
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Guardar
-                                </button>
-                            </div>
+                    <!-- Botón para agregar más roles -->
+                    <div class="row mb-3">
+                        <div class="col-md-6 offset-md-4">
+                            <button type="button" id="add-role-btn" class="btn btn-success">Agregar Rol</button>
                         </div>
-                    </form>
+                    </div>
+
+                    <!-- Formularios dinámicos basados en el rol -->
+                    <div id="form-admin" style="display: none;">
+                        <x-form.register-admin />
+                    </div>
+                    <div id="form-comunario" style="display: none;">
+                        <x-form.register-comunario />
+                    </div>
+                    <div id="form-delivery" style="display: none;">
+                        <x-form.register-delivery />
+                    </div>
                 </div>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <script>
 
-    </script>
 
-</x-layouts.app>
+</x-layouts.app-admin>
