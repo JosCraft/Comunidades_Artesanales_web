@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     protected $table = 'categorias';
-    protected $fillable = ['id','nombre','descripcion'];
+
+    // Campos que se pueden asignar en masa
+    protected $fillable = ['id', 'nombre', 'descripcion', 'slug', 'categoria_padre', 'estado'];
 
     // Relación uno a muchos con productos
     public function productos()
