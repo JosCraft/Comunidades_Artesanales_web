@@ -14,6 +14,8 @@ use App\Http\Controller\CodeController;
 
 use App\Mail\MyEmail;
 
+
+use App\Http\Controllers\Frontend\PageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -99,3 +101,25 @@ Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 've
 Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');//recibir datos
 
 
+
+/***************** RUTAS GISEL */
+
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::post('/contact/save', [AjaxController::class, 'contactsave'])->name('contact.save');
+Route::get('/product', [PageController::class, 'product'])->name('product');
+Route::get('/men/{slug?}', [PageController::class, 'product'])->name('menproduct');
+Route::get('/women/{slug?}', [PageController::class, 'product'])->name('womenproduct');
+Route::get('/children/{slug?}', [PageController::class, 'product'])->name('childrenproduct');
+Route::get('/sales', [PageController::class, 'saleproduct'])->name('sale-product');
+Route::get('/product/{slug}', [PageController::class, 'productdetail'])->name('productdetail');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cartadd');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cartremove');
+Route::post('/cart/couponcheck', [CartController::class, 'couponcheck'])->name('coupon.check');
+Route::post('/cart/newQty', [CartController::class, 'newQty'])->name('cartnewQty');
+Route::get('/cart/form', [CartController::class, 'cartform'])->name('cart.form');
+Route::post('/cart/save', [CartController::class, 'cartSave'])->name('cart.save');
+
+
+/***************** */

@@ -7,7 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     protected $table = 'productos';
-    protected $fillable = ['nombre_producto', 'imagen', 'id_categoria'];
+    protected $fillable = ['nombre_producto', 'imagen', 
+    
+    
+        'id_categoria',
+        'texto_corto',
+        'precio',
+        'size',
+        'color',
+        'qty',
+        'estado',
+        'contenido',
+
+
+    ];
 
     // Relación uno a muchos inversa con Categoria
     public function categoria()

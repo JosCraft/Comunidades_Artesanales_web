@@ -16,7 +16,23 @@ return new class extends Migration
             $table->binary('imagen'); // Para almacenar la imagen en formato binario (BLOB)
             $table->string('nombre_producto');
             $table->foreignId('id_categoria')->constrained('categorias'); // FK to CATEGORIA
+
+            /**** */
+                //$table->string('slug')->nullable();
+                $table->text('texto_corto')->nullable();
+                $table->double('precio',8,2)->nullable();
+                $table->string('size')->nullable();
+                $table->string('color')->nullable();
+                $table->integer('qty')->nullable();  // cantidad disponible
+                $table->enum('estado', ['0','1'])->default('0');
+                $table->longText('contenido')->nullable();
+
+            /*** */
             $table->timestamps();
+
+
+   
+
         });
     }
 
