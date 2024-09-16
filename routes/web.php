@@ -99,15 +99,6 @@ Route::get('/admin', function(){
 Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo'); //mandar datos
 Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');//recibir datos
 
-//<<<<<<< HEAD
-
-// Rutas para el envio de correos
-//Validacion de logueo
-Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo');
-Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');
-//=======
-//>>>>>>> admin
-
 
 
 /***************** RUTAS GISEL */
