@@ -1,14 +1,21 @@
 <x-layouts.app-admin>
     <div class="container" x-data="{ activeTab: 'admin' }">
-        <div class="row">
-            <div class="col">
-                <h1>Registrar Datos Usuario</h1>
-                <form action="">
-                    <x-form.register />
-                    <button type="submit" class="btn btn-primary mt-3">Registrar Usuario</button>
-                </form>
-            </div>
-            <div class="col">
+            <!-- SweetAlert para mensajes de éxito -->
+            @if (session('message'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: '¡Éxito!',
+                        text: '{{ session('message') }}',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    });
+                });
+            </script>
+        @endif
+            <!-- Tabs y formularios para roles -->
+            <div class="">
+                <p>{{$user_id}}</p>
                 <h1>Registrar Como</h1>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -43,24 +50,20 @@
                     </li>
                 </ul>
 
-                <!-- Formularios para cada rol con botón de envío -->
+                <!-- Formularios para cada rol -->
                 <div class="tab-content">
                     <div x-show="activeTab === 'admin'">
-                        <x-form.register-admin />
+                        <x-form.register-admin :oldData="old()" />
                         <button type="submit" class="btn btn-primary mt-3">Registrar Administrador</button>
                     </div>
                     <div x-show="activeTab === 'delivery'">
-                        <x-form.register-delivery />
+                        <x-form.register-delivery :oldData="old()" />
                         <button type="submit" class="btn btn-primary mt-3">Registrar Delivery</button>
                     </div>
                     <div x-show="activeTab === 'comunario'">
-                        <x-form.register-comunario />
+                        <x-form.register-comunario :oldData="old()" />
                         <button type="submit" class="btn btn-primary mt-3">Registrar Comunario</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <script src="//unpkg.com/alpinejs" defer></script>
-
 </x-layouts.app-admin>

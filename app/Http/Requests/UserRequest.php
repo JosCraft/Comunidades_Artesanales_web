@@ -20,7 +20,7 @@ class UserRequest extends FormRequest
             'nombre' => 'required|string|max:255',
             'apePaterno' => 'required|string|max:255',
             'apeMaterno' => 'nullable|string|max:255',
-            'genero' => 'required|in:Masculino,Femenino,Otras',
+            'genero' => 'required|in:M,F',
             'celular' => 'required|string|max:20',
             'email' => 'required|email|unique:users,email,' . $userId,
             'password' => 'required|string|min:8|confirmed',
@@ -64,4 +64,5 @@ class UserRequest extends FormRequest
             'cantIntentos.min' => 'El campo cantidad de intentos no puede ser menor que 0.',
         ];
     }
+
 }
