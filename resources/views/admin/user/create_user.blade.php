@@ -3,7 +3,18 @@
         <div class="">
             <div class="">
                 <h1>Registrar Datos Usuario</h1>
-
+                @if (session('message'))
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            title: '¡Éxito!',
+                            text: '{{ session('message') }}',
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    });
+                </script>
+            @endif
                 <!-- SweetAlert para errores de validación -->
                 @if ($errors->any())
                     <script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VisitorController;
 
 use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
+use App\Http\Controllers\Admin\GestionUsuarioRoleController as GestionUsuarioRole;
 
 use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
 
@@ -51,9 +52,17 @@ Route::controller(GestionUsuario::class)->group(function(){
         Route::get('/admin/gestion_usuario','index')->name('admin.gestion_usuario');
         Route::get('/admin/gestion_usuario/create','create_user')->name('admin.gestion_usuario.create');
         Route::post('/admin/gestion_usuario','store')->name('admin.gestion_usuario.store');
+        Route::get('/admin/gestion_usuario/edit/{id}','edit')->name('admin.gestion_usuario.edit');
         Route::put('/admin/gestion_usuario/{id}','update')->name('admin.gestion_usuario.update');
         Route::delete('/admin/gestion_usuario/{id}','destroy')->name('admin.gestion_usuario.destroy');
+});
 
+Route::controller(GestionUsuarioRole::class)->group(function(){
+    Route::get('/admin/gestion_usuario_role','index')->name('admin.gestion_usuario_role');
+    Route::get('/admin/gestion_usuario_role/create/{id}','create_user_role')->name('admin.gestion_usuario_role.create');
+    Route::post('/admin/gestion_usuario_role/{role}/{user}','store')->name('admin.gestion_usuario_role.store');
+    Route::put('/admin/gestion_usuario_role/{user}/{role}','update')->name('admin.gestion_usuario_role.update');
+    Route::delete('/admin/gestion_usuario_role/destryo/{role}/{user}','destroy')->name('admin.gestion_usuario_role.destroy');
 });
 
 

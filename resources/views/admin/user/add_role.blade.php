@@ -15,7 +15,7 @@
         @endif
             <!-- Tabs y formularios para roles -->
             <div class="">
-                <p>{{$user_id}}</p>
+                <p>{{$user->id}}</p>
                 <h1>Registrar Como</h1>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -66,4 +66,5 @@
                     </div>
                 </div>
             </div>
+            <script src="//unpkg.com/alpinejs" defer></script>
 </x-layouts.app-admin>

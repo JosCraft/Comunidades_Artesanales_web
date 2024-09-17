@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\UserRol;
 use App\Http\Requests\UserRequest;
 
+use App\Http\Controllers\CompradoresController;
+
 class GestionUsuarioController extends Controller
 {
     public function index()
@@ -26,14 +28,15 @@ class GestionUsuarioController extends Controller
 
     public function store(UserRequest $request)
     {
-        $userController = new UserController();
-
         // Almacenar el resultado de store en una variable
-        $response = $userController->store($request);
+        $response = app(UserController::class)->store($request);  // Llamamos al método store del UserController
+
         // Verificar si fue un éxito o error
         if ($response->status === 'success') {
+            app(CompradoresController::class)->store($response->user_id);
+            $user = User::find($response->user_id);
             return view('admin/user/add_role')->with([
-                'user_id' => $request->ci,
+                'user' => $user,
                 'message' => $response->message
             ]);
         } else {
@@ -41,12 +44,18 @@ class GestionUsuarioController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $user = User::find($id);
+        return view('admin/user/edit_user', ['user' => $user]);
+    }
+
     public function update(Request $request, $id)
     {
-        $userController = new UserController();
+
 
         // Almacenar el resultado de update en una variable
-        $response = $userController->update($request, $id);
+        $response = app(UserController::class)->update($request, $id);
 
         if ($response->status === 'success') {
             return redirect()->route('admin.gestion_usuario')->with('message', 'Usuario actualizado correctamente');
@@ -57,10 +66,9 @@ class GestionUsuarioController extends Controller
 
     public function destroy($id)
     {
-        $userController = new UserController();
 
         // Almacenar el resultado de destroy en una variable
-        $response = $userController->destroy($id);
+        $response = app(UserController::class)->destroy($id);
 
         if ($response->status === 'success') {
             return redirect()->route('admin.gestion_usuario')->with('message', 'Usuario eliminado correctamente');

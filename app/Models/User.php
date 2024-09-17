@@ -55,22 +55,22 @@ class User extends Authenticatable
     // Relación uno a muchos: un usuario puede ser administrador, comprador, comunario o delivery.
     public function administrador()
     {
-        return $this->hasOne(Administrador::class, 'id');
+        return $this->hasOne(Administrador::class, 'user_id');
     }
 
     public function comunario()
     {
-        return $this->hasOne(Comunario::class, 'id');
+        return $this->hasOne(Comunario::class, 'user_id');
     }
 
     public function comprador()
     {
-        return $this->hasOne(Comprador::class, 'id');
+        return $this->hasOne(Comprador::class, 'user_id');
     }
 
     public function delivery()
     {
-        return $this->hasOne(Delivery::class, 'id');
+        return $this->hasOne(Delivery::class, 'user_id');
     }
 
     /**
@@ -90,6 +90,28 @@ class User extends Authenticatable
     public function getRoleNames()
     {
         return $this->roles()->pluck('name');
+    }
+
+        /**
+     * Verificar si el usuario tiene un rol específico.
+     *
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return $this->roles()->where('name', $role)->exists();
+    }
+
+    /**
+     * Verificar si el usuario tiene alguno de los roles dados.
+     *
+     * @param array $roles
+     * @return bool
+     */
+    public function hasAnyRole(array $roles)
+    {
+        return $this->roles()->whereIn('name', $roles)->exists();
     }
 
 }
