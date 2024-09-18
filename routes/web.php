@@ -64,11 +64,21 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Rutas para los roles
 
 
-Route::middleware(['auth','user-role:Comunario'])->group(function()
-{ // Rutas para el rol Comunario
-    Route::get('/comunario', function(){
+Route::middleware(['auth','user-role:Comunario'])->group(function() 
+{ // Rutas para el rol comunario
+    Route::get('/comunario', function() {
         return view('/Comunario/app');
     })->name('comunario');
+
+    // Rutas para Reportes de Ventas
+    Route::get('/comunario/reportes', [ReporteController::class, 'index'])->name('comunario.reportes');
+    
+    // Rutas para Control de Inventario
+    Route::get('/comunario/inventario', [InventarioController::class, 'index'])->name('comunario.inventario');
+
+    // Rutas para Promociones y Descuentos
+    Route::get('/comunario/promociones', [PromocionController::class, 'index'])->name('comunario.promociones');
+    Route::post('/comunario/promociones', [PromocionController::class, 'store'])->name('comunario.promociones.store');
 });
 
 Route::middleware(['auth','user-role:Comprador'])->group(function()
