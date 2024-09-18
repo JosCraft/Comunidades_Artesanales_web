@@ -17,7 +17,12 @@
 <div class="row mb-3">
     <label for="nombre_producto" class="col-md-4 col-form-label text-md-end">{{ __('Nombre del producto') }}</label>
     <div class="col-md-6">
-        <input id="nombre_producto" type="text" class="form-control @error('nombre_producto') is-invalid @enderror" name="nombre_producto" value="{{ old('nombre_producto', $producto->nombre_producto ?? '') }}" required autocomplete="nombre_producto" autofocus>
+        <input id="nombre_producto"
+        type="text"
+        class="form-control
+        @error('nombre_producto') is-invalid
+         @enderror" name="nombre_producto"
+        value="{{ old('nombre_producto', $producto->nombre_producto ?? '') }}" required autocomplete="nombre_producto" autofocus>
         @error('nombre_producto')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

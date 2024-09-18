@@ -13,7 +13,7 @@
                  </a>
             </li>
             <li>
-                <a href="#" class="nav-link px-0 align-middle">
+                <a href="{{ route('admin.gestion_comunidad') }}" class="nav-link px-0 align-middle">
                     <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Gestionar Deliverys</span></a>
             </li>
             <li>
@@ -27,7 +27,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link px-0 align-middle">
+                <a href="{{ route('admin.gestion_comunidad') }}" class="nav-link px-0 align-middle">
                     <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Gestionar Comunidades</span>
                 </a>
             </li>

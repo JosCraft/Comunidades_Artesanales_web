@@ -8,7 +8,7 @@ use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
 use App\Http\Controllers\Admin\GestionUsuarioRoleController as GestionUsuarioRole;
 use App\Http\Controllers\Admin\GestionProductosController as GestionProductos;
-
+use App\Http\Controllers\Admin\GestionComunidadController as GestionComunidad;
 
 use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
 
@@ -130,6 +130,14 @@ Route::controller(GestionProductos::class)->group(function(){
     Route::delete('/admin/gestion_productos/{id}','destroy')->name('admin.gestion_productos.destroy');
 });
 
+Route::controller(GestionComunidad::class)->group(function(){
+    Route::get('/admin/gestion_comunidad','index')->name('admin.gestion_comunidad');
+    Route::get('/admin/gestion_comunidad/create','create_comunidad')->name('admin.gestion_comunidad.create');
+    Route::post('/admin/gestion_comunidad','store')->name('admin.gestion_comunidad.store');
+    Route::get('/admin/gestion_comunidad/edit/{id}','edit')->name('admin.gestion_comunidad.edit');
+    Route::put('/admin/gestion_comunidad/{id}','update')->name('admin.gestion_comunidad.update');
+    Route::delete('/admin/gestion_comunidad/{id}','destroy')->name('admin.gestion_comunidad.destroy');
+});
 
 
 

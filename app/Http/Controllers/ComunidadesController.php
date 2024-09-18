@@ -12,23 +12,24 @@ use Exception;
 class ComunidadesController extends Controller
 {
     //store update,detroy
-    public function store(ComunidadesRequest $REQUEST){
+    public function store(Request $REQUEST){
         try{
-            $comunidades = new Comunidades();
+            $comunidades = new Comunidad();
             $comunidades->id = $REQUEST['id'];
             $comunidades->pais = $REQUEST['pais'];
             $comunidades->departamento = $REQUEST['departamento'];
             $comunidades->municipio = $REQUEST['municipio'];
             $comunidades->nombre_comunidad = $REQUEST['nombre_comunidad'];
+            $comunidades->save();
             return (object)['status' => 'success', 'message' => 'Comunidad creada correctamente'];
         } catch (Exception $e) {
             return (object)['status' => 'error', 'message' => $e->getMessage()];
         }
     }
 
-    public function update(ComunidadesRequest $REQUEST, $id){
+    public function update(Request $REQUEST, $id){
         try {
-            $comunidades = Comunidades::where('id', $id)->first();
+            $comunidades = Comunidad::where('id', $id)->first();
 
             if (!$comunidades) {
                 return response()->json(['message' => 'Comunidad no encontrada', 'status' => 'error'], 404);
@@ -50,7 +51,7 @@ class ComunidadesController extends Controller
     }
     public function destroy($id){
         try {
-            $comunidades = Comunidades::where('id', $id)->first();
+            $comunidades = Comunidad::where('id', $id)->first();
 
             if (!$comunidades) {
                 return response()->json(['message' => 'Comunidad no encontrada', 'status' => 'error'], 404);
