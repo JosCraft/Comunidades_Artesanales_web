@@ -17,4 +17,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: true, // Escucha en todas las interfaces de red
+        port: 3000, // Puedes cambiar el puerto si lo deseas
+        hmr: {
+            host: '192.168.1.100', // O la IP de tu servidor si es necesario
+        },
+    },
 });

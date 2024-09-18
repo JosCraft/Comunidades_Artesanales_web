@@ -16,7 +16,7 @@ class ProductoRequest extends FormRequest
     {
         return [
             'nombre_producto' => 'required|string|max:255',
-            'imagen' => 'nullable|string|max:255',
+            'imagen' => 'nullable|image|max:2048',
             'id_categoria' => 'required|exists:categorias,id',
             'texto_corto' => 'nullable|string|max:500',
             'precio' => 'required|numeric|min:0',
@@ -34,8 +34,8 @@ class ProductoRequest extends FormRequest
             'nombre_producto.required' => 'El campo nombre del producto es obligatorio.',
             'nombre_producto.string' => 'El campo nombre del producto debe ser una cadena de texto.',
             'nombre_producto.max' => 'El campo nombre del producto no puede tener más de 255 caracteres.',
-            'imagen.string' => 'El campo imagen debe ser una cadena de texto.',
-            'imagen.max' => 'El campo imagen no puede tener más de 255 caracteres.',
+            'imagen.image' => 'El campo foto debe ser una imagen.',
+            'imagen.max' => 'El campo foto no puede tener más de 2048 kilobytes.',
             'id_categoria.required' => 'El campo categoría es obligatorio.',
             'id_categoria.exists' => 'La categoría seleccionada no existe.',
             'texto_corto.max' => 'El campo texto corto no puede tener más de 500 caracteres.',

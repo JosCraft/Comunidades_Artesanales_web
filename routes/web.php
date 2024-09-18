@@ -7,6 +7,8 @@ use App\Http\Controllers\VisitorController;
 
 use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
 use App\Http\Controllers\Admin\GestionUsuarioRoleController as GestionUsuarioRole;
+use App\Http\Controllers\Admin\GestionProductosController as GestionProductos;
+
 
 use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
 
@@ -48,22 +50,7 @@ Route::controller(UsuarioPerfil::class)->group(function(){
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('productos.show');
 Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
 
-Route::controller(GestionUsuario::class)->group(function(){
-        Route::get('/admin/gestion_usuario','index')->name('admin.gestion_usuario');
-        Route::get('/admin/gestion_usuario/create','create_user')->name('admin.gestion_usuario.create');
-        Route::post('/admin/gestion_usuario','store')->name('admin.gestion_usuario.store');
-        Route::get('/admin/gestion_usuario/edit/{id}','edit')->name('admin.gestion_usuario.edit');
-        Route::put('/admin/gestion_usuario/{id}','update')->name('admin.gestion_usuario.update');
-        Route::delete('/admin/gestion_usuario/{id}','destroy')->name('admin.gestion_usuario.destroy');
-});
 
-Route::controller(GestionUsuarioRole::class)->group(function(){
-    Route::get('/admin/gestion_usuario_role','index')->name('admin.gestion_usuario_role');
-    Route::get('/admin/gestion_usuario_role/create/{id}','create_user_role')->name('admin.gestion_usuario_role.create');
-    Route::post('/admin/gestion_usuario_role/{role}/{user}','store')->name('admin.gestion_usuario_role.store');
-    Route::put('/admin/gestion_usuario_role/{user}/{role}','update')->name('admin.gestion_usuario_role.update');
-    Route::delete('/admin/gestion_usuario_role/destryo/{role}/{user}','destroy')->name('admin.gestion_usuario_role.destroy');
-});
 
 
 
@@ -81,6 +68,13 @@ Route::middleware(['auth','user-role:Comunario'])->group(function()
     })->name('comunario');
 });
 
+Route::get('/comunario', function(){
+    return view('/comunario/app');
+})->name('comunario');
+
+
+
+
 Route::middleware(['auth','user-role:Comprador'])->group(function()
 { // Rutas para el rol Comprador
     Route::get('/comprador', function(){
@@ -95,6 +89,9 @@ Route::middleware(['auth','user-role:Delivery'])->group(function()
     })->name('delivery');
 });
 
+
+
+
 Route::middleware(['auth','user-role:Admin'])->group(function()
 { // Rutas para el rol Admin
     Route::get('/admin', function(){
@@ -105,6 +102,38 @@ Route::middleware(['auth','user-role:Admin'])->group(function()
 Route::get('/admin', function(){
     return view('/admin/app');
 })->name('admin');
+
+
+Route::controller(GestionUsuario::class)->group(function(){
+    Route::get('/admin/gestion_usuario','index')->name('admin.gestion_usuario');
+    Route::get('/admin/gestion_usuario/create','create_user')->name('admin.gestion_usuario.create');
+    Route::post('/admin/gestion_usuario','store')->name('admin.gestion_usuario.store');
+    Route::get('/admin/gestion_usuario/edit/{id}','edit')->name('admin.gestion_usuario.edit');
+    Route::put('/admin/gestion_usuario/{id}','update')->name('admin.gestion_usuario.update');
+    Route::delete('/admin/gestion_usuario/{id}','destroy')->name('admin.gestion_usuario.destroy');
+});
+
+Route::controller(GestionUsuarioRole::class)->group(function(){
+    Route::get('/admin/gestion_usuario_role','index')->name('admin.gestion_usuario_role');
+    Route::get('/admin/gestion_usuario_role/create/{id}','create_user_role')->name('admin.gestion_usuario_role.create');
+    Route::post('/admin/gestion_usuario_role/{role}/{user}','store')->name('admin.gestion_usuario_role.store');
+    Route::put('/admin/gestion_usuario_role/{user}/{role}','update')->name('admin.gestion_usuario_role.update');
+    Route::delete('/admin/gestion_usuario_role/destryo/{role}/{user}','destroy')->name('admin.gestion_usuario_role.destroy');
+});
+
+Route::controller(GestionProductos::class)->group(function(){
+    Route::get('/admin/gestion_productos','index')->name('admin.gestion_productos');
+    Route::get('/admin/gestion_productos/create','create_producto')->name('admin.gestion_productos.create');
+    Route::post('/admin/gestion_productos','store')->name('admin.gestion_productos.store');
+    Route::get('/admin/gestion_productos/edit/{id}','edit')->name('admin.gestion_productos.edit');
+    Route::put('/admin/gestion_productos/{id}','update')->name('admin.gestion_productos.update');
+    Route::delete('/admin/gestion_productos/{id}','destroy')->name('admin.gestion_productos.destroy');
+});
+
+
+
+
+
 
 Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo'); //mandar datos
 Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');//recibir datos

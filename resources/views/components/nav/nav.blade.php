@@ -16,10 +16,19 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ route('admin.gestion_usuario') }}">
-                    Administrar Usuarios
+                    Administrador
                 </a>
-
-            <li>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ route('comunario') }}">
+                    Comunario
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ route('admin.gestion_usuario') }}">
+                    Comprador
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ route('comunidades') }}">
                     <i class="fa-solid fa-users"></i>

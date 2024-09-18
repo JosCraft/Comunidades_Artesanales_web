@@ -25,7 +25,7 @@ class Comunario extends Model
     public function productos()
     {
         return $this->belongsToMany(Producto::class, 'hace', 'id_comunario', 'id_producto')
-                    ->withPivot('stock', 'descripcion', 'precio', 'fecha_fabricacion');
+                    ->withPivot('fecha_fabricacion');
     }
 
     // Relación uno a muchos con notificaciones

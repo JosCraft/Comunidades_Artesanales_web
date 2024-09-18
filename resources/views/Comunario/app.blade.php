@@ -1,3 +1,3 @@
-<x-layouts.app>
+<x-layouts.app-comunario>
     <h1>Comunario</h1>
-</x-layouts.app>
+</x-layouts.app-comunario>

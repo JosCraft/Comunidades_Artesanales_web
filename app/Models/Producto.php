@@ -8,6 +8,7 @@ class Producto extends Model
 {
     protected $table = 'productos';
     protected $fillable = [
+        'id',
         'nombre_producto',
         'imagen',
         'id_categoria',
@@ -30,7 +31,7 @@ class Producto extends Model
     public function comunarios()
     {
         return $this->belongsToMany(Comunario::class, 'hace', 'id_producto', 'id_comunario')
-                    ->withPivot('stock', 'descripcion', 'precio', 'fecha_fabricacion');
+                    ->withPivot('fecha_fabricacion');
     }
 
     // Relación muchos a muchos con promociones
