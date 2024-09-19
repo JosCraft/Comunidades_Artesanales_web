@@ -37,7 +37,9 @@ class ProductosController extends Controller
             return (object) [
                 'status' => 'success',
                 'message' => 'Producto creado correctamente',
-                'producto_id' => $producto->id
+                'producto_id' => $producto->id,
+                'producto' => $producto
+
             ];
 
         } catch (Exception $e) {

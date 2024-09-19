@@ -9,12 +9,12 @@
             </li>
             <li>
                 <a href="{{ route('admin.gestion_usuario') }}" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Gestion Usuarios</span>
+                    <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Usuarios</span>
                  </a>
             </li>
             <li>
                 <a href="{{ route('admin.gestion_comunidad') }}" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Gestionar Deliverys</span></a>
+                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Deliverys</span></a>
             </li>
             <li>
                 <a href="{{route('admin.gestion_productos')}}"  class="nav-link px-0 align-middle">
@@ -22,13 +22,18 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('admin.gestion_comunario') }}" class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Comunarios</span>
+                </a>
+            </li>
+            <li>
                 <a href="#" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Gestionar Reseñas</span>
+                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Reseñas</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.gestion_comunidad') }}" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Gestionar Comunidades</span>
+                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Comunidades</span>
                 </a>
             </li>
         </ul>

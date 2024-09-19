@@ -9,6 +9,10 @@ use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
 use App\Http\Controllers\Admin\GestionUsuarioRoleController as GestionUsuarioRole;
 use App\Http\Controllers\Admin\GestionProductosController as GestionProductos;
 use App\Http\Controllers\Admin\GestionComunidadController as GestionComunidad;
+use App\Http\Controllers\Admin\GestionComunarioController as GestionComunario;
+
+
+use App\Http\Controllers\HaceController as HaceController;
 
 use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
 
@@ -139,6 +143,14 @@ Route::controller(GestionComunidad::class)->group(function(){
     Route::delete('/admin/gestion_comunidad/{id}','destroy')->name('admin.gestion_comunidad.destroy');
 });
 
+Route::controller(GestionComunario::class)->group(function(){
+    Route::get('/admin/gestion_comunario','index')->name('admin.gestion_comunario');
+    Route::get('/admin/gestion_comunario/create','create_comunario')->name('admin.gestion_comunario.create');
+    Route::post('/admin/gestion_comunario','store')->name('admin.gestion_comunario.store');
+    Route::get('/admin/gestion_comunario/edit/{id}','edit')->name('admin.gestion_comunario.edit');
+    Route::put('/admin/gestion_comunario/{id}','update')->name('admin.gestion_comunario.update');
+    Route::delete('/admin/gestion_comunario/{id}','destroy')->name('admin.gestion_comunario.destroy');
+});
 
 
 
@@ -169,3 +181,10 @@ Route::post('/cart/save', [CartController::class, 'cartSave'])->name('cart.save'
 
 
 /***************** */
+
+
+/* Rutas para que el comunario agregue un nuevo producto o  quite */
+Route::controller(HaceController::class)->group(function(){
+    Route::post('/comunario/producto/{id}', 'addProduct')->name('comunario.producto.add');
+    Route::delete('/comunario/producto/{comunario}/{producto}', 'removeProduct')->name('comunario.producto.remove');
+});
