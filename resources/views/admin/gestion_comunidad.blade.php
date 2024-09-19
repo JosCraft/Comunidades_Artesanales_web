@@ -34,7 +34,7 @@
         </script>
     @endif
 
-    <h1>Gestion de Productos</h1>
+    <h1>Gestion de Comunidades</h1>
 
     <div class="d-flex flex-row bd-highlight mb-3">
         <div class="p-2 bd-highlight">
