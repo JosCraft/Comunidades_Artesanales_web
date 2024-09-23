@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-layouts.app>
     <h1>Control de Inventario</h1>
     <table>
         <thead>
@@ -22,4 +20,4 @@
             @endforeach
         </tbody>
     </table>
-@endsection
+</x-layouts.app>

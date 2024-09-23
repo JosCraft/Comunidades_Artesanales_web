@@ -12,6 +12,10 @@ use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
 
 use App\Http\Controller\CodeController;
 
+use App\Http\Controllers\Comunario\ReporteController;
+use App\Http\Controllers\Comunario\InventarioController;
+use App\Http\Controllers\Comunario\PromocionController;
+
 use App\Mail\MyEmail;
 
 
@@ -64,7 +68,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Rutas para los roles
 
 
-Route::middleware(['auth','user-role:Comunario'])->group(function() 
+Route::middleware(['auth','user-role:Comunario'])->group(function()
 { // Rutas para el rol comunario
     Route::get('/comunario', function() {
         return view('/Comunario/app');
@@ -72,7 +76,7 @@ Route::middleware(['auth','user-role:Comunario'])->group(function()
 
     // Rutas para Reportes de Ventas
     Route::get('/comunario/reportes', [ReporteController::class, 'index'])->name('comunario.reportes');
-    
+
     // Rutas para Control de Inventario
     Route::get('/comunario/inventario', [InventarioController::class, 'index'])->name('comunario.inventario');
 

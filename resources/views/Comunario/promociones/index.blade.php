@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-layouts.app>
     <h1>Promociones</h1>
     <table>
         <thead>
@@ -16,7 +14,7 @@
             @foreach($promociones as $promocion)
                 <tr>
                     <td>{{ $promocion->id }}</td>
-                    <td>{{ $promocion->producto->nombreProducto }}</td>
+                    <td>{{ $promocion->producto->nombre_producto }}</td>
                     <td>{{ $promocion->descuento }}%</td>
                     <td>{{ $promocion->fecha_inicio }}</td>
                     <td>{{ $promocion->fecha_fin }}</td>
@@ -32,7 +30,7 @@
         <select name="id_producto" id="id_producto" required>
             <!-- Aquí deberías listar los productos disponibles -->
             @foreach($productos as $producto)
-                <option value="{{ $producto->id }}">{{ $producto->nombreProducto }}</option>
+                <option value="{{ $producto->id }}">{{ $producto->nombre_producto }}</option>
             @endforeach
         </select>
 
@@ -47,4 +45,4 @@
 
         <button type="submit">Crear Promoción</button>
     </form>
-@endsection
+</x-layouts.app>

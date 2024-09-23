@@ -1,13 +1,17 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Comunario;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Models\Promocion; 
+use App\Models\Promocion;
+use App\Models\Producto;
 
 class PromocionController extends Controller {
     public function index() {
         $promociones = Promocion::all();
-        return view('comunario.promociones.index', compact('promociones'));
+        $productos = Producto::all();
+        return view('comunario.promociones.index', ['promociones' => $promociones, 'productos' => $productos]);
     }
 
     public function store(Request $request) {
