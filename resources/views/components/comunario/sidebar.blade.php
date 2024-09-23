@@ -13,7 +13,7 @@
                  </a>
             </li>
             <li>
-                <a href="#" class="nav-link px-0 align-middle">
+                <a href="{{route('comunario.promocion')}}" class="nav-link px-0 align-middle">
                     <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Promociones</span></a>
             </li>
             <li>

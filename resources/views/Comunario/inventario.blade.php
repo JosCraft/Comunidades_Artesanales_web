@@ -65,15 +65,15 @@
                                 <td>{{ $producto->precio }}</td>
                                 <td>{{ $producto->qty }}</td>
                                 <td>
-                                    <a href="{{ route('admin.gestion_productos.edit', $producto->id) }}" class="btn btn-primary">Ver</a>
+                                    <a href="{{ route('comunario.inventario.edit', $producto) }}" class="btn btn-primary">Ver</a>
                                     <form action="{{ route('comunario.producto.remove',
-                                    ['comunario' => $comunario->id, 'producto' => $producto->id]
-                                    ) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
+                                ['comunario' => $comunario->id, 'producto' => $producto->id]
+                                ) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
                                 </td>
                             </tr>
                         @endforeach

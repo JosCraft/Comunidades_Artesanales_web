@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\GestionComunidadController as GestionComunidad;
 use App\Http\Controllers\Admin\GestionComunarioController as GestionComunario;
 
 use App\Http\Controllers\Comunario\GestionInventarioController as GestionInventario;
+use App\Http\Controllers\Comunario\GestionPromocionController as GestionPromocion;
 
 
 use App\Http\Controllers\HaceController as HaceController;
@@ -81,12 +82,16 @@ Route::get('/comunario', function(){
 Route::controller(GestionInventario::class)->group(function(){
     Route::get('/comunario/inventario','index')->name('comunario.inventario');
     Route::get('/comunario/inventario/create','create')->name('comunario.inventario.create');
-    Route::post('/comunario/inventario','store')->name('comunario.inventario.store');
-    Route::get('/comunario/inventario/edit/{id}','edit')->name('comunario.inventario.edit');
+    Route::get('/comunario/inventario/edit/{producto}','edit')->name('comunario.inventario.edit');
     Route::put('/comunario/inventario/{id}','update')->name('comunario.inventario.update');
-    Route::delete('/comunario/inventario/{id}','destroy')->name('comunario.inventario.destroy');
 });
 
+Route::controller(GestionPromocion::class)->group(function(){
+    Route::get('/comunario/promocion','index')->name('comunario.promocion');
+    Route::get('/comunario/promocion/create','create')->name('comunario.promocion.create');
+    Route::get('/comunario/promocion/edit/{producto}','edit')->name('comunario.promocion.edit');
+    Route::put('/comunario/promocion/{id}','update')->name('comunario.promocion.update');
+});
 
 
 

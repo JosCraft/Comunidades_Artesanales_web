@@ -33,7 +33,7 @@
 
     <h1>Editar Producto</h1>
 
-    <form action="{{ route('admin.gestion_productos.update', $producto->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('comunario.inventario.update', $producto->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <x-form.register-producto :producto="$producto" :categorias="$categorias" />
@@ -42,8 +42,10 @@
                 <button type="submit" class="btn btn-primary">
                     Actualizar
                 </button>
+                <a href="{{route('comunario.inventario')}}" class="btn btn-danger">Cancelar</a>
             </div>
     </form>
+
 
 
 </x-layouts.app-comunario>
