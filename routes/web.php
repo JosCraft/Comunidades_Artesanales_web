@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\GestionProductosController as GestionProductos;
 use App\Http\Controllers\Admin\GestionComunidadController as GestionComunidad;
 use App\Http\Controllers\Admin\GestionComunarioController as GestionComunario;
 
+use App\Http\Controllers\Comunario\GestionInventarioController as GestionInventario;
+
 
 use App\Http\Controllers\HaceController as HaceController;
 
@@ -75,6 +77,15 @@ Route::middleware(['auth','user-role:Comunario'])->group(function()
 Route::get('/comunario', function(){
     return view('/comunario/app');
 })->name('comunario');
+
+Route::controller(GestionInventario::class)->group(function(){
+    Route::get('/comunario/inventario','index')->name('comunario.inventario');
+    Route::get('/comunario/inventario/create','create')->name('comunario.inventario.create');
+    Route::post('/comunario/inventario','store')->name('comunario.inventario.store');
+    Route::get('/comunario/inventario/edit/{id}','edit')->name('comunario.inventario.edit');
+    Route::put('/comunario/inventario/{id}','update')->name('comunario.inventario.update');
+    Route::delete('/comunario/inventario/{id}','destroy')->name('comunario.inventario.destroy');
+});
 
 
 

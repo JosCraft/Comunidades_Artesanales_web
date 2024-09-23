@@ -8,7 +8,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.gestion_usuario') }}" class="nav-link px-0 align-middle">
+                <a href="{{ route('comunario.inventario') }}" class="nav-link px-0 align-middle">
                     <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Inventario</span>
                  </a>
             </li>
