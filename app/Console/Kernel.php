@@ -13,6 +13,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            // Obtener todos los productos y verificar sus promociones
+            Producto::all()->each(function ($producto) {
+                $producto->verificarPromocionesExpiradas();
+            });
+        })->daily(); // Esto se ejecuta todos los días
     }
 
     /**

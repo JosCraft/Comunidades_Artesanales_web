@@ -57,6 +57,7 @@
                     <th>Precio</th>
                     <th>Stock</th>
                     <th>Estado</th>
+                    <th>Promociones</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -72,6 +73,10 @@
                         <td>{{ $producto->precio }} </td>
                         <td>{{ $producto->qty }} </td>
                         <td>{{ $producto->estado }} </td>
+                        <td>
+                            @foreach ($producto->promociones as $promocion)
+                                {{ $promocion->nombre_promocion }} - 
+                            @endforeach
                         <td>
 
                             <a href="{{ route('admin.gestion_productos.edit', $producto->id) }}"

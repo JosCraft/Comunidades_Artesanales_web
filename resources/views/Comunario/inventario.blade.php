@@ -51,6 +51,7 @@
                             <th>Precio</th>
                             <th>Imagen</th>
                             <th>Stock</th>
+                            <th>Promociones</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -64,6 +65,11 @@
                                 </td>
                                 <td>{{ $producto->precio }}</td>
                                 <td>{{ $producto->qty }}</td>
+                                <td>
+                                    {{
+                                        $producto->promociones
+                                    }}
+                                </td>
                                 <td>
                                     <a href="{{ route('comunario.inventario.edit', $producto) }}" class="btn btn-primary">Ver</a>
                                     <form action="{{ route('comunario.producto.remove',

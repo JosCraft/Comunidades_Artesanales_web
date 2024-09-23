@@ -47,4 +47,25 @@ class Producto extends Model
         return $this->belongsToMany(Comprador::class, 'califica', 'id_producto', 'id_comprador')
                     ->withPivot('comentario', 'puntuacion', 'fecha');
     }
+
+
+    public function agregarPromocion($promocionId, $fechaInicio, $fechaFin)
+    {
+        // Agrega una promoción al producto con fechas de inicio y fin
+        $this->promociones()->attach($promocionId, ['fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]);
+    }
+
+    public function removerPromocion($promocionId)
+    {
+        // Remueve una promoción del producto
+        $this->promociones()->detach($promocionId);
+    }
+
+    public function verificarPromocionesExpiradas()
+    {
+        // Elimina las promociones que ya han expirado
+        $this->promociones()->wherePivot('fecha_fin', '<', now())->detach();
+    }
+
+
 }

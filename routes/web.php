@@ -4,18 +4,21 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VisitorController;
-
+//cotrollers admin
 use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
 use App\Http\Controllers\Admin\GestionUsuarioRoleController as GestionUsuarioRole;
 use App\Http\Controllers\Admin\GestionProductosController as GestionProductos;
 use App\Http\Controllers\Admin\GestionComunidadController as GestionComunidad;
 use App\Http\Controllers\Admin\GestionComunarioController as GestionComunario;
 
+//controlers comunario
 use App\Http\Controllers\Comunario\GestionInventarioController as GestionInventario;
 use App\Http\Controllers\Comunario\GestionPromocionController as GestionPromocion;
 
-
+//relaciones n:m
 use App\Http\Controllers\HaceController as HaceController;
+use App\Http\Controllers\TieneController as TieneController;
+
 
 use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
 
@@ -203,4 +206,12 @@ Route::post('/cart/save', [CartController::class, 'cartSave'])->name('cart.save'
 Route::controller(HaceController::class)->group(function(){
     Route::post('/comunario/producto/{id}', 'addProduct')->name('comunario.producto.add');
     Route::delete('/comunario/producto/{comunario}/{producto}', 'removeProduct')->name('comunario.producto.remove');
+});
+
+
+/* Rutas para que el comunario agregue una promoción a un producto o la quite */
+Route::controller(TieneController::class)->group(function(){
+    Route::post('/comunario/promocion', 'agregarPromocion')->name('comunario.promocion.add');
+    Route::delete('/comunario/promocion/{producto}/{promocion}', 'removerPromocion')->name('comunario.promocion.remove');
+    Route::delete('/comunario/promocion/expirado/{producto}', 'eliminarPromocionesExpiradas')->name('comunario.promocion.removeExpired');
 });

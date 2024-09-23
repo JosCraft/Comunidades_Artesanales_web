@@ -15,4 +15,13 @@ class Promocion extends Model
         return $this->belongsToMany(Producto::class, 'tiene', 'id_promocion', 'id_producto')
                     ->withPivot('fecha_inicio', 'fecha_fin');
     }
+
+    //retorna los datos de la tabla tiene con un producto en especifico
+    public function tieneProducto($productoId)
+    {
+        return $this->belongsToMany(Producto::class, 'tiene', 'id_promocion', 'id_producto')
+                    ->withPivot('fecha_inicio', 'fecha_fin')
+                    ->where('id_producto', $productoId);
+    }
+
 }
