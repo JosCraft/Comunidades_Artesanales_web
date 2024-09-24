@@ -46,12 +46,12 @@ class PageController extends Controller
 
         $anaKategori = null;
         $altKategori = null;
-       /* if(!empty($category) && empty($slug)) {
+       if(!empty($category) && empty($slug)) {
             $anaKategori = Categoria::where('slug',$category)->first();
         }else if (!empty($category) && !empty($slug)){
             $anaKategori = Categoria::where('slug',$category)->first();
             $altKategori = Categoria::where('slug',$slug)->first();
-        }*/
+        }
        // dd('llego');
         $breadcrumb = [
             'pages' => [
@@ -96,7 +96,7 @@ class PageController extends Controller
 
         ->with('categoria')
         ->orderBy($order, $sort)->paginate(21);
-       
+
         if($request->ajax()){
             $view = view('frontend.ajax.productList',compact('products'))->render();
             return response(['data'=>$view, 'paginate'=>(string) $products->withQueryString()->links('vendor.pagination.custom')]);
