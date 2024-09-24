@@ -66,9 +66,9 @@
                                 <td>{{ $producto->precio }}</td>
                                 <td>{{ $producto->qty }}</td>
                                 <td>
-                                    {{
-                                        $producto->promociones
-                                    }}
+                                    @foreach ( $producto->promociones as $promocion )
+                                        {{$promocion->nombre_promocion}} - 
+                                    @endforeach
                                 </td>
                                 <td>
                                     <a href="{{ route('comunario.inventario.edit', $producto) }}" class="btn btn-primary">Ver</a>

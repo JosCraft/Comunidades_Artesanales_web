@@ -24,7 +24,7 @@ class GestionInventarioController extends Controller{
     }
 
     public function edit(Producto $producto){
-        return view('/Comunario/edit_producto', ['producto' => $producto]);
+        return view('/Comunario/producto/edit_producto', ['producto' => $producto]);
     }
 
     public function update(ProductoRequest  $request, $id)

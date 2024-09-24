@@ -77,29 +77,28 @@
     <label for="fecha_inicio" class="col-md-4 col-form-label text-md-end">{{ __('Fecha Inicio') }}</label>
     <div class="col-md-6">
         <input id="fecha_inicio"
-        type="date"
-        class="form-control
-        @error('fecha_inicio') is-invalid
-         @enderror" name="fecha_inicio"
-        value="{{ old('fecha_inicio', $promocion->fecha_inicio ?? '') }}" required autocomplete="fecha_inicio" autofocus>
+               type="date"
+               class="form-control @error('fecha_inicio') is-invalid @enderror"
+               name="fecha_inicio"
+               value="{{ old('fecha_inicio', isset($promocion->pivot) && $promocion->pivot->fecha_inicio ? $promocion->pivot->fecha_inicio->format('Y-m-d') : '') }}"
+               required autocomplete="fecha_inicio" autofocus>
         @error('fecha_inicio')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </span>
         @enderror
     </div>
-
 </div>
 
 <div class="row mb-3">
     <label for="fecha_fin" class="col-md-4 col-form-label text-md-end">{{ __('Fecha Fin') }}</label>
     <div class="col-md-6">
         <input id="fecha_fin"
-        type="date"
-        class="form-control
-        @error('fecha_fin') is-invalid
-         @enderror" name="fecha_fin"
-        value="{{ old('fecha_fin', $promocion->fecha_fin ?? '') }}" required autocomplete="fecha_fin" autofocus>
+               type="date"
+               class="form-control @error('fecha_fin') is-invalid @enderror"
+               name="fecha_fin"
+               value="{{ old('fecha_fin', isset($promocion->pivot) && $promocion->pivot->fecha_fin ? $promocion->pivot->fecha_fin->format('Y-m-d') : '') }}"
+               required autocomplete="fecha_fin" autofocus>
         @error('fecha_fin')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -107,3 +106,6 @@
         @enderror
     </div>
 </div>
+
+
+
