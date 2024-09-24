@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/nav.css',
                 'resources/css/style_validation.css',
+                'resources/css/style_img_table.css',
                 'resources/css/sidebarAdmin.css',
                 'resources/css/style_dashboard.css',
                 'resources/sass/app.scss',

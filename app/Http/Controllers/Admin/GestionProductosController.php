@@ -75,7 +75,7 @@ class GestionProductosController extends Controller{
     }
 
     public function destroy($id)
-    {
+    {   
         $response = app(ProductosController::class)->destroy($id);
         if ($response->status == 'success') {
             return redirect()->route('admin.gestion_productos')->with('success', $response->message);

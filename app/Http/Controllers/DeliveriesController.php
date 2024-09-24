@@ -34,7 +34,7 @@ class DeliveriesController extends Controller
         }
     }
 
-    public function update(DeliveryRequest $request, $id)
+    public function update(Request $request, $id)
     {
         try {
             // Find the Delivery instance by user_id
@@ -47,7 +47,6 @@ class DeliveriesController extends Controller
             }
 
             // Update the Delivery instance with data from the request
-            $delivery->user_id = $request->user_id;
             $delivery->servicio = $request->servicio;
             $delivery->salario = $request->salario;
             $delivery->turno = $request->turno;

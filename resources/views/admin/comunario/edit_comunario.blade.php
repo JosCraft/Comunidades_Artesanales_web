@@ -1,6 +1,6 @@
 <x-layouts.app-admin>
     @vite(['resources/js/buscar_en_tabla.js'])
-
+    @vite(['resources/css/style_img_table.css',])
 
     @if (session('success'))
         <script>

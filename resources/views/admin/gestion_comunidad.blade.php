@@ -72,7 +72,7 @@
                                 Editar
                             </a>
                             <form action="{{ route('admin.gestion_comunidad.destroy', $comunidad->id) }}"
-                                method="POST">
+                                method="POST",class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Eliminar</button>

@@ -107,7 +107,7 @@
 <div class="row mb-3">
     <label for="color" class="col-md-4 col-form-label text-md-end">{{ __('Color') }}</label>
     <div class="col-md-6">
-        <input id="color" type="text" class="form-control @error('color') is-invalid @enderror" name="color" value="{{ old('color', $producto->color ?? '') }}" required autocomplete="color" autofocus>
+        <input id="color" type="color" class="form-control @error('color') is-invalid @enderror" name="color" value="{{ old('color', $producto->color ?? '#000000') }}" required autocomplete="color" autofocus>
         @error('color')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -115,6 +115,7 @@
         @enderror
     </div>
 </div>
+
 
 <!-- qty -->
 <div class="row mb-3">

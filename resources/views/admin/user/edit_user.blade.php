@@ -1,4 +1,5 @@
 <x-layouts.app-admin>
+
     @php
         // Determinar cuál será el tab activo por defecto. Puede ser 'admin', 'delivery' o 'comunario'
         $defaultTab = $user->hasRole('Admin') ? 'admin' : ($user->hasRole('Delivery') ? 'delivery' : 'comunario');
@@ -51,7 +52,7 @@
                             @method('PUT')
 
                             <!-- Aquí debes pasar los datos del usuario actual como predeterminados -->
-                            <x-form.register :user="$user" :oldData="old()" />
+                            <x-form.register-user :user="$user" :oldData="old()" />
 
                             <button type="submit" class="btn btn-primary mt-3">Guardar Cambios</button>
                         </form>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\GestionUsuarioRoleController as GestionUsuarioRol
 use App\Http\Controllers\Admin\GestionProductosController as GestionProductos;
 use App\Http\Controllers\Admin\GestionComunidadController as GestionComunidad;
 use App\Http\Controllers\Admin\GestionComunarioController as GestionComunario;
+use App\Http\Controllers\Admin\GestionDeliveryController as GestionDelivery;
 
 //controlers comunario
 use App\Http\Controllers\Comunario\GestionInventarioController as GestionInventario;
@@ -169,6 +170,13 @@ Route::controller(GestionComunario::class)->group(function(){
     Route::get('/admin/gestion_comunario/edit/{id}','edit')->name('admin.gestion_comunario.edit');
     Route::put('/admin/gestion_comunario/{id}','update')->name('admin.gestion_comunario.update');
     Route::delete('/admin/gestion_comunario/{id}','destroy')->name('admin.gestion_comunario.destroy');
+});
+
+Route::controller(GestionDelivery::class)->group(function(){
+    Route::get('/admin/gestion_delivery','index')->name('admin.gestion_delivery');
+    Route::get('/admin/gestion_delivery/edit/{id}','edit')->name('admin.gestion_delivery.edit');
+    Route::put('/admin/gestion_delivery/{id}','update')->name('admin.gestion_delivery.update');
+    Route::delete('/admin/gestion_delivery/{id}','destroy')->name('admin.gestion_delivery.destroy');
 });
 
 

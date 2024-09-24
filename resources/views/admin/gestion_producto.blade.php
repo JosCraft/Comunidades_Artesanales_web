@@ -1,6 +1,5 @@
 <x-layouts.app-admin>
-    @vite(['resources/js/buscar_en_tabla.js'])
-
+    @vite(['resources/css/style_img_table.css','resources/js/buscar_en_tabla.js'])
 
     @if (session('success'))
         <script>
@@ -38,9 +37,7 @@
 
     <div class="d-flex flex-row bd-highlight mb-3">
         <div class="p-2 bd-highlight">
-            <a class="btn btn-primary" href="{{ route('admin.gestion_productos.create') }}">
-                Crear Producto
-            </a>
+
         </div>
         <div class="p-2 bd-highlight">
             <input type="text" class="form-control" id="buscar" placeholder="Buscar....">
@@ -75,21 +72,18 @@
                         <td>{{ $producto->estado }} </td>
                         <td>
                             @foreach ($producto->promociones as $promocion)
-                                {{ $promocion->nombre_promocion }} - 
+                                {{ $promocion->nombre_promocion }} -
                             @endforeach
+                        </td>
                         <td>
 
                             <a href="{{ route('admin.gestion_productos.edit', $producto->id) }}"
                                 class="btn btn-primary">
                                 Editar
                             </a>
-                            <form action="{{ route('admin.gestion_productos.destroy', $producto->id) }}"
-                                method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
+
                         </td>
+
                     </tr>
                 @endforeach
             </tbody>

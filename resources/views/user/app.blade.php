@@ -1,6 +1,5 @@
 <x-layouts.app
 :title="'Perfil Usuario'">
-
     <!-- mensaje de exito usando swet alert -->
     @if (session('success'))
     <script>
@@ -18,7 +17,9 @@
         <div class="row">
             <div class="col">
                 @if(auth()->user()->foto)
-                    <img src="data:image/jpeg;base64,{{ base64_encode(auth()->user()->foto) }}" alt="User Image"/>
+                    <img
+                    style="width: 150px; height: 150px; object-fit: cover;"
+                    src="data:image/jpeg;base64,{{ base64_encode(auth()->user()->foto) }}" alt="User Image"/>
                 @else
                     <i class="fas fa-user-circle fa-5x"></i>
                 @endif
@@ -30,6 +31,7 @@
                 <h1>Perfil</h1>
                 <p>Nombre: {{ auth()->user()->nombre}} {{auth()->user()->apePaterno}} {{ auth()->user()->apeMaterno }} </p>
                 <p>Email: {{ auth()->user()->email }}</p>
+                <p>Telefono: {{ auth()->user()->telefono }}</p>
             </div>
         </div>
     </div>

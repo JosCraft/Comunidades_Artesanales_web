@@ -60,18 +60,20 @@ class UserController extends Controller
             if (!$user) {
                 return response()->json(['message' => 'Usuario no encontrado', 'status' => 'error'], 404);
             }
-
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
+                $binary = file_get_contents($file->getRealPath());
+            } else {
+                $binary = $user->foto ; // Si no se proporciona una imagen, maneja esto de acuerdo a tus necesidades
+            }
             $user->nombre = $request->nombre;
             $user->apePaterno = $request->apePaterno;
             $user->apeMaterno = $request->apeMaterno;
             $user->genero = $request->genero;
             $user->celular = $request->celular;
             $user->email = $request->email;
-            $user->password = Hash::make($request->password);
             $user->fechaNac = $request->fechaNac;
-            $user->foto = $request->foto;
-            $user->codeValidacion = $request->codeValidacion;
-            $user->cantIntentos = $request->cantIntentos;
+            $user->foto = $binary;
             $user->save();
 
             return (object) ['status' => 'success', 'message' => 'Usuario actualizado correctamente'];

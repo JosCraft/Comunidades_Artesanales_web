@@ -1,4 +1,5 @@
 <x-layouts.app-comunario>
+@vite(['resources/css/style_img_table.css',])
     <h1>Inventario</h1>
     @if (session('success'))
         <script>
@@ -48,8 +49,8 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Imagen</th>
+                            <th >Imagen</th>
+                            <th>Precio  </th>
                             <th>Stock</th>
                             <th>Promociones</th>
                             <th>Acciones</th>
@@ -67,7 +68,7 @@
                                 <td>{{ $producto->qty }}</td>
                                 <td>
                                     @foreach ( $producto->promociones as $promocion )
-                                        {{$promocion->nombre_promocion}} - 
+                                        {{$promocion->nombre_promocion}} -
                                     @endforeach
                                 </td>
                                 <td>
