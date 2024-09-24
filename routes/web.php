@@ -21,6 +21,8 @@ use App\Http\Controllers\HaceController as HaceController;
 use App\Http\Controllers\TieneController as TieneController;
 
 
+use App\Http\Controllers\MovilController as MovilController;
+
 use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
 
 
@@ -236,4 +238,9 @@ Route::controller(TieneController::class)->group(function(){
     Route::post('/comunario/promocion', 'agregarPromocion')->name('comunario.promocion.add');
     Route::delete('/comunario/promocion/{producto}/{promocion}', 'removerPromocion')->name('comunario.promocion.remove');
     Route::delete('/comunario/promocion/expirado/{producto}', 'eliminarPromocionesExpiradas')->name('comunario.promocion.removeExpired');
+});
+
+
+Route::controller(MovilController::class)->group(function(){
+    Route::get('/movil/user','index_user')->name('movil.user');
 });
