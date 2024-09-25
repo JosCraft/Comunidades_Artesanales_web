@@ -22,7 +22,7 @@
                     <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Deliverys</span></a>
             </li>
             <li>
-                <a href="{{route('admin.gestion_productos')}}"  class="nav-link px-0 align-middle">
+                <a href="{{route('admin.sections')}}"  class="nav-link px-0 align-middle">
                     <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Productos</span>
                 </a>
             </li>

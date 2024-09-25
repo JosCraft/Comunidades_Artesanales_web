@@ -9,26 +9,17 @@
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">
+                <a class="nav-link active" aria-current="page" href="">
                     <i class="fa-solid fa-house"></i>
                     Inicio
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ route('admin.gestion_usuario') }}">
-                    Administrador
+                    Administrar Usuarios
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('comunario') }}">
-                    Comunario
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('admin.gestion_usuario') }}">
-                    Comprador
-                </a>
-            </li>
+
+            <li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ route('comunidades') }}">
                     <i class="fa-solid fa-users"></i>
@@ -37,7 +28,7 @@
             </li>
             <li class="nav-item dropdown">
 
-                <a class="nav-link dropdown-toggle" href="{{ route('productos') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-store"></i>
                     Productos
                 </a>
