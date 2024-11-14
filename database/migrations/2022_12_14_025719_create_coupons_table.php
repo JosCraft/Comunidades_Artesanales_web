@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('coupons', function (Blueprint $table) {
 
             
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->integer('vendor_id'); // if the coupon is added by an admin, it'll be zero 0, but if it's added by a vendor, it'll be equal to the vendor id
             $table->string('coupon_option');
             $table->string('coupon_code');

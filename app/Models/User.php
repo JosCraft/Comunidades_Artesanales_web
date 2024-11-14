@@ -3,15 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+// use Laravel\Sanctum\HasApiTokens; // Adding the HasApiTokens trait of "Laravel Passport" package (different from Sanctum's one)        // https://laravel.com/docs/9.x/passport#:~:text=add%20the,Laravel%5CPassport%5CHasApiTokens
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    // use HasApiTokens, HasFactory, Notifiable;
+    use /* HasApiTokens, */ HasFactory, Notifiable, \Laravel\Passport\HasApiTokens; // Adding the HasApiTokens trait of "Laravel Passport" package (different from Sanctum's one)        // https://laravel.com/docs/9.x/passport#:~:text=add%20the,Laravel%5CPassport%5CHasApiTokens
 
     /**
      * The attributes that are mass assignable.
@@ -19,17 +19,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'id','nombre',
-        'apePaterno',
-        'apeMaterno',
-        'genero',
-        'celular',
+        'name',
         'email',
         'password',
-        'fechaNac',
-        'foto',
-        'codeValidacion',
-        'cantIntentos',
     ];
 
     /**
@@ -49,69 +41,5 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
-
-    // Relación uno a muchos: un usuario puede ser administrador, comprador, comunario o delivery.
-    public function administrador()
-    {
-        return $this->hasOne(Administrador::class, 'user_id');
-    }
-
-    public function comunario()
-    {
-        return $this->hasOne(Comunario::class, 'user_id');
-    }
-
-    public function comprador()
-    {
-        return $this->hasOne(Comprador::class, 'user_id');
-    }
-
-    public function delivery()
-    {
-        return $this->hasOne(Delivery::class, 'user_id');
-    }
-
-    /**
-     * Get the roles that belong to the user.
-     */
-    public function roles()
-{
-    return $this->belongsToMany(Rol::class, 'rolesuser', 'user_id', 'role_id');
-}
-
-
-    /**
-     * Check one role
-     * @param string $role
-     * @return bool
-     */
-    public function getRoleNames()
-    {
-        return $this->roles()->pluck('name');
-    }
-
-        /**
-     * Verificar si el usuario tiene un rol específico.
-     *
-     * @param string $role
-     * @return bool
-     */
-    public function hasRole($role)
-    {
-        return $this->roles()->where('name', $role)->exists();
-    }
-
-    /**
-     * Verificar si el usuario tiene alguno de los roles dados.
-     *
-     * @param array $roles
-     * @return bool
-     */
-    public function hasAnyRole(array $roles)
-    {
-        return $this->roles()->whereIn('name', $roles)->exists();
-    }
-
 }

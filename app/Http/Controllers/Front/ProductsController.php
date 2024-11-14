@@ -313,141 +313,142 @@ class ProductsController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        // 1. Obtener las reseñas del producto
+        $ratings = Rating::where('product_id', $id)->get();
+    
+        // 2. Calcular calificación promedio
+        $avgRating = $ratings->avg('rating') ?? 0;
+    
+        // 3. Contar el total de reseñas
+        $totalRatingsCount = $ratings->count();
+    
+        // 4. Crear un arreglo con el conteo y el porcentaje de cada estrella
+        $ratingsData = [
+            5 => ['count' => $ratings->where('rating', 5)->count(), 'percentage' => $totalRatingsCount > 0 ? ($ratings->where('rating', 5)->count() / $totalRatingsCount) * 100 : 0],
+            4 => ['count' => $ratings->where('rating', 4)->count(), 'percentage' => $totalRatingsCount > 0 ? ($ratings->where('rating', 4)->count() / $totalRatingsCount) * 100 : 0],
+            3 => ['count' => $ratings->where('rating', 3)->count(), 'percentage' => $totalRatingsCount > 0 ? ($ratings->where('rating', 3)->count() / $totalRatingsCount) * 100 : 0],
+            2 => ['count' => $ratings->where('rating', 2)->count(), 'percentage' => $totalRatingsCount > 0 ? ($ratings->where('rating', 2)->count() / $totalRatingsCount) * 100 : 0],
+            1 => ['count' => $ratings->where('rating', 1)->count(), 'percentage' => $totalRatingsCount > 0 ? ($ratings->where('rating', 1)->count() / $totalRatingsCount) * 100 : 0],
+        ];
+    
+        return view('resources.views.front.detail', compact('ratings', 'ratingsData', 'totalRatingsCount', 'avgRating'));
+    }    
 
-
-    // Render Single Product Detail Page in front/products/detail.blade.php    
-    public function detail($id) { // Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters
+    // Renderizar la página de detalles de un solo producto en front/products/detail.blade.php    
+    public function detail($id) {
+        // Cargar detalles del producto con relaciones
         $productDetails = Product::with([
-            'section', 'category', 'brand', 'attributes' => function($query) { // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries    // 'section', 'category', 'brand', 'attributes', 'images', 'vendor' are the relationship method names in Product.php model which are being Eager Loaded (Eager Loading)
-                $query->where('stock', '>', 0)->where('status', 1); // the 'attributes' relationship method in Product.php model     // Constraining Eager Loads to get the `products_attributes` of `stock` more than Zero 0 ONLY and `status` is 1 (active/enabled)
-            }, 'images', 'vendor'
-        ])->find($id)->toArray(); // Eager Loading (using with() method): https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // Eager Loading Multiple Relationships: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading-multiple-relationships
-
-
-        $categoryDetails = Category::categoryDetails($productDetails['category']['url']); // to get the Breadcrumb links (which is HTML) to show them in front/products/detail.blade.php
-        
-
-        // Get similar products (or related products) (functionality) by getting other products from THE SAME CATEGORY    
-        $similarProducts = Product::with('brand')->where('category_id', $productDetails['category']['id'])->where('id', '!=', $id)->limit(4)->inRandomOrder()->get()->toArray(); // where('id', '!=', $id)    means get all similar products (of the same category) EXCEPT (exclude) the currently viewed product (to not be repeated (to prevent repetition))    // limit(4)->inRandomOrder()    means show only 4 similar products but IN RANDOM ORDER
-
-
-        // Recently Viewed Products (Items) functionality (we created `recently_viewed_products` table but we won't need to create a Model for it, because we won't do much work with it)
-        // The idea of the Recently Viewed Products functionality is whenever a user views a product (i.e. opens detail.blade.php page via the detail() method here), we insert the viewed product id and the user's session id in the `recently_viewed_products` database table. At the same time, we retrieve/get/fetch the previously inserted recently viewed products (from `recently_viewed_products` table) to display them in detail.blade.php
-        // Very Important Note: You'll need here Task Scheduling (Cron jobs) to clear the `recently_viewed_products` table from time to time because it will get very big and will make your database slow over time    // Task Scheduling (Laravel's Cron jobs): https://laravel.com/docs/9.x/scheduling
-        // Set Session for the Recently Viewed Products
-        if (empty(Session::get('session_id'))) { // if the session is empty (user is not logged in), create a random session id (for the 'Guest' user)    // https://laravel.com/docs/9.x/authentication#ecosystem-overview    // Determining If An Item Exists In The Session: https://laravel.com/docs/9.x/session#determining-if-an-item-exists-in-the-session
-            $session_id = md5(uniqid(rand(), true));
-        } else { // if the session exists (user is logged in)    // https://laravel.com/docs/9.x/authentication#ecosystem-overview
-            $session_id = Session::get('session_id');
-        }
-
-        // Store the $session_id in the Session
-        Session::put('session_id', $session_id); // (!! this shouble be inside the last if statement case that the user is NOT logged in ONLY !!) $session_id comes from one of the two cases of the last if statement    // Storing Data: https://laravel.com/docs/9.x/session#storing-data
-
-        // If they don't already exist, INSERT the currently viewed product `product_id` and `session_id` in `recently_viewed_products` table (ONE TIME ONLY)
-        $countRecentlyViewedProducts = DB::table('recently_viewed_products')->where([ // Note: Here we use Laravel 'DB' facade because we didn't create a Model for the `recently_viewed_products` table, because we don't need it because we won't do much work with it. So we'll just ONLY DIRECTLY interact with the `recently_viewed_products` table using Laravel 'DB' facade
+            'section', 
+            'category', 
+            'brand', 
+            'attributes' => function($query) {
+                $query->where('stock', '>', 0)->where('status', 1);
+            }, 
+            'images', 
+            'vendor'
+        ])->findOrFail($id)->toArray(); // Usar findOrFail para manejar productos faltantes
+    
+        // Obtener enlaces de migas de pan para la categoría
+        $categoryDetails = Category::categoryDetails($productDetails['category']['url']); 
+    
+        // Obtener productos similares de la misma categoría
+        $similarProducts = Product::with('brand')
+            ->where('category_id', $productDetails['category']['id'])
+            ->where('id', '!=', $id)
+            ->limit(4)
+            ->inRandomOrder()
+            ->get()
+            ->toArray();
+    
+        // Manejar la funcionalidad de productos vistos recientemente
+        $session_id = Session::get('session_id') ?? md5(uniqid(rand(), true));
+        Session::put('session_id', $session_id);
+    
+        // Insertar el producto visto en la tabla recently_viewed_products si no está presente
+        if (!DB::table('recently_viewed_products')->where([
             'product_id' => $id,
-            'session_id' => $session_id // comes from the two cases of the last if statement
-        ])->count(); // get the count or the number of that currently Viewed Product through the same Product (through `product_id`) and Session (through `session_id`). This should not be more than ONE TIME ONLY!
-
-        if ($countRecentlyViewedProducts == 0) { // if that currently Viewed Product doesn't already exist in the `recently_viewed_products` table, INSERT it in
-            DB::table('recently_viewed_products')->INSERT([ // Note: Here we use Laravel 'DB' facade because we didn't create a Model for the `recently_viewed_products` table, because we don't need it because we won't do much work with it. So we'll just ONLY DIRECTLY interact with the `recently_viewed_products` table using Laravel 'DB' facade
+            'session_id' => $session_id
+        ])->exists()) {
+            DB::table('recently_viewed_products')->insert([
                 'product_id' => $id,
-                'session_id' => $session_id // $session_id comes from one of the two cases of the last if statement
+                'session_id' => $session_id
             ]);
         }
-
-        // Get Recently Viewed Products (Items) IDs
-        $recentProductsIds = DB::table('recently_viewed_products')->select('product_id')->where('product_id', '!=', $id)->where('session_id', $session_id)->inRandomOrder()->get()->take(4)->pluck('product_id'); // take() is identical to limit(): https://laravel.com/docs/9.x/queries#limit-and-offset    // where('product_id', '!=', $id)    means exclude (EXCEPT) the currently viewed product (to not be repeated (to prevent repetition))    // Note: Here we use Laravel 'DB' facade because we didn't create a Model for the `recently_viewed_products` table, because we don't need it because we won't do much work with it. So we'll just ONLY DIRECTLY interact with the `recently_viewed_products` table using Laravel 'DB' facade
-
-        // Get Recently Viewed Products (Items)
-        $recentlyViewedProducts = Product::with('brand')->whereIn('id', $recentProductsIds)->get()->toArray(); // https://laravel.com/docs/9.x/collections#method-wherein AND https://laravel.com/docs/9.x/queries#additional-where-clauses
-
-
-
-        // Managing Product Colors (in front/products/detail.blade.php)    
-        // Get Group Code Products `group_code` column in `products` table (get the `group_code` of the product, if exists (if any))
-        $groupProducts = array();
-        if (!empty($productDetails['group_code'])) { // if the product has a `group_code`
-            // Get all other products who also have the same `group_code`
-            $groupProducts = Product::select('id', 'product_image')->where('id', '!=', $id)->where([ // where('id', '!=', $id)    means exclude (EXCEPT) the currently viewed product (to not be repeated (to prevent repetition))
-                'group_code' => $productDetails['group_code'],
-                'status'     => 1
-            ])->get()->toArray();
+    
+        // Obtener IDs de productos vistos recientemente
+        $recentProductsIds = DB::table('recently_viewed_products')
+            ->select('product_id')
+            ->where('product_id', '!=', $id)
+            ->where('session_id', $session_id)
+            ->inRandomOrder()
+            ->take(4)
+            ->pluck('product_id');
+    
+        // Obtener productos vistos recientemente
+        $recentlyViewedProducts = Product::with('brand')
+            ->whereIn('id', $recentProductsIds)
+            ->get()
+            ->toArray();
+    
+        // Manejar los colores del producto
+        $groupProducts = [];
+        if (!empty($productDetails['group_code'])) {
+            $groupProducts = Product::select('id', 'product_image')
+                ->where('id', '!=', $id)
+                ->where([
+                    'group_code' => $productDetails['group_code'],
+                    'status'     => 1
+                ])
+                ->get()
+                ->toArray();
         }
-
-
-        // Show Ratings & Reviews in front/products/detail.blade.php    
-        $ratings = Rating::with('user')->where([ // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'user' is the relationship method name in Rating.php model
-            'product_id' => $id,
-            'status'     => 1
-        ])->get()->toArray();
-
-        // Calculate Average Rating (for a product):
-        $ratingSum = Rating::where([
-            'product_id' => $id,
-            'status'     => 1
-        ])->sum('rating');
-
-        // Number of times a product has been rated by users
-        $ratingCount = Rating::where([
-            'product_id' => $id,
-            'status'     => 1
-        ])->count();
-
-        if ($ratingCount > 0) { // if there's at least one rating for a product (if a product has been rated at least once)
-            $avgRating     = round($ratingSum / $ratingCount, 2);
-            $avgStarRating = round($ratingSum / $ratingCount); // for showing the "Stars" in HTML
-        } else {
-            $avgRating     = 0;
-            $avgStarRating = 0;
+    
+        // Mostrar calificaciones y reseñas
+        $ratings = Rating::with('user')
+            ->where(['product_id' => $id, 'status' => 1])
+            ->get()
+            ->toArray();
+    
+        // Calcular la calificación promedio
+        $ratingData = Rating::where(['product_id' => $id, 'status' => 1]);
+        $ratingSum = $ratingData->sum('rating');
+        $ratingCount = $ratingData->count();
+    
+        $avgRating = $ratingCount > 0 ? round($ratingSum / $ratingCount, 2) : 0;
+        $avgStarRating = $ratingCount > 0 ? round($ratingSum / $ratingCount) : 0;
+    
+        // Contar calificaciones por estrellas
+        $starCounts = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $starCounts[$i] = Rating::where(['product_id' => $id, 'status' => 1, 'rating' => $i])->count();
         }
-
-        // Calculate the count of Star Ratings for 1 Star, 2 Stars, 3 Stars, 4 Stars, and 5 Stars ratings (Each on its own)
-        $ratingOneStarCount = Rating::where([
-            'product_id' => $id,
-            'status'     => 1,
-            'rating'     => 1
-        ])->count();
-
-        $ratingTwoStarCount = Rating::where([
-            'product_id' => $id,
-            'status'     => 1,
-            'rating'     => 2
-        ])->count();
-
-        $ratingThreeStarCount = Rating::where([
-            'product_id' => $id,
-            'status'     => 1,
-            'rating'     => 3
-        ])->count();
-
-        $ratingFourStarCount = Rating::where([
-            'product_id' => $id,
-            'status'     => 1,
-            'rating'     => 4
-        ])->count();
-
-        $ratingFiveStarCount = Rating::where([
-            'product_id' => $id,
-            'status'     => 1,
-            'rating'     => 5
-        ])->count();
-
-
-        $totalStock = ProductsAttribute::where('product_id', $id)->sum('stock'); // sum() the `stock` column of the `products_attributes` table    // sum(): https://laravel.com/docs/9.x/collections#method-sum
-
-
-        // Dynamic SEO (HTML meta tags): Check the HTML <meta> tags and <title> tag in front/layout/layout.blade.php    
-        $meta_title       = $productDetails['meta_title'];
+    
+        // Cálculo del stock total
+        $totalStock = ProductsAttribute::where('product_id', $id)->sum('stock');
+    
+        // Metadatos SEO dinámicos
+        $meta_title = $productDetails['meta_title'];
         $meta_description = $productDetails['meta_description'];
-        $meta_keywords    = $productDetails['meta_keywords'];
-
-
-        return view('front.products.detail')->with(compact('productDetails', 'categoryDetails', 'totalStock', 'similarProducts', 'recentlyViewedProducts', 'groupProducts', 'meta_title', 'meta_description', 'meta_keywords', 'ratings', 'avgRating', 'avgStarRating', 'ratingOneStarCount', 'ratingTwoStarCount', 'ratingThreeStarCount', 'ratingFourStarCount', 'ratingFiveStarCount'));
+        $meta_keywords = $productDetails['meta_keywords'];
+    
+        return view('front.products.detail')->with(compact(
+            'productDetails', 
+            'categoryDetails', 
+            'totalStock', 
+            'similarProducts', 
+            'recentlyViewedProducts', 
+            'groupProducts', 
+            'meta_title', 
+            'meta_description', 
+            'meta_keywords', 
+            'ratings', 
+            'avgRating', 
+            'avgStarRating', 
+            'starCounts'
+        ));
     }
-
-
 
     // The AJAX call from front/js/custom.js file, to show the the correct related `price` and `stock` depending on the selected `size` (from the `products_attributes` table)) by clicking the size <select> box in front/products/detail.blade.php    
     public function getProductPrice(Request $request) {
@@ -760,7 +761,7 @@ class ProductsController extends Controller
                     ])->count();
 
                     if ($couponCount >= 1) { // if this 'Single Time' coupon code has been used/redeemed more than one single time by this user (this authenticated/logged-in user) (i.e. meaning that if that coupon code is already existing in the `orders` table and has been used/redeemed by this authenticated/logged-in user)
-                        $message = 'This coupon code is already availed by you!';
+                        $message = '¡Este código de cupón ya no está disponible para ti!';
                     }
                 }
 
@@ -773,7 +774,7 @@ class ProductsController extends Controller
 
                 foreach ($getCartItems as $key => $item) {
                     if (!in_array($item['product']['category_id'], $catArr)) { // if the category of one of the products in the Cart doesn't belong to the Coupon's categories (the categories of the coupon selected by 'vendor' or 'admin' in the Admin Panel for the coupon)
-                        $message = 'This coupon code selected categories is not for one of the selected products category!';
+                        $message = 'Las categorías seleccionadas de este código de cupón no son para una de las categorías de productos seleccionadas.!';
                     }
 
                     
@@ -796,7 +797,7 @@ class ProductsController extends Controller
     
                         foreach ($getCartItems as $item) {
                             if (!in_array($item['user_id'], $usersId)) { // if the user id of one of the products in the Cart doesn't belong to the Coupon's specifically selected users (to check if the submitted coupon code is available to the user submitting it or not)
-                                $message = 'This coupon code is not available for you! Try again with a valid coupon code! (The coupon code is available only for certain selected users!)';
+                                $message = '¡Este código de cupón no está disponible para usted! ¡Inténtalo de nuevo con un código de cupón válido! (¡El código de cupón está disponible solo para ciertos usuarios seleccionados!)';
                             }
                         }
                     }
@@ -811,7 +812,7 @@ class ProductsController extends Controller
 
                     foreach ($getCartItems as $item) {
                         if (!in_array($item['product']['id'], $productIds)) { // if the user id of one of the products in the Cart doesn't belong to the products ids of that vendor (to check if the submitted coupon code pertains to that specific/very vendor or not)
-                            $message = 'This coupon code is not available for you! Try again with a valid coupon code! (vendor validation)!. The coupon code exists but one of the products in the Cart doesn\'t belong to that specific vendor who created/owns that Coupon!';
+                            $message = '¡Este código de cupón no está disponible para usted! ¡Inténtalo de nuevo con un código de cupón válido! (validación de proveedor)!. El código de cupón existe, pero uno de los productos en el carrito no pertenece al proveedor específico que creó o es propietario de ese cupón.';
                         }
                     }
                 }
@@ -847,7 +848,7 @@ class ProductsController extends Controller
                     Session::put('couponAmount', $couponAmount);
                     Session::put('couponCode'  , $data['code']); // $data['code'] comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
 
-                    $message = 'Coupon Code successfully applied. You are availing discount!';
+                    $message = 'Código de cupón aplicado correctamente. ¡Estás aprovechando el descuento!';
 
 
                     return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
@@ -970,7 +971,7 @@ class ProductsController extends Controller
 
             // Agree to T&C (Accept Terms and Conditions) Validation
             if (empty($data['accept'])) { // if the user doesn't select a Delivery Address
-                $message = 'Please agree to T&C!';
+                $message = '¡Acepte los términos y condiciones!';
 
                 return redirect()->back()->with('error_message', $message);
             }
@@ -1137,9 +1138,9 @@ class ProductsController extends Controller
                     'orderDetails' => $orderDetails
                 ];
 
-                \Illuminate\Support\Facades\Mail::send('emails.order', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order' is the order.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
+                /*\Illuminate\Support\Facades\Mail::send('emails.order', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order' is the order.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
                     $message->to($email)->subject('Order Placed - MultiVendorEcommerceApplication.com.eg');
-                });
+                });*/
 
                 /*
                 // Sending the Order confirmation SMS
@@ -1211,5 +1212,4 @@ class ProductsController extends Controller
             }
         }
     }
-
 }

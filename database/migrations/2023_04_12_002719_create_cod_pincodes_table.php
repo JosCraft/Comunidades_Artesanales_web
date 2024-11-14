@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cod_pincodes', function (Blueprint $table) {
             
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->string('pincode', 10);
 
             $table->timestamps();

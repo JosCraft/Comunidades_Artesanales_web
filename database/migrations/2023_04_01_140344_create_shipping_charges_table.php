@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('shipping_charges', function (Blueprint $table) {
             
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->string('country');
             $table->float('rate'); // the shipping rate (cost/charges/price) of that specific country (Every country has its own shipping charges rate)
             $table->tinyInteger('status');

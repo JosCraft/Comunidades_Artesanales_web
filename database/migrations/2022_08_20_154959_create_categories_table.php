@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->integer('parent_id'); // Note: It will have a value of the parent category (from the same table), and will be zero 0 in case there's no parent category (if it's a 'Root' category)
             $table->integer('section_id');
             $table->string('category_name');

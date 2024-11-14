@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('vendors', function (Blueprint $table) {
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->string('name');
             $table->string('address')->nullable();
             $table->string('city')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('pincode')->nullable();
             $table->string('mobile');
             $table->string('email')->unique();
-            $table->enum('confirm', ['No', 'Yes']); // added later    // "No" is the default value    
+            $table->enum('confirm', ['No', 'Yes'])->nullable(); // added later    // "No" is the default value    
             $table->tinyInteger('status'); // active or not active (admins will approve the status of the vendor)
 
             $table->timestamps();

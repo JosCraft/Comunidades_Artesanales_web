@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sections', function (Blueprint $table) {
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->string('name');
             $table->tinyInteger('status'); // 0 ative, 1 inactive
 

@@ -1,6 +1,5 @@
-{{-- This is the order "Update Order Status" by 'admin' email file using Mailtrap --}} {{-- All the variables (like $name, $mobile, $email, ...) used here are passed in from the updateOrderStatus() method in Admin/OrderController.php --}}
-
-
+{{-- Este es el archivo de correo electrónico "Actualizar el estado del pedido" enviado por 'admin' utilizando Mailtrap --}}
+{{-- Todas las variables (como $name, $mobile, $email, ...) utilizadas aquí son pasadas desde el método updateOrderStatus() en Admin/OrderController.php --}}
 
 <!DOCTYPE html>
 <html>
@@ -13,30 +12,29 @@
             <tr><td>&nbsp;</td></tr>
             <tr><td><img src="{{ asset('front/images/main-logo/main-logo.png') }}"></td></tr>
             <tr><td>&nbsp;</td></tr>
-            <tr><td>Hello {{ $name }}</td></tr>
+            <tr><td>Hola {{ $name }}</td></tr>
             <tr><td>&nbsp;<br></td></tr>
-            <tr><td>Your Order #{{ $order_id }} status has been updated to {{ $order_status }}</td></tr>
+            <tr><td>El estado de su pedido #{{ $order_id }} ha sido actualizado a {{ $order_status }}</td></tr>
             <tr><td>&nbsp;</td></tr>
 
-            
             @if (!empty($courier_name) && !empty($tracking_number))
                 <tr>
-                    <td>Courier Name is {{ $courier_name }} and Tracking Number is {{ $tracking_number }}</td>
+                    <td>El nombre del mensajero es {{ $courier_name }} y el número de seguimiento es {{ $tracking_number }}</td>
                 </tr>
                 <tr><td>&nbsp;</td></tr>
             @endif
 
-            <tr><td>Your Order details are as below:</td></tr>
+            <tr><td>Los detalles de su pedido son los siguientes:</td></tr>
             <tr><td>&nbsp;</td></tr>
             <tr><td>
                 <table style="width: 95%" cellpadding="5" cellspacing="5" bgcolor="#f7f4f4">
                     <tr bgcolor="#cccccc">
-                        <td>Product Name</td>
-                        <td>Product Code</td>
-                        <td>Product Size</td>
-                        <td>Product Color</td>
-                        <td>Product Quantity</td>
-                        <td>Product Price</td>
+                        <td>Nombre del Producto</td>
+                        <td>Código del Producto</td>
+                        <td>Tamaño del Producto</td>
+                        <td>Color del Producto</td>
+                        <td>Cantidad del Producto</td>
+                        <td>Precio del Producto</td>
                     </tr>
                     @foreach ($orderDetails['orders_products'] as $order)
                         <tr bgcolor="#f9f9f9">
@@ -49,11 +47,11 @@
                         </tr>
                     @endforeach
                     <tr>
-                        <td colspan="5" align="right">Shipping Charges</td>
+                        <td colspan="5" align="right">Gastos de Envío</td>
                         <td>INR {{ $orderDetails['shipping_charges'] }}</td>
                     </tr>
                     <tr>
-                        <td colspan="5" align="right">Coupon Discount</td>
+                        <td colspan="5" align="right">Descuento del Cupón</td>
                         <td>
                             INR
                             @if ($orderDetails['coupon_amount'] > 0)
@@ -64,7 +62,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5" align="right">Grand Total</td>
+                        <td colspan="5" align="right">Total General</td>
                         <td>INR {{ $orderDetails['grand_total'] }}</td>
                     </tr>
                 </table>
@@ -73,7 +71,7 @@
             <tr><td>
                 <table>
                     <tr>
-                        <td><strong>Delivery Address:</strong></td>
+                        <td><strong>Dirección de Entrega:</strong></td>
                     </tr>
                     <tr>
                         <td>{{ $orderDetails['name'] }}</td>
@@ -99,9 +97,9 @@
                 </table>    
             </td></tr>
             <tr><td>&nbsp;</td></tr>
-            <tr><td>For any queries, you can contact us at <a href="mailto:info@MultiVendorEcommerceApplication.com.eg">info@MultiVendorEcommerceApplication.com.eg</a></td></tr>
+            <tr><td>Para cualquier consulta, puede contactarnos en <a href="mailto:info@MultiVendorEcommerceApplication.com.eg">info@MultiVendorEcommerceApplication.com.eg</a></td></tr>
             <tr><td>&nbsp;</td></tr>
-            <tr><td>Regards,<br>Team Multi-vendor E-commerce Application</td></tr>
+            <tr><td>Saludos,<br>Equipo de la Aplicación de Comercio Electrónico Multi-vendedor</td></tr>
             <tr><td>&nbsp;</td></tr>
         </table>
     </body>

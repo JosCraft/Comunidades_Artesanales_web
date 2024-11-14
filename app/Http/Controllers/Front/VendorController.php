@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Front;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\LowStockNotification;
 
+use App\Models\Product;
 use App\Models\Vendor;
 use App\Models\Admin;
+use App\Mail\StockAlertMail;
 
 class VendorController extends Controller
 {
@@ -160,4 +165,5 @@ class VendorController extends Controller
             abort(404);
         }
     }
+ 
 }

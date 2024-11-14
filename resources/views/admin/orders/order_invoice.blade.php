@@ -1,24 +1,21 @@
-{{-- This is the HTML Order Invoice. This page is rendered by viewOrderInvoice() method inside Admin/OrderController.php --}}
-
-
+{{-- Esta es la Factura HTML del Pedido. Esta página es renderizada por el método viewOrderInvoice() en Admin/OrderController.php --}}
 
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
 
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
     		<div class="invoice-title">
-    			<h2>Invoice</h2>
+    			<h2>Factura</h2>
                 <h3 class="pull-right">
-                    Order # {{ $orderDetails['id'] }}
+                    Pedido # {{ $orderDetails['id'] }}
 
-                    {{-- Laravel barcode/QR code generation package (to show barcodes/QR codes for both Product ID and Product Code): https://github.com/milon/barcode --}} 
+                    {{-- Paquete de generación de códigos de barras/QR de Laravel (para mostrar códigos de barras/QR para el ID del Producto y el Código del Producto): https://github.com/milon/barcode --}}
                     @php
-                        echo DNS1D::getBarcodeHTML($orderDetails['id'], 'C39');       // This is the product `id` Barcode
-                        // echo DNS2D::getBarcodeHTML($orderDetails['id'], 'QRCODE'); // This is the product `id` QR code
+                        echo DNS1D::getBarcodeHTML($orderDetails['id'], 'C39');       // Este es el código de barras del `id` del producto
+                        // echo DNS2D::getBarcodeHTML($orderDetails['id'], 'QRCODE'); // Este es el código QR del `id` del producto
                     @endphp
                 </h3>
     		</div>
@@ -26,7 +23,7 @@
     		<div class="row">
     			<div class="col-xs-6">
     				<address>
-    				    <strong>Billed To:</strong><br>
+    				    <strong>Facturado a:</strong><br>
     					{{ $userDetails['name'] }}<br>
 
                         @if (!empty($userDetails['address']))
@@ -50,7 +47,7 @@
     			</div>
     			<div class="col-xs-6 text-right">
     				<address>
-        			    <strong>Shipped To:</strong><br>
+        			    <strong>Enviado a:</strong><br>
                         {{ $orderDetails['name'] }}<br>
                         {{ $orderDetails['address'] }}<br>
                         {{ $orderDetails['city'] }}, {{ $orderDetails['state'] }}<br>
@@ -62,13 +59,13 @@
     		<div class="row">
     			<div class="col-xs-6">
     				<address>
-    					<strong>Payment Method:</strong><br>
+    					<strong>Método de Pago:</strong><br>
                         {{ $orderDetails['payment_method'] }}
     				</address>
     			</div>
     			<div class="col-xs-6 text-right">
     				<address>
-    					<strong>Order Date:</strong><br>
+    					<strong>Fecha del Pedido:</strong><br>
     					{{ date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) }}<br><br>
     				</address>
     			</div>
@@ -80,25 +77,24 @@
     	<div class="col-md-12">
     		<div class="panel panel-default">
     			<div class="panel-heading">
-    				<h3 class="panel-title"><strong>Order summary</strong></h3>
+    				<h3 class="panel-title"><strong>Resumen del Pedido</strong></h3>
     			</div>
     			<div class="panel-body">
     				<div class="table-responsive">
     					<table class="table table-condensed">
     						<thead>
                                 <tr>
-        							<td><strong>Product Code</strong></td>
-        							<td class="text-center"><strong>Size</strong></td>
+        							<td><strong>Código del Producto</strong></td>
+        							<td class="text-center"><strong>Tamaño</strong></td>
         							<td class="text-center"><strong>Color</strong></td>
-        							<td class="text-center"><strong>Price</strong></td>
-        							<td class="text-center"><strong>Quantity</strong></td>
-        							<td class="text-right"><strong>Totals</strong></td>
+        							<td class="text-center"><strong>Precio</strong></td>
+        							<td class="text-center"><strong>Cantidad</strong></td>
+        							<td class="text-right"><strong>Total</strong></td>
                                 </tr>
     						</thead>
     						<tbody>
 
-
-                                {{-- Calculate the Subtotal --}}
+                                {{-- Calcular el Subtotal --}}
                                 @php
                                     $subTotal = 0;
                                 @endphp
@@ -108,20 +104,19 @@
                                         <td>
                                             {{ $product['product_code'] }}
 
-                                            {{-- Laravel barcode/QR code generation package (to show barcodes/QR codes for both Product ID and Product Code): https://github.com/milon/barcode --}} 
+                                            {{-- Paquete de generación de códigos de barras/QR de Laravel (para mostrar códigos de barras/QR para el ID del Producto y el Código del Producto) --}}
                                             @php
-                                                echo DNS1D::getBarcodeHTML($product['product_code'], 'C39');       // This is the product `product_code` Barcode
-                                                // echo DNS2D::getBarcodeHTML($product['product_code'], 'QRCODE'); // This is the product `product_code` QR code
+                                                echo DNS1D::getBarcodeHTML($product['product_code'], 'C39');       // Este es el código de barras del `product_code` del producto
                                             @endphp
                                         </td>
                                         <td class="text-center">{{ $product['product_size'] }}</td>
                                         <td class="text-center">{{ $product['product_color'] }}</td>
-                                        <td class="text-center">INR {{ $product['product_price'] }}</td>
+                                        <td class="text-center">Bs {{ $product['product_price'] }}</td>
                                         <td class="text-center">{{ $product['product_qty'] }}</td>
-                                        <td class="text-right">INR {{ $product['product_price'] * $product['product_qty'] }}</td>
+                                        <td class="text-right">Bs {{ $product['product_price'] * $product['product_qty'] }}</td>
                                     </tr>
 
-                                    {{-- Continue: Calculate the Subtotal --}}
+                                    {{-- Continuar calculando el Subtotal --}}
                                     @php
                                         $subTotal = $subTotal + ($product['product_price'] * $product['product_qty'])
                                     @endphp
@@ -133,28 +128,28 @@
                                     <td class="thick-line"></td>
                                     <td class="thick-line"></td>
                                     <td class="thick-line text-right"><strong>Subtotal</strong></td>
-                                    <td class="thick-line text-right">INR {{ $subTotal }}</td>
+                                    <td class="thick-line text-right">Bs {{ $subTotal }}</td>
                                 </tr>
                                 <tr>
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
-                                    <td class="no-line text-right"><strong>Shipping Charges</strong></td>
-                                    <td class="no-line text-right">INR 0</td>
+                                    <td class="no-line text-right"><strong>Cargos de Envío</strong></td>
+                                    <td class="no-line text-right">Bs 0</td>
                                 </tr>
                                 <tr>
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
-                                    <td class="no-line text-right"><strong>Grand Total</strong></td>
+                                    <td class="no-line text-right"><strong>Total General</strong></td>
                                     <td class="no-line text-right">
-                                        <strong>INR {{ $orderDetails['grand_total'] }}</strong>
+                                        <strong>Bs {{ $orderDetails['grand_total'] }}</strong>
                                         <br>
 
                                         @if ($orderDetails['payment_method'] == 'COD')
-                                            <font color=red>(Already Paid)</font>
+                                            <font color=red>(Ya Pagado)</font>
                                         @endif
                                     </td>
                                 </tr>

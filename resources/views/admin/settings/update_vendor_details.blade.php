@@ -8,7 +8,7 @@
                 <div class="col-md-12 grid-margin">
                     <div class="row">
                         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                            <h3 class="font-weight-bold">Update Vendor Details</h3>
+                            <h3 class="font-weight-bold">Actualizar Datos del Comunario</h3>
 
                         </div>
                         <div class="col-12 col-xl-4">
@@ -37,7 +37,7 @@
                     <div class="col-md-6 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Update Personal Information</h4>
+                                <h4 class="card-title">Actualizar Información Personal</h4>
 
 
                                 {{-- Our Bootstrap error code in case of wrong current password or the new password and confirm password are not matching: --}}
@@ -84,31 +84,31 @@
                                 
                                 <form class="forms-sample" action="{{ url('admin/update-vendor-details/personal') }}" method="post" enctype="multipart/form-data"> @csrf <!-- Using the enctype="multipart/form-data" to allow uploading files (images) -->
                                     <div class="form-group">
-                                        <label>Vendor Username/Email</label>
+                                        <label>Nombre de Usuario/Email</label>
                                         <input class="form-control" value="{{ Auth::guard('admin')->user()->email }}" readonly> <!-- Check updateAdminPassword() method in AdminController.php --> {{-- Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances --}}
                                     </div>
                                     <div class="form-group">
-                                        <label for="vendor_name">Name</label>
+                                        <label for="vendor_name">Nombre</label>
                                         <input type="text" class="form-control" id="vendor_name" placeholder="Enter Name" name="vendor_name" value="{{ Auth::guard('admin')->user()->name }}"> {{-- $vendorDetails was passed from AdminController --}} {{-- Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances --}}
                                     </div>
                                     <div class="form-group">
-                                        <label for="vendor_address">Address</label>
+                                        <label for="vendor_address">Dirección</label>
                                         <input type="text" class="form-control" id="vendor_address" placeholder="Enter Address" name="vendor_address" value="{{ $vendorDetails['address'] }}"> {{-- $vendorDetails was passed from AdminController --}}
                                     </div>
                                     <div class="form-group">
-                                        <label for="vendor_city">City</label>
+                                        <label for="vendor_city">Ciudad</label>
                                         <input type="text" class="form-control" id="vendor_city" placeholder="Enter City" name="vendor_city" value="{{ $vendorDetails['city'] }}"> {{-- $vendorDetails was passed from AdminController --}}
                                     </div>
                                     <div class="form-group">
-                                        <label for="vendor_state">State</label>
+                                        <label for="vendor_state">Comunidad</label>
                                         <input type="text" class="form-control" id="vendor_state" placeholder="Enter State" name="vendor_state" value="{{ $vendorDetails['state'] }}"> {{-- $vendorDetails was passed from AdminController --}}
                                     </div>
                                     <div class="form-group">
                                         {{-- Show all world countries from the database `countries` table --}}
-                                        <label for="shop_country">Country</label>
+                                        <label for="shop_country">País</label>
                                     
                                         <select class="form-control" id="vendor_country" name="vendor_country"  style="color: #495057">
-                                            <option value="">Select Country</option>
+                                            <option value="">Seleccionar País</option>
 
                                             @foreach ($countries as $country) {{-- $countries was passed from AdminController to view using compact() method --}}
                                                 <option value="{{ $country['country_name'] }}" @if ($country['country_name'] == $vendorDetails['country']) selected @endif>{{ $country['country_name'] }}</option>
@@ -117,15 +117,15 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="vendor_pincode">Pincode</label>
+                                        <label for="vendor_pincode">Código Postal</label>
                                         <input type="text" class="form-control" id="vendor_pincode" placeholder="Enter Pincode" name="vendor_pincode" value="{{ $vendorDetails['pincode'] }}"> {{-- $vendorDetails was passed from AdminController --}}
                                     </div>
                                     <div class="form-group">
-                                        <label for="vendor_mobile">Mobile</label>
+                                        <label for="vendor_mobile">Móvil</label>
                                         <input type="text" class="form-control" id="vendor_mobile" placeholder="Enter 10 Digit Mobile Number" name="vendor_mobile" value="{{ Auth::guard('admin')->user()->mobile }}" maxlength="10" minlength="10"> {{-- Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances --}}
                                     </div>
                                     <div class="form-group">
-                                        <label for="vendor_image">Vendor Photo</label>
+                                        <label for="vendor_image">Foto del Vendedor</label>
                                         <input type="file" class="form-control" id="vendor_image" name="vendor_image">
                                         {{-- Show the admin image if exists --}}
                                         @if (!empty(Auth::guard('admin')->user()->image)) {{-- Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances --}}
@@ -133,8 +133,8 @@
                                             <input type="hidden" name="current_vendor_image" value="{{ Auth::guard('admin')->user()->image }}"> <!-- to send the current admin image url all the time with all the requests --> {{-- Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances --}}
                                         @endif
                                     </div>
-                                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                    <button type="reset"  class="btn btn-light">Cancel</button>
+                                    <button type="submit" class="btn btn-primary mr-2">Enviar</button>
+                                    <button type="reset"  class="btn btn-light"> Cancelar</button>
                                 </form>
                             </div>
                         </div>

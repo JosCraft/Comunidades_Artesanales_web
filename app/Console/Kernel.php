@@ -1,5 +1,5 @@
 <?php
-
+//Comunidad_Artesanal\app\Console\Kernel.php
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -9,22 +9,22 @@ class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
      */
-    protected function schedule(Schedule $schedule): void
+    protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        $schedule->call(function () {
-            // Obtener todos los productos y verificar sus promociones
-            Producto::all()->each(function ($producto) {
-                $producto->verificarPromocionesExpiradas();
-            });
-        })->daily(); // Esto se ejecuta todos los días
+        // Programa el comando para ejecutarse diariamente
+        $schedule->command('stock:low-alerts')->daily();
     }
 
     /**
      * Register the commands for the application.
+     *
+     * @return void
      */
-    protected function commands(): void
+    protected function commands()
     {
         $this->load(__DIR__.'/Commands');
 

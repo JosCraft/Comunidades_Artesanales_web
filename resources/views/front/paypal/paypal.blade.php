@@ -1,41 +1,42 @@
-{{-- This page is rendered by paypal() method inside Front/PaypalController.php --}}
+{{-- Esta página es renderizada por el método paypal() dentro de Front/PaypalController.php --}}
 @extends('front.layout.layout')
 
 
 @section('content')
-    <!-- Page Introduction Wrapper -->
+    <!-- Contenedor de Introducción de Página -->
     <div class="page-style-a">
         <div class="container">
             <div class="page-intro">
-                <h2>Cart</h2>
+                <h2>Carrito</h2>
                 <ul class="bread-crumb">
                     <li class="has-separator">
                         <i class="ion ion-md-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="index.html">Inicio</a>
                     </li>
                     <li class="is-marked">
-                        <a href="#">Proceed to Payment</a>
+                        <a href="#">Proceder al Pago</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    <!-- Page Introduction Wrapper /- -->
-    <!-- Cart-Page -->
+    <!-- Contenedor de Introducción de Página /- -->
+    <!-- Página del Carrito -->
     <div class="page-cart u-s-p-t-80">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12" align="center">
-                    <h3>PLEASE MAKE PAYMENT FOR YOUR ORDER</h3>
-                    <form action="{{ route('payment') }}" method="post"> {{-- This is a Named Route. Check web.php --}} {{-- Generating URLs To Named Routes: https://laravel.com/docs/9.x/routing#generating-urls-to-named-routes --}}
-                        @csrf {{-- Preventing CSRF Requests: https://laravel.com/docs/9.x/csrf#preventing-csrf-requests --}}
+                    <h3>POR FAVOR REALICE EL PAGO POR SU PEDIDO</h3>
+                    <form action="{{ route('payment') }}" method="post"> {{-- Esta es una Ruta Nombrada. Ver web.php --}} {{-- Generando URLs a Rutas Nombradas: https://laravel.com/docs/9.x/routing#generating-urls-to-named-routes --}}
+                        @csrf {{-- Previniendo Solicitudes CSRF: https://laravel.com/docs/9.x/csrf#preventing-csrf-requests --}}
 
-                        <input type="hidden" name="amount" value="{{ round(Session::get('grand_total') / 80, 2) }}"> {{-- 'grand_total' was stored in Session in checkout() method in Front/ProductsController.php --}} {{-- Interacting With The Session: Retrieving Data: https://laravel.com/docs/9.x/session#retrieving-data --}} {{-- Note: PayPal accepts world major currencies ONLY, so we divided INR by 80 to convert INR to USD --}}
-                        <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png">
+                        <input type="hidden" name="amount" value="{{ round(Session::get('grand_total') / 80, 2) }}"> {{-- 'grand_total' fue almacenado en la Sesión en el método checkout() en Front/ProductsController.php --}} {{-- Interactuando con la Sesión: Recuperando Datos: https://laravel.com/docs/9.x/session#retrieving-data --}} {{-- Nota: PayPal acepta SOLO las principales divisas del mundo, por lo que dividimos INR por 80 para convertir INR a USD --}}
+                      
+                        <img src="{{ asset('front/images/qr/Qr.jpeg')}}" alt="QR">
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Cart-Page /- -->
+    <!-- Página del Carrito /- -->
 @endsection

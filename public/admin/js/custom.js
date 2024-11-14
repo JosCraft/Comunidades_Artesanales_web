@@ -422,7 +422,7 @@ $(document).ready(function() {
 
 
         // After the CDNs block in the country, I resorted to this solution:
-        if (confirm('Are you sure you want to delete this?')) {
+        if (confirm('¿Estás seguro de que quieres eliminar esto?')) {
             window.location = '/admin/delete-' + module + '/' + moduleid; // e.g.    '/admin/delete-sections/3'    or    '/admin/delete-category/5'    or    '/admin/delete-category-image/4'    or    /admin/delete-subscriber/43
         } else {
             return false; // return true    means STOP THE EXECUTION! Don't Do Anything! You can't do what you want to do!

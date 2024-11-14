@@ -5,9 +5,9 @@
 
 
 <div class="form-group">
-    <label for="parent_id">Select Category Level</label> {{-- The relationship between a category and its parent category inside the same table i.e. `categories` table --}}
+    <label for="parent_id">Seleccione el nivel de categoría</label> {{-- The relationship between a category and its parent category inside the same table i.e. `categories` table --}}
     <select name="parent_id" id="parent_id" class="form-control"  style="color: #000">
-        <option value="0"  @if (isset($category['parent_id']) && $category['parent_id'] == 0) selected @endif >Main Category</option>
+        <option value="0"  @if (isset($category['parent_id']) && $category['parent_id'] == 0) selected @endif >Categoría principal</option>
         @if (!empty($getCategories))
 
 

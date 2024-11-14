@@ -7,11 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Product;
 use App\Models\ProductsImage;
 use App\Models\ProductsFilter;
 use App\Models\ProductsAttribute;
+use App\Mail\LowStockAlert;
 
 
 class ProductsController extends Controller
@@ -21,11 +25,10 @@ class ProductsController extends Controller
 
 
         // Modify the last $products variable so that ONLY products that BELONG TO the 'vendor' show up in (not ALL products show up) in products.blade.php, and also make sure that the 'vendor' account is active/enabled/approved (`status` is 1) before they can access the products page    
-       /// $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-        $adminType = 'superadmin';
-       // $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-        $vendor_id=1;
-        if ($adminType == 'vendor') { // if the authenticated user (the logged in user) is 'vendor', check his `status`
+        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+        
+        if ($adminType == 'Artesano') { // if the authenticated user (the logged in user) is 'vendor', check his `status`
             $vendorStatus = Auth::guard('admin')->user()->status; // `status` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `status` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
             if ($vendorStatus == 0) { // if the 'vendor' is inactive/disabled
                 return redirect('admin/update-vendor-details/personal')->with('error_message', 'Your Vendor Account is not approved yet. Please make sure to fill your valid personal, business and bank details.'); // the error_message will appear to the vendor in the route: 'admin/update-vendor-details/personal' which is the update_vendor_details.blade.php page
@@ -53,7 +56,43 @@ class ProductsController extends Controller
 
         return view('admin.products.products')->with(compact('products')); // render products.blade.php page, and pass $products variable to the view
     }
+// se cambio---------------------------------------------------------------
+    public function sendLowStockAlerts()
+    {
+        // Obtener productos con stock bajo
+        $lowStockProducts = Product::where('stock', '<', 5)->get(); 
+        $vendedoresEmails = [];
     
+        foreach ($lowStockProducts as $product) {
+            $vendedor = $product->vendor; // Obtener el vendedor asociado
+    
+            if ($vendedor) {
+                // Agrupar productos por vendedor
+                $vendedoresEmails[$vendedor->email][] = $product; 
+            } else {
+                // Enviar correo al administrador si no hay vendedor
+                $adminEmail = 'admin@admin.com'; 
+                $vendedoresEmails[$adminEmail][] = $product;
+            }
+        }
+    
+        // Enviar correos a cada vendedor o al administrador
+        foreach ($vendedoresEmails as $email => $products) {
+            try {
+                // Enviar correo utilizando la clase de alerta de bajo stock
+                Mail::to($email)->send(new LowStockAlert($products));
+            } catch (\Exception $e) {
+                // Manejo de errores: registrar el error
+                Log::error("Error al enviar alerta de bajo stock a {$email}: {$e->getMessage()}");
+                // Opcional: enviar notificación al administrador
+                // Mail::to($adminEmail)->send(new ErrorNotification($e->getMessage()));
+            }
+        }
+    
+        return redirect()->back()->with('success_message', 'Alertas de bajo stock enviadas correctamente.');
+    }
+// se cambio---------------------------------------------------------------    
+
     public function updateProductStatus(Request $request) { // Update Product Status using AJAX in products.blade.php
         if ($request->ajax()) { // if the request is coming via an AJAX call
             $data = $request->all(); // Getting the name/value pairs array that are sent from the AJAX request (AJAX call)
@@ -88,14 +127,15 @@ class ProductsController extends Controller
         // Correcting issues in the Skydash Admin Panel Sidebar using Session
         Session::put('page', 'products');
 
-
         if ($id == '') { // if there's no $id is passed in the route/URL parameters, this means 'Add a new product'
-            $title = 'Add Product';
+            $title = 'Agregar Producto';
             $product = new \App\Models\Product();
             // dd($product);
-            $message = 'Product added successfully!';
+            $message = 'Producto agregado exitosamente!';
+
+           
         } else { // if the $id is passed in the route/URL parameters, this means Edit the Product
-            $title = 'Edit Product';
+            $title = 'Editar Producto';
             $product = Product::find($id);
             // dd($product);
             $message = 'Product updated successfully!';
@@ -211,12 +251,10 @@ class ProductsController extends Controller
 
             if ($id == '') { // if a NEW product is added by an 'admin' or 'vendor', assign those new values. Otherwise, when Edit/Update an already existing product, leave everything as is
                 // $adminType = Auth::guard('admin')->user(); // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                /// $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-        $adminType = 'superadmin';
-        // $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-         $vendor_id=1;
-               
-                    $admin_id  = Auth::guard('admin')->user()->id; // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Get the `id` column value of the `admins` table through Retrieving The Authenticated User (the logged in user) using the 'admin' guard which we defined in auth.php page: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+                $adminType = Auth::guard('admin')->user()->type; // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Get the `type` column value of the `admins` table through Retrieving The Authenticated User (the logged in user) using the 'admin' guard which we defined in auth.php page: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+                // dd($adminType);
+                $vendor_id = Auth::guard('admin')->user()->vendor_id; // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Get the `vendor_id` column value of the `admins` table through Retrieving The Authenticated User (the logged in user) using the 'admin' guard which we defined in auth.php page: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+                $admin_id  = Auth::guard('admin')->user()->id; // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Get the `id` column value of the `admins` table through Retrieving The Authenticated User (the logged in user) using the 'admin' guard which we defined in auth.php page: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
 
                 $product->admin_type = $adminType;
                 $product->admin_id   = $admin_id;
@@ -226,6 +264,10 @@ class ProductsController extends Controller
                 } else {
                     $product->vendor_id = 0;
                 }
+                $lastId = Product::max('id');
+
+                // Sumar uno al último id
+                $id = $lastId + 1;
             }
 
 
@@ -269,6 +311,8 @@ class ProductsController extends Controller
             }
 
 
+
+            $product->id    = $id;
             $product->status = 1;
 
 
@@ -348,7 +392,8 @@ class ProductsController extends Controller
         return redirect()->back()->with('success_message', $message);
     }
 
-    public function addAttributes(Request $request, $id) { // Add/Edit Attributes function    
+    public function addAttributes(Request $request, $id) { // Add/Edit Attributes function  
+       // dd($request, $id);  
         Session::put('page', 'products');
 
         $product = Product::select('id', 'product_name', 'product_code', 'product_color', 'product_price', 'product_image')->with('attributes')->find($id); // with('attributes') is the relationship method name in the Product.php model
@@ -388,7 +433,7 @@ class ProductsController extends Controller
                     $attribute->save();
                 }
             }
-            return redirect()->back()->with('success_message', 'Product Attributes have been addded successfully!');
+            return redirect()->back()->with('success_message', '¡Los atributos del producto se han agregado con exito!');
         }
 
 
@@ -415,28 +460,43 @@ class ProductsController extends Controller
             ]);
         }
     }
-
-    public function editAttributes(Request $request) {
-        Session::put('page', 'products');
-
-        if ($request->isMethod('post')) { // if the <form> is submitted
-            $data = $request->all();
-            // dd($data);
-
-            foreach ($data['attributeId'] as $key => $attribute) {
-                if (!empty($attribute)) {
-                    ProductsAttribute::where([
-                        'id' => $data['attributeId'][$key]
-                    ])->update([
-                        'price' => $data['price'][$key],
-                        'stock' => $data['stock'][$key]
-                    ]);
+// se cambio---------------------------------------------------------------
+    public function editAttributes(Request $request, $id) {
+        // Validación de entrada
+        $request->validate([
+            'attributeId' => 'required|array',
+            'price.*' => 'required|numeric|min:0',
+            'stock.*' => 'required|integer|min:0',
+        ]);
+    
+        try {
+            DB::transaction(function () use ($request, $id) {
+                $data = $request->all();
+                $totalStock = 0; // Variable para acumular el stock total
+    
+                foreach ($data['attributeId'] as $key => $attribute) {
+                    if (!empty($attribute)) {
+                        // Actualiza el atributo
+                        ProductsAttribute::where('id', $data['attributeId'][$key])->update([
+                            'price' => $data['price'][$key],
+                            'stock' => $data['stock'][$key]
+                        ]);
+    
+                        // Acumula el stock
+                        $totalStock += $data['stock'][$key];
+                    }
                 }
-            }
-
-            return redirect()->back()->with('success_message', 'Product Attributes have been updated successfully!');
+    
+                // Actualiza el stock en la tabla de productos
+                Product::where('id', $id)->update(['stock' => $totalStock]);
+            });
+    
+            return redirect()->back()->with('success_message', 'Los atributos del producto se han actualizado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error_message', 'Error al actualizar los atributos: ' . $e->getMessage());
         }
-    }
+    }    
+ // se cambio---------------------------------------------------------------      
 
     public function addImages(Request $request, $id) { // $id is the URL Paramter (slug) passed from the URL
         Session::put('page', 'products');
@@ -489,7 +549,7 @@ class ProductsController extends Controller
                 }
             }
 
-            return redirect()->back()->with('success_message', 'Product Images have been added successfully!');
+            return redirect()->back()->with('success_message', '¡Las imágenes del producto se han agregado correctamente!');
         }
 
 
@@ -551,5 +611,4 @@ class ProductsController extends Controller
 
         return redirect()->back()->with('success_message', $message);
     }
-
 }

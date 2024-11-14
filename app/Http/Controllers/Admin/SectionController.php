@@ -55,18 +55,22 @@ class SectionController extends Controller
     public function addEditSection(Request $request, $id = null) { // If the $id is not passed, this means Add a Section, if not, this means Edit the Section    
         // Correcting issues in the Skydash Admin Panel Sidebar using Session
         Session::put('page', 'sections');
-
+       // dd($request);
 
         if ($id == '') { // if there's no $id is passed in the route/URL parameters, this means Add a new section
-            $title = 'Add Section';
+            $title = 'Agregar Sección';
             $section = new Section();
             // dd($section);
-            $message = 'Section added successfully!';
+            $message = 'Sección agregada exitosamente';
+            $lastId = Section::max('id');
+
+            // Sumar uno al último id
+            $id = $lastId + 1;
         } else { // if the $id is passed in the route/URL parameters, this means Edit the Section
-            $title = 'Edit Section';
+            $title = 'Editar Sección';
             $section = Section::find($id);
             // dd($section);
-            $message = 'Section updated successfully!';
+            $message = 'Sección actualizada exitosamente!';
         }
 
         if ($request->isMethod('post')) { // WHETHER Add or Update <form> submission!!
@@ -87,12 +91,11 @@ class SectionController extends Controller
 
             
             // Saving inserted/updated data    // Inserting & Updating Models: https://laravel.com/docs/9.x/eloquent#inserts AND https://laravel.com/docs/9.x/eloquent#updates
+            $section->id   = $id; 
             $section->name   = $data['section_name']; // WHETHER ADDING or UPDATING
             $section->status = 1;  // WHETHER ADDING or UPDATING
             $section->save(); // Save all data in the database
 
-
-           // return redirect('admin/products')->with('success_message', $message);
 
             return redirect('admin/sections')->with('success_message', $message);
         }

@@ -1,6 +1,6 @@
-{{-- This page (view) is rendered from subscribers() method in Admin/NewsletterController.php Controller --}}
-@extends('admin.layout.layout')
+{{-- Esta página (vista) se renderiza desde el método subscribers() en Admin/NewsletterController.php --}}
 
+@extends('admin.layout.layout')
 
 @section('content')
     <div class="main-panel">
@@ -9,77 +9,71 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Subscribers</h4>
+                            <h4 class="card-title">Suscriptores</h4>
                             
+                            {{-- Botón para exportar suscriptores (la tabla de base de datos `newsletter_subscribers`) como un archivo de Excel --}} 
+                            <a href="{{ url('admin/export-subscribers') }}" style="max-width: 100px; float: right" class="btn btn-block btn-primary">Exportar</a>
 
-                            {{-- Export Subscribers (the `newsletter_subscribers` database table) as an Excel file Button --}} 
-                            <a href="{{ url('admin/export-subscribers') }}" style="max-width: 100px; float: right" class="btn btn-block btn-primary">Export</a>
-
-
-
-                            {{-- Displaying The Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors AND https://laravel.com/docs/9.x/blade#validation-errors --}}
-                            {{-- Determining If An Item Exists In The Session (using has() method): https://laravel.com/docs/9.x/session#determining-if-an-item-exists-in-the-session --}}
-                            {{-- Our Bootstrap success message in case of updating admin password is successful: --}}
-                            @if (Session::has('success_message')) <!-- Check AdminController.php, updateAdminPassword() method -->
+                            {{-- Mostrando los errores de validación: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors Y https://laravel.com/docs/9.x/blade#validation-errors --}}
+                            {{-- Determinando si un ítem existe en la sesión (usando el método has()): https://laravel.com/docs/9.x/session#determining-if-an-item-exists-in-the-session --}}
+                            {{-- Nuestro mensaje de éxito de Bootstrap en caso de que la actualización de la contraseña del administrador sea exitosa: --}}
+                            @if (Session::has('success_message')) <!-- Ver AdminController.php, método updateAdminPassword() -->
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Success:</strong> {{ Session::get('success_message') }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <strong>Éxito:</strong> {{ Session::get('success_message') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                             @endif
 
-
                             <div class="table-responsive pt-3">
                                 {{-- DataTable --}}
-                                <table id="subscribers" class="table table-bordered"> {{-- using the id here for the DataTable --}}
+                                <table id="subscribers" class="table table-bordered"> {{-- usando el ID aquí para el DataTable --}}
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Email</th>
-                                            <th>Subscribed on</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
+                                            <th>Correo Electrónico</th>
+                                            <th>Suscrito el</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
 
                                         @foreach ($subscribers as $subscriber)
                                             <tr>
                                                 <td>{{ $subscriber['id'] }}</td>
                                                 <td>{{ $subscriber['email'] }}</td>
                                                 <td>
-                                                    {{ date("F j, Y, g:i a", strtotime($subscriber['created_at'])) }} {{-- https://stackoverflow.com/questions/2487921/convert-a-date-format-in-php --}} {{-- https://www.php.net/manual/en/function.date.php#:~:text=date(%22-,F%20j%2C%20Y%2C%20g%3Ai%20a,-%22)%3B%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20//%20March --}} 
+                                                    {{ date("j de F, Y, g:i a", strtotime($subscriber['created_at'])) }} {{-- https://stackoverflow.com/questions/2487921/convert-a-date-format-in-php --}}
                                                 </td>
                                                 <td>
                                                     @if ($subscriber['status'] == 1)
-                                                        <a class="updateSubscriberStatus" id="subscriber-{{ $subscriber['id'] }}" subscriber_id="{{ $subscriber['id'] }}" href="javascript:void(0)"> {{-- Using HTML Custom Attributes. Check admin/js/custom.js --}}
-                                                            <i style="font-size: 25px" class="mdi mdi-bookmark-check" status="Active"></i> {{-- Icons from Skydash Admin Panel Template --}}
+                                                        <a class="updateSubscriberStatus" id="subscriber-{{ $subscriber['id'] }}" subscriber_id="{{ $subscriber['id'] }}" href="javascript:void(0)"> {{-- Usando atributos personalizados de HTML. Ver admin/js/custom.js --}}
+                                                            <i style="font-size: 25px" class="mdi mdi-bookmark-check" status="Activo"></i> {{-- Íconos de la plantilla del panel de administración Skydash --}}
                                                         </a>
-                                                    @else {{-- if the admin status is inactive --}}
-                                                        <a class="updateSubscriberStatus" id="subscriber-{{ $subscriber['id'] }}" subscriber_id="{{ $subscriber['id'] }}" href="javascript:void(0)"> {{-- Using HTML Custom Attributes. Check admin/js/custom.js --}}
-                                                            <i style="font-size: 25px" class="mdi mdi-bookmark-outline" status="Inactive"></i> {{-- Icons from Skydash Admin Panel Template --}}
+                                                    @else {{-- si el estado del administrador es inactivo --}}
+                                                        <a class="updateSubscriberStatus" id="subscriber-{{ $subscriber['id'] }}" subscriber_id="{{ $subscriber['id'] }}" href="javascript:void(0)"> {{-- Usando atributos personalizados de HTML. Ver admin/js/custom.js --}}
+                                                            <i style="font-size: 25px" class="mdi mdi-bookmark-outline" status="Inactivo"></i> {{-- Íconos de la plantilla del panel de administración Skydash --}}
                                                         </a>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     {{-- <a href="{{ url('admin/edit-shipping-charges/' . $shipping['id']) }}"> --}}
-                                                        {{-- <i style="font-size: 25px" class="mdi mdi-pencil-box"></i> --}} {{-- Icons from Skydash Admin Panel Template --}}
+                                                        {{-- <i style="font-size: 25px" class="mdi mdi-pencil-box"></i> --}} {{-- Íconos de la plantilla del panel de administración Skydash --}}
                                                     {{-- </a> --}}
 
-                                                    {{-- Confirm Deletion JS alert and Sweet Alert --}}
+                                                    {{-- Confirmar alerta de eliminación JS y Sweet Alert --}}
                                                     {{-- <a title="Shipping" class="confirmDelete" href="{{ url('admin/delete-shipping/' . $shipping['id']) }}"> --}}
-                                                        {{-- <i style="font-size: 25px" class="mdi mdi-file-excel-box"></i> --}} {{-- Icons from Skydash Admin Panel Template --}}
+                                                        {{-- <i style="font-size: 25px" class="mdi mdi-file-excel-box"></i> --}} {{-- Íconos de la plantilla del panel de administración Skydash --}}
                                                     {{-- </a> --}}
 
                                                     <a href="JavaScript:void(0)" class="confirmDelete" module="subscriber" moduleid="{{ $subscriber['id'] }}">
-                                                        <i style="font-size: 25px" class="mdi mdi-file-excel-box"></i> {{-- Icons from Skydash Admin Panel Template --}}
+                                                        <i style="font-size: 25px" class="mdi mdi-file-excel-box"></i> {{-- Íconos de la plantilla del panel de administración Skydash --}}
                                                     </a>
                                                 </td>
                                             </tr>
                                         @endforeach
-
 
                                     </tbody>
                                 </table>
@@ -89,11 +83,11 @@
                 </div>
             </div>
         </div>
-        <!-- content-wrapper ends -->
+        <!-- fin de content-wrapper -->
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2022. All rights reserved.</span>
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">UMSA © 2024. Todos los derechos reservados.</span>
             </div>
         </footer>
         <!-- partial -->

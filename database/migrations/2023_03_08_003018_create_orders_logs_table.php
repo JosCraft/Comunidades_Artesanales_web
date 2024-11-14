@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('orders_logs', function (Blueprint $table) {
             
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->integer('order_id'); // Foreign Key to the `id` column in `orders` table
             $table->string('order_status');
 

@@ -1,6 +1,4 @@
-{{-- This is the user Placing Order Confirmation email file using Mailtrap --}} {{-- All the variables (like $name, $mobile, $email, ...) used here are passed in from the checkout() method in Front/ProductsController.php --}}
-
-
+{{-- Este es el archivo de Confirmación de Pedido del Usuario usando Mailtrap --}} {{-- Todas las variables (como $name, $mobile, $email, ...) utilizadas aquí son pasadas desde el método checkout() en Front/ProductsController.php --}}
 
 <!DOCTYPE html>
 <html>
@@ -13,21 +11,21 @@
             <tr><td>&nbsp;</td></tr>
             <tr><td><img src="{{ asset('front/images/main-logo/main-logo.png') }}"></td></tr>
             <tr><td>&nbsp;</td></tr>
-            <tr><td>Hello {{ $name }}</td></tr>
+            <tr><td>Hola {{ $name }}</td></tr>
             <tr><td>&nbsp;<br></td></tr>
-            <tr><td>Thank you for shopping with us. Your order details are as below:-</td></tr>
+            <tr><td>Gracias por comprar con nosotros. Los detalles de tu pedido son los siguientes:</td></tr>
             <tr><td>&nbsp;</td></tr>
-            <tr><td>Order no. {{ $order_id }}</td></tr>
+            <tr><td>Pedido no. {{ $order_id }}</td></tr>
             <tr><td>&nbsp;</td></tr>
             <tr><td>
                 <table style="width: 95%" cellpadding="5" cellspacing="5" bgcolor="#f7f4f4">
                     <tr bgcolor="#cccccc">
-                        <td>Product Name</td>
-                        <td>Product Code</td>
-                        <td>Product Size</td>
-                        <td>Product Color</td>
-                        <td>Product Quantity</td>
-                        <td>Product Price</td>
+                        <td>Nombre del Producto</td>
+                        <td>Código del Producto</td>
+                        <td>Tamaño del Producto</td>
+                        <td>Color del Producto</td>
+                        <td>Cantidad del Producto</td>
+                        <td>Precio del Producto</td>
                     </tr>
                     @foreach ($orderDetails['orders_products'] as $order)
                         <tr bgcolor="#f9f9f9">
@@ -40,13 +38,13 @@
                         </tr>
                     @endforeach
                         <tr>
-                            <td colspan="5" align="right">Shipping Charges</td>
-                            <td>INR {{ $orderDetails['shipping_charges'] }}</td>
+                            <td colspan="5" align="right">Cargos de Envío</td>
+                            <td>Bs {{ $orderDetails['shipping_charges'] }}</td>
                         </tr>
                         <tr>
-                            <td colspan="5" align="right">Coupon Discount</td>
+                            <td colspan="5" align="right">Descuento del Cupón</td>
                             <td>
-                                INR
+                                Bs
                                 @if ($orderDetails['coupon_amount'] > 0)
                                     {{ $orderDetails['coupon_amount'] }}
                                 @else
@@ -55,8 +53,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="5" align="right">Grand Total</td>
-                            <td>INR {{ $orderDetails['grand_total'] }}</td>
+                            <td colspan="5" align="right">Total General</td>
+                            <td>Bs {{ $orderDetails['grand_total'] }}</td>
                         </tr>
                 </table>    
             </td></tr>
@@ -64,7 +62,7 @@
             <tr><td>
                 <table>
                     <tr>
-                        <td><strong>Delivery Address:</strong></td>
+                        <td><strong>Dirección de Envío:</strong></td>
                     </tr>
                     <tr>
                         <td>{{ $orderDetails['name'] }}</td>
@@ -91,19 +89,19 @@
             </td></tr>
             <tr><td>&nbsp;</td></tr>
 
-            {{-- PDF Invoice download link --}}
+            {{-- Enlace para descargar la factura en PDF --}}
             <tr>
                 <td>
-                    <a href="{{ url('orders/invoice/download/' . $orderDetails['id']) }}">Click here to Download Order Invoice</a>
+                    <a href="{{ url('orders/invoice/download/' . $orderDetails['id']) }}">Haz clic aquí para descargar la factura del pedido</a>
                     <br>
-                    (Copy & Paste link to open if it doesn't work!)
+                    (Copia y pega el enlace si no funciona)
                 </td>
             </tr>
 
             <tr><td>&nbsp;</td></tr>
-            <tr><td>For any queries, you can contact us at <a href="mailto:info@MultiVendorEcommerceApplication.com.eg">info@MultiVendorEcommerceApplication.com.eg</a></td></tr>
+            <tr><td>Para cualquier consulta, puedes contactarnos en <a href="mailto:info@MultiVendorEcommerceApplication.com.eg">info@MultiVendorEcommerceApplication.com.eg</a></td></tr>
             <tr><td>&nbsp;</td></tr>
-            <tr><td>Regards,<br>Team Multi-vendor E-commerce Application</td></tr>
+            <tr><td>Saludos,<br>Equipo de la Aplicación E-commerce Multi-Vendedor</td></tr>
             <tr><td>&nbsp;</td></tr>
         </table>
     </body>

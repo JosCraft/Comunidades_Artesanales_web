@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->integer('order_id');
             $table->integer('user_id');
             $table->string('payment_id'); // comes from PayPal website    // 'string' data type because data may come as "alphanumeric" from PayPal website

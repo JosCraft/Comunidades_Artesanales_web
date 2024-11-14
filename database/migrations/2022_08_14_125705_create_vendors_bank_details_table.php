@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('vendors_bank_details', function (Blueprint $table) {
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->integer('vendor_id');
             $table->string('account_holder_name');
             $table->string('bank_name');

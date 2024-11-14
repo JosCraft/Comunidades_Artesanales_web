@@ -1,49 +1,49 @@
-{{-- This page is rendered by the success() method inside Front/PaypalController.php (if making the order PayPal payment is successful) --}}
+{{-- Esta página es renderizada por el método success() dentro de Front/PaypalController.php (si el pago de la orden por PayPal es exitoso) --}}
 @extends('front.layout.layout')
 
 
 @section('content')
-    <!-- Page Introduction Wrapper -->
+    <!-- Contenedor de Introducción de Página -->
     <div class="page-style-a">
         <div class="container">
             <div class="page-intro">
-                <h2>Payment</h2>
+                <h2>Pago</h2>
                 <ul class="bread-crumb">
                     <li class="has-separator">
                         <i class="ion ion-md-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="index.html">Inicio</a>
                     </li>
                     <li class="is-marked">
-                        <a href="#">Thanks</a>
+                        <a href="#">Gracias</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    <!-- Page Introduction Wrapper /- -->
-    <!-- Cart-Page -->
+    <!-- Contenedor de Introducción de Página /- -->
+    <!-- Página del Carrito -->
     <div class="page-cart u-s-p-t-80">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12" align="center">
-                    <h3>YOUR PAYMENT HAS BEEN CONFIRMED</h3>
-                    <p>Thanks for the Payment. We will process your order very soon.</p>
-                    <p>Your order number is {{ Session::get('order_id') }} and total amount paid is INR {{ Session::get('grand_total') }}</p> {{-- The Order Number is the order `id` in the `orders` database table. We stored the order id in Session in checkout() method in Front/ProductsController.php --}} {{-- Retrieving Data: https://laravel.com/docs/10.x/session#retrieving-data --}}
+                    <h3 SU PAGO HA SIDO CONFIRMADO</h3>
+                    <p>Gracias por el pago. Procesaremos su pedido muy pronto.</p>
+                    <p>Su número de pedido es {{ Session::get('order_id') }} y el monto total pagado en Bs {{ Session::get('grand_total') }}</p> {{-- El número de pedido es el `id` de la orden en la tabla de base de datos `orders`. Almacenamos el id de la orden en la sesión en el método checkout() en Front/ProductsController.php --}} {{-- Recuperando Datos: https://laravel.com/docs/10.x/session#retrieving-data --}}
                 </div>
             </div>
         </div>
     </div>
-    <!-- Cart-Page /- -->
+    <!-- Página del Carrito /- -->
 @endsection
 
 
 
-{{-- Forget/Remove some data in the Session after making the PayPal payment --}} 
+{{-- Olvidar/Eliminar algunos datos en la sesión después de realizar el pago por PayPal --}} 
 @php
     use Illuminate\Support\Facades\Session;
 
-    Session::forget('grand_total');  // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
-    Session::forget('order_id');     // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
-    Session::forget('couponCode');   // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
-    Session::forget('couponAmount'); // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
+    Session::forget('grand_total');  // Eliminando Datos: https://laravel.com/docs/9.x/session#deleting-data
+    Session::forget('order_id');     // Eliminando Datos: https://laravel.com/docs/9.x/session#deleting-data
+    Session::forget('couponCode');   // Eliminando Datos: https://laravel.com/docs/9.x/session#deleting-data
+    Session::forget('couponAmount'); // Eliminando Datos: https://laravel.com/docs/9.x/session#deleting-data
 @endphp

@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('banners', function (Blueprint $table) { 
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->string('image'); // the FRONT banners image name
             $table->string('link');
             $table->string('title'); // 'title' HTML attribute (for SEO purposes)

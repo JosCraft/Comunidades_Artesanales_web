@@ -28,10 +28,10 @@ class OrderController extends Controller
 
 
         // We determine the authenticated/logged-in user. If the authenticated/logged-in user is 'vendor', we show ONLY the orders of the products added by that specific 'vendor' ONLY, but if the authenticated/logged-in user is 'admin', we show ALL orders    
-     /// $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-        $adminType = 'superadmin';
-       // $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-        $vendor_id=1;
+        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    
+        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    
+
+
         if ($adminType == 'vendor') { // if the authenticated user (the logged in user) is 'vendor', check his `status`
             $vendorStatus = Auth::guard('admin')->user()->status; // `status` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `status` column in `admins` table    
 
@@ -57,7 +57,7 @@ class OrderController extends Controller
 
         return view('admin.orders.orders')->with(compact('orders'));
     }
-
+  
     // Render admin/orders/order_details.blade.php (View Order Details page) when clicking on the View Order Details icon in admin/orders/orders.blade.php (Orders tab under Orders Management section in Admin Panel)    
     public function orderDetails($id) {
         // Correcting issues in the Skydash Admin Panel Sidebar using Session
@@ -65,10 +65,9 @@ class OrderController extends Controller
 
         
         // We determine the authenticated/logged-in user. If the authenticated/logged-in user is 'vendor', we show ONLY the details (the `orders_products` table) of the orders of the products added by that specific 'vendor' ONLY (in admin/orders/order_details.blade.php page), but if the authenticated/logged-in user is 'admin', we show ALL orders details (in admin/orders/order_details.blade.php page)    
-        /// $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-            $adminType = 'superadmin';
-            // $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-             $vendor_id=1;
+        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    
+        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    
+        
         if ($adminType == 'vendor') { // if the authenticated user (the logged in user) is 'vendor', check his `status`
             $vendorStatus = Auth::guard('admin')->user()->status; // `status` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `status` column in `admins` table    
 
@@ -76,7 +75,6 @@ class OrderController extends Controller
                 return redirect('admin/update-vendor-details/personal')->with('error_message', 'Your Vendor Account is not approved yet. Please make sure to fill your valid personal, business and bank details.'); // the error_message will appear to the vendor in the route: 'admin/update-vendor-details/personal' which is the update_vendor_details.blade.php page
             }
         }
-
 
         
         if ($adminType == 'vendor') { // If the authenticated/logged-in user is 'vendor', we show ONLY the details of the orders of the products added by that specific 'vendor' ONLY (from `orders_products` table) in admin/orders/order_details.blade.php page
@@ -327,7 +325,7 @@ class OrderController extends Controller
 
     // Render order PDF invoice in order_invoice.blade.php using Dompdf Package    
     // (We'll use the same viewPDFInvoice() function (but with different routes/URLs!) to render the PDF invoice for 'admin'-s in the Admin Panel and for the user to download it!)    // User download order PDF invoice (we created this route outside outside the Admin Panel routes so that the user could use it!)
-    public function viewPDFInvoice($order_id) { // Route Parameters: Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters
+    public function viewPDFInvoice2($order_id) { // Route Parameters: Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters
         $orderDetails = Order::with('orders_products')->where('id', $order_id)->first()->toArray(); // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model
         // dd($orderDetails);
         $userDetails = User::where('id', $orderDetails['user_id'])->first()->toArray(); // details of the user who made the order
@@ -617,7 +615,7 @@ class OrderController extends Controller
                 <header class="clearfix">
                     <div class="container">
                         <div class="company-address">
-                            <h2 class="title">Multi-vendor E-commerce Application</h2>
+                            <h2 class="title">Comunidad Artesanal</h2>
                             <p>
                                 37 Salah Salem St.<br>
                                 Cairo, Egypt
@@ -652,7 +650,7 @@ class OrderController extends Controller
                                 <div class="title">Order ID: ' . $orderDetails['id'] . '</div>
                                 <div class="date">
                                     Order Date: ' . date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) . '<br>
-                                    Order Amount: INR ' . $orderDetails['grand_total'] . '<br>
+                                    Order Amount: Bs.  ' . $orderDetails['grand_total'] . '<br>
                                     Order Status: ' . $orderDetails['order_status'] . '<br>
                                     Payment Method: ' . $orderDetails['payment_method'] . '<br>
                                 </div>
@@ -682,8 +680,8 @@ class OrderController extends Controller
                                         <td class="qty">' . $product['product_size'] . '</td>
                                         <td class="qty">' . $product['product_color'] . '</td>
                                         <td class="qty">' . $product['product_qty'] . '</td>
-                                        <td class="unit">INR ' . $product['product_price'] . '</td>
-                                        <td class="total">INR ' . $product['product_price'] * $product['product_qty'] . '</td>
+                                        <td class="unit">Bs. ' . $product['product_price'] . '</td>
+                                        <td class="total">Bs. ' . $product['product_price'] * $product['product_qty'] . '</td>
                                     </tr>';
 
                                 // Continue: Calculate the Subtotal
@@ -702,14 +700,14 @@ class OrderController extends Controller
                                         <td class="desc"></td>
                                         <td class="desc"></td>
                                         <td class="total" colspan=2>SUBTOTAL</td>
-                                        <td class="total">INR ' . $subTotal . '</td>
+                                        <td class="total">Bs.  ' . $subTotal . '</td>
                                     </tr>
                                     <tr>
                                         <td class="desc"></td>
                                         <td class="desc"></td>
                                         <td class="desc"></td>
                                         <td class="total" colspan=2>SHIPPING</td>
-                                        <td class="total">INR 0</td>
+                                        <td class="total">Bs.  0</td>
                                     </tr>
                                     <tr>
                                         <td class="desc"></td>
@@ -719,10 +717,10 @@ class OrderController extends Controller
 
                                         if ($orderDetails['coupon_amount'] > 0) {
                                             // We CONCATENATE $invoiceHTML
-                                            $invoiceHTML .= '<td class="total">INR '. $orderDetails['coupon_amount'] . '</td>';
+                                            $invoiceHTML .= '<td class="total">Bs.  '. $orderDetails['coupon_amount'] . '</td>';
                                         } else {
                                             // We CONCATENATE $invoiceHTML
-                                            $invoiceHTML .= '<td class="total">INR 0</td>';
+                                            $invoiceHTML .= '<td class="total">Bs.  0</td>';
                                         }
 
                                         // We CONCATENATE $invoiceHTML
@@ -733,7 +731,7 @@ class OrderController extends Controller
                                         <td class="desc"></td>
                                         <td class="desc"></td>
                                         <td class="total" colspan="2">TOTAL</td>
-                                        <td class="total">INR ' . $orderDetails['grand_total'] . '</td>
+                                        <td class="total">Bs. ' . $orderDetails['grand_total'] . '</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -769,6 +767,246 @@ class OrderController extends Controller
 
         // Output the generated PDF to Browser
         $dompdf->stream();
+    }
+    public function viewPDFInvoice($order_id) {
+        $orderDetails = Order::with('orders_products')->where('id', $order_id)->first()->toArray();
+        $userDetails = User::where('id', $orderDetails['user_id'])->first()->toArray(); 
+    
+        // Eliminamos todas las comillas simples para evitar errores
+        $invoiceHTML = '
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Factura</title>
+                <meta content="width=device-width, initial-scale=1.0" name="viewport">
+                <meta http-equiv="content-type" content="text-html; charset=utf-8">
+                <style type="text/css">
+                    /* Reset básico de estilo */
+                    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+                        margin: 0;
+                        padding: 0;
+                        border: 0;
+                        font: inherit;
+                        font-size: 100%;
+                        vertical-align: baseline;
+                    }
+    
+                    /* Estilo del cuerpo del documento */
+                    body {
+                        font-family: "Source Sans Pro", sans-serif;
+                        font-weight: 300;
+                        font-size: 12px;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .container {
+                        min-width: 500px;
+                        margin: 0 auto;
+                        padding: 0 20px;
+                    }
+                    .clearfix:after {
+                        content: "";
+                        display: table;
+                        clear: both;
+                    }
+    
+                    /* Estilos para el encabezado */
+                    header {
+                        margin-top: 20px;
+                        margin-bottom: 50px;
+                    }
+                    header .company-address {
+                        float: left;
+                        max-width: 150px;
+                        line-height: 1.7em;
+                    }
+                    header .company-address .title {
+                        color: #8BC34A;
+                        font-weight: 400;
+                        font-size: 1.5em;
+                        text-transform: uppercase;
+                    }
+                    header .company-contact {
+                        float: right;
+                        height: 60px;
+                        padding: 0 10px;
+                        background-color: #8BC34A;
+                        color: white;
+                    }
+                    header .company-contact .email {
+                        height: 100%;
+                        min-width: 100px;
+                        text-align: right;
+                    }
+    
+                    /* Estilos para la sección de detalles */
+                    section .details {
+                        margin-bottom: 55px;
+                    }
+                    section .details .client {
+                        width: 50%;
+                        line-height: 20px;
+                    }
+                    section .details .client .name {
+                        color: #8BC34A;
+                    }
+                    section .details .data {
+                        width: 50%;
+                        text-align: right;
+                    }
+    
+                    /* Tabla de productos */
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                        font-size: 0.9166em;
+                    }
+                    table thead th {
+                        padding: 5px 10px;
+                        background: #8BC34A;
+                        color: white;
+                        font-weight: 400;
+                        text-transform: uppercase;
+                        text-align: right;
+                    }
+                    table thead th.desc {
+                        text-align: left;
+                    }
+                    table tbody td {
+                        padding: 10px;
+                        background: #E8F3DB;
+                        color: #777777;
+                        text-align: right;
+                        border-bottom: 5px solid #FFFFFF;
+                    }
+                    table tbody .desc {
+                        text-align: left;
+                    }
+    
+                    /* Estilo para el pie de página */
+                    footer {
+                        margin-bottom: 20px;
+                    }
+                    footer .thanks {
+                        margin-bottom: 40px;
+                        color: #8BC34A;
+                        font-size: 1.16666666666667em;
+                        font-weight: 600;
+                    }
+                </style>
+            </head>
+    
+            <body>
+                <header class="clearfix">
+                    <div class="container">
+                        <div class="company-address">
+                            <h2 class="title">Comunidad Artesanal</h2>
+                            <p>37 Salah Salem St.<br>Cairo, Egypt</p>
+                        </div>
+                        <div class="company-contact">
+                            <div class="email">
+                                <a href="mailto:company@example.com">company@example.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+    
+                <section>
+                    <div class="container">
+                        <div class="details clearfix">
+                            <div class="client left">
+                                <p>FACTURA A:</p>
+                                <p class="name">' . $orderDetails['name'] . '</p>
+                                <p>' . $orderDetails['address'] . ', ' . $orderDetails['city'] . ', ' . $orderDetails['state'] . ', ' . $orderDetails['country'] . '-' . $orderDetails['pincode'] . '</p>
+                                <a href="mailto:' . $orderDetails['email'] . '">' . $orderDetails['email'] . '</a>
+                            </div>
+                            <div class="data right">
+                                <div class="title">ID Pedido: ' . $orderDetails['id'] . '</div>
+                                <div class="date">Fecha del pedido: ' . date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) . '</div>
+                                <div class="date">Monto total: Bs. ' . $orderDetails['grand_total'] . '</div>
+                                <div class="date">Estado del pedido: ' . $orderDetails['order_status'] . '</div>
+                            </div>
+                        </div>
+    
+                        <table border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="desc">Código del producto</th>
+                                    <th class="qty">Tamaño</th>
+                                    <th class="qty">Color</th>
+                                    <th class="qty">Cantidad</th>
+                                    <th class="unit">Precio unitario</th>
+                                    <th class="total">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+    
+        // Calcular subtotal
+        $subTotal = 0;
+        foreach ($orderDetails['orders_products'] as $product) {
+            $invoiceHTML .= '
+                <tr>
+                    <td class="desc">' . $product['product_code'] . '</td>
+                    <td class="qty">' . $product['product_size'] . '</td>
+                    <td class="qty">' . $product['product_color'] . '</td>
+                    <td class="qty">' . $product['product_qty'] . '</td>
+                    <td class="unit">Bs. ' . $product['product_price'] . '</td>
+                    <td class="total">Bs.  ' . ($product['product_price'] * $product['product_qty']) . '</td>
+                </tr>';
+            $subTotal += ($product['product_price'] * $product['product_qty']);
+        }
+    
+        $invoiceHTML .= '
+                            </tbody>
+                        </table>
+                        <div class="no-break">
+                            <table class="grand-total">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2">SUBTOTAL</td>
+                                        <td>Bs.  ' . $subTotal . '</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">TOTAL</td>
+                                        <td>Bs. ' . $orderDetails['grand_total'] . '</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+    
+                <footer>
+                    <div class="container">
+                        <div class="thanks">¡Gracias!</div>
+                        <div class="end">La factura fue creada electrónicamente y es válida sin firma.</div>
+                    </div>
+                </footer>
+            </body>
+            </html>';
+    
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($invoiceHTML);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream();
+    }
+    
+    // Nuevo método para rastrear un pedido
+    public function trackOrder($id)
+    {
+        $order = Order::with('orders_products')->where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+
+        // Para la demostración, generaremos algunas ubicaciones simuladas
+        $trackingData = [
+            ['lat' => 19.432608, 'lng' => -99.133209, 'status' => 'Pedido recibido en la tienda'],
+            ['lat' => 19.427050, 'lng' => -99.127572, 'status' => 'En proceso de envío'],
+            ['lat' => 19.390041, 'lng' => -99.173523, 'status' => 'En camino a la dirección de entrega'],
+            ['lat' => 19.433318, 'lng' => -99.133679, 'status' => 'Pedido entregado']
+        ];
+
+        return view('admin.orders.track_order', compact('order', 'trackingData'));
     }
 
 }

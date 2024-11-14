@@ -1,223 +1,100 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminController;
 
-use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\VisitorController;
-//cotrollers admin
-use App\Http\Controllers\Admin\GestionUsuarioController as GestionUsuario;
-use App\Http\Controllers\Admin\GestionUsuarioRoleController as GestionUsuarioRole;
-use App\Http\Controllers\Admin\GestionProductosController as GestionProductos;
-use App\Http\Controllers\Admin\GestionComunidadController as GestionComunidad;
-use App\Http\Controllers\Admin\GestionComunarioController as GestionComunario;
-use App\Http\Controllers\Admin\GestionDeliveryController as GestionDelivery;
+use App\Http\Controllers\Admin\RatingController;
+use App\Http\Controllers\Admin\ProductsController;
 
-//controlers comunario
-use App\Http\Controllers\Comunario\GestionInventarioController as GestionInventario;
-use App\Http\Controllers\Comunario\GestionPromocionController as GestionPromocion;
-
-//relaciones n:m
-use App\Http\Controllers\HaceController as HaceController;
-use App\Http\Controllers\TieneController as TieneController;
+use App\Http\Controllers\Admin\SalesController;
 
 
-use App\Http\Controllers\MovilController as MovilController;
-
-use App\Http\Controllers\User\UsuarioPerfilController as UsuarioPerfil;
-
-
-use App\Http\Controller\CodeController;
-
-use App\Http\Controllers\Comunario\ReporteController;
-use App\Http\Controllers\Comunario\InventarioController;
-use App\Http\Controllers\Comunario\PromocionController;
-
-use App\Mail\MyEmail;
-
-
-use App\Http\Controllers\Frontend\PageController;
-
-/************************ */
-
-
-use App\Http\Controllers\Admin\SectionController;
-/********************** */
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
-Route::controller(VisitorController::class)->group(function(){
-    Route::get('/', 'welcome')->name('welcome');
-    Route::get('/comunidades', 'comunidades')->name('comunidades');
-    Route::get('/productos', 'productos')->name('productos');
-    Route::get('/contacto', 'contacto')->name('contacto');
-});
+require __DIR__.'/auth.php';
 
 
 
-Route::controller(UsuarioPerfil::class)->group(function(){
-    Route::get('/user','index')->name('user');
-    Route::get('/user/edit','update')->name('user.edit');
-    Route::put('/user','updateProfile')->name('user.update');
-});
+// Note: OUR WEBSITE WILL HAVE TWO MAJOR SECTIONS: ADMIN ROUTES (for the Admin Panel) & FRONT ROUTES (for the Frontend section routes)!:
 
-
-
-Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('productos.show');
-Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
-
-
-
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-// Rutas para los roles
-
-
-Route::middleware(['auth','user-role:Comunario'])->group(function()
-{ // Rutas para el rol comunario
-    Route::get('/comunario', function() {
-        return view('/Comunario/app');
-    })->name('comunario');
-
-    // Rutas para Reportes de Ventas
-    Route::get('/comunario/reportes', [ReporteController::class, 'index'])->name('comunario.reportes');
-
-    // Rutas para Control de Inventario
-    Route::get('/comunario/inventario', [InventarioController::class, 'index'])->name('comunario.inventario');
-
-    // Rutas para Promociones y Descuentos
-    Route::get('/comunario/promociones', [PromocionController::class, 'index'])->name('comunario.promociones');
-    Route::post('/comunario/promociones', [PromocionController::class, 'store'])->name('comunario.promociones.store');
-});
-
-Route::get('/comunario', function(){
-    return view('/comunario/app');
-})->name('comunario');
-
-Route::controller(GestionInventario::class)->group(function(){
-    Route::get('/comunario/inventario','index')->name('comunario.inventario');
-    Route::get('/comunario/inventario/create','create')->name('comunario.inventario.create');
-    Route::get('/comunario/inventario/edit/{producto}','edit')->name('comunario.inventario.edit');
-    Route::put('/comunario/inventario/{id}','update')->name('comunario.inventario.update');
-});
-
-Route::controller(GestionPromocion::class)->group(function(){
-    Route::get('/comunario/promocion','index')->name('comunario.promocion');
-    Route::get('/comunario/promocion/create','create')->name('comunario.promocion.create');
-    Route::get('/comunario/promocion/edit/{producto}','edit')->name('comunario.promocion.edit');
-    Route::put('/comunario/promocion/{id}','update')->name('comunario.promocion.update');
-});
-
-
-
-Route::middleware(['auth','user-role:Comprador'])->group(function()
-{ // Rutas para el rol Comprador
-    Route::get('/comprador', function(){
-        return view('/comprador/app');
-    })->name('comprador');
-});
-
-Route::middleware(['auth','user-role:Delivery'])->group(function()
-{ // Rutas para el rol Delivery
-    Route::get('/delivery', function(){
-        return view('/delivery/app');
-    })->name('delivery');
-});
-
-
-
-
-Route::middleware(['auth','user-role:Admin'])->group(function()
-{ // Rutas para el rol Admin
-    Route::get('/admin', function(){
-        return view('/admin/app');
-    })->name('admin');
-});
-
-Route::get('/admin', function(){
-    return view('/admin/app');
-})->name('admin');
-
-
-Route::controller(GestionUsuario::class)->group(function(){
-    Route::get('/admin/gestion_usuario','index')->name('admin.gestion_usuario');
-    Route::get('/admin/gestion_usuario/create','create_user')->name('admin.gestion_usuario.create');
-    Route::post('/admin/gestion_usuario','store')->name('admin.gestion_usuario.store');
-    Route::get('/admin/gestion_usuario/edit/{id}','edit')->name('admin.gestion_usuario.edit');
-    Route::put('/admin/gestion_usuario/{id}','update')->name('admin.gestion_usuario.update');
-    Route::delete('/admin/gestion_usuario/{id}','destroy')->name('admin.gestion_usuario.destroy');
-});
-
-Route::controller(GestionUsuarioRole::class)->group(function(){
-    Route::get('/admin/gestion_usuario_role','index')->name('admin.gestion_usuario_role');
-    Route::get('/admin/gestion_usuario_role/create/{id}','create_user_role')->name('admin.gestion_usuario_role.create');
-    Route::post('/admin/gestion_usuario_role/{role}/{user}','store')->name('admin.gestion_usuario_role.store');
-    Route::put('/admin/gestion_usuario_role/{user}/{role}','update')->name('admin.gestion_usuario_role.update');
-    Route::delete('/admin/gestion_usuario_role/destryo/{role}/{user}','destroy')->name('admin.gestion_usuario_role.destroy');
-});
-
-Route::controller(GestionProductos::class)->group(function(){
-    Route::get('/admin/gestion_productos','index')->name('admin.gestion_productos');
-    Route::get('/admin/gestion_productos/create','create_producto')->name('admin.gestion_productos.create');
-    Route::post('/admin/gestion_productos','store')->name('admin.gestion_productos.store');
-    Route::get('/admin/gestion_productos/edit/{id}','edit')->name('admin.gestion_productos.edit');
-    Route::put('/admin/gestion_productos/{id}','update')->name('admin.gestion_productos.update');
-    Route::delete('/admin/gestion_productos/{id}','destroy')->name('admin.gestion_productos.destroy');
-});
-
-Route::controller(GestionComunidad::class)->group(function(){
-    Route::get('/admin/gestion_comunidad','index')->name('admin.gestion_comunidad');
-    Route::get('/admin/gestion_comunidad/create','create_comunidad')->name('admin.gestion_comunidad.create');
-    Route::post('/admin/gestion_comunidad','store')->name('admin.gestion_comunidad.store');
-    Route::get('/admin/gestion_comunidad/edit/{id}','edit')->name('admin.gestion_comunidad.edit');
-    Route::put('/admin/gestion_comunidad/{id}','update')->name('admin.gestion_comunidad.update');
-    Route::delete('/admin/gestion_comunidad/{id}','destroy')->name('admin.gestion_comunidad.destroy');
-});
-
-Route::controller(GestionComunario::class)->group(function(){
-    Route::get('/admin/gestion_comunario','index')->name('admin.gestion_comunario');
-    Route::get('/admin/gestion_comunario/create','create_comunario')->name('admin.gestion_comunario.create');
-    Route::post('/admin/gestion_comunario','store')->name('admin.gestion_comunario.store');
-    Route::get('/admin/gestion_comunario/edit/{id}','edit')->name('admin.gestion_comunario.edit');
-    Route::put('/admin/gestion_comunario/{id}','update')->name('admin.gestion_comunario.update');
-    Route::delete('/admin/gestion_comunario/{id}','destroy')->name('admin.gestion_comunario.destroy');
-});
-
-Route::controller(GestionDelivery::class)->group(function(){
-    Route::get('/admin/gestion_delivery','index')->name('admin.gestion_delivery');
-    Route::get('/admin/gestion_delivery/edit/{id}','edit')->name('admin.gestion_delivery.edit');
-    Route::put('/admin/gestion_delivery/{id}','update')->name('admin.gestion_delivery.update');
-    Route::delete('/admin/gestion_delivery/{id}','destroy')->name('admin.gestion_delivery.destroy');
-});
-
-
-
-
-Route::post('/verificarCodigo', [App\Http\Controllers\CodeController::class, 'verificarCodigo'])->name('verificarCodigo'); //mandar datos
-Route::get('/validarCodigo', [App\Http\Controllers\CodeController::class, 'validarCodigo'])->name('validarCodigo');//recibir datos
-
-
-
-/***************** RUTAS  */
-
-
+// First: Admin Panel routes:
+// The website 'ADMIN' Section: Route Group for routes starting with the 'admin' word (Admin Route Group)    // NOTE: ALL THE ROUTES INSIDE THIS PREFIX STATRT WITH 'admin/', SO THOSE ROUTES INSIDE THE PREFIX, YOU DON'T WRITE '/admin' WHEN YOU DEFINE THEM, IT'LL BE DEFINED AUTOMATICALLY!!
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function() {
- 
-      
-        // Sections (Sections, Categories, Subcategories, Products, Attributes)
+    Route::match(['get', 'post'], 'login', 'AdminController@login'); // match() method is used to use more than one HTTP request method for the same route, so GET for rendering the login.php page, and POST for the login.php page <form> submission (e.g. GET and POST)    // Matches the '/admin/dashboard' URL (i.e. http://127.0.0.1:8000/admin/dashboard)
+
+
+    // This a Route Group for routes that ALL start with 'admin/-something' and utilizes the 'admin' Authentication Guard    // Note: You must remove the '/admin'/ part from the routes that are written inside this Route Group (e.g.    Route::get('logout');    , NOT    Route::get('admin/logout');    )
+    Route::group(['middleware' => ['admin']], function() { // using our 'admin' guard (which we created in auth.php)
+
+        // Ruta para responder a reseñas
+        Route::post('/ratings/respond/{id}', [RatingController::class, 'respondToReview'])->name('ratings.respond');
+        //Ruta para autentificar admin y vendedor en la gestion de calificaciones
+        Route::get('/ratings', [RatingController::class, 'showRatings'])->middleware('auth');       
+
+
+        
+
+       // Route::get('daily', [SalesController::class, 'dailySales'])->name('sales.daily');
+       /// Route::get('weekly', [SalesController::class, 'weeklySales'])->name('sales.weekly');
+       // Route::get('monthly', [SalesController::class, 'monthlySales'])->name('sales.monthly');
+        
+        Route::get('sales', [SalesController::class, 'index'])->name('sales.filter');
+        Route::get('sales/top-selling', [SalesController::class, 'topSellingProducts'])->name('sales.topSelling');
+        Route::get('sales/export-pdf', [SalesController::class, 'exportPDF'])->name('sales.export_pdf');
+
+
+        Route::get('admins/create', [AdminController::class, 'create'])->name('admins.create');
+        Route::post('admins/store', [AdminController::class, 'store'])->name('admins.store');
+        
+
+
+        Route::get('dashboard', 'AdminController@dashboard'); // Admin login
+        Route::get('logout', 'AdminController@logout'); // Admin logout
+        Route::match(['get', 'post'], 'update-admin-password', 'AdminController@updateAdminPassword'); // GET request to view the update password <form>, and a POST request to submit the update password <form>
+        Route::post('check-admin-password', 'AdminController@checkAdminPassword'); // Check Admin Password // This route is called from the AJAX call in admin/js/custom.js page
+        Route::match(['get', 'post'], 'update-admin-details', 'AdminController@updateAdminDetails'); // Update Admin Details in update_admin_details.blade.php page    // 'GET' method to show the update_admin_details.blade.php page, and 'POST' method for the <form> submission in the same page
+
+        Route::match(['get', 'post'], 'update-vendor-details/{slug}', 'AdminController@updateVendorDetails'); // Update Vendor Details    // In the slug we can pass: 'personal' which means update vendor personal details, or 'business' which means update vendor business details, or 'bank' which means update vendor bank details    // We'll create one view (not 3) for the 3 pages, but parts inside it will change depending on the $slug value    // GET method to show the update admin details page, POST method for <form> submission
+
+        //Route::match(['get', 'post'], 'update-vendor-details/{slug}', 'AdminController@updateVendorDetails'); // Update Vendor Details    // In the slug we can pass: 'personal' which means update vendor personal details, or 'business' which means update vendor business details, or 'bank' which means update vendor bank details    // We'll create one view (not 3) for the 3 pages, but parts inside it will change depending on the $slug value    // GET method to show the update admin details page, POST method for <form> submission
+        Route::get('update-vendor-details/{slug}', 'AdminController@updateVendorDetails')->name('admin.updateVendorDetails');
+        //Route::post('admin/update-vendor-details/{slug}', 'AdminController@updateVendorDetails');
+        
+        // Update the vendor's commission percentage (by the Admin) in `vendors` table (for every vendor on their own) in the Admin Panel in admin/admins/view_vendor_details.blade.php (Commissions module: Every vendor must pay a certain commission (that may vary from a vendor to another) for the website owner (admin) on every item sold, and it's defined by the website owner (admin))
+        Route::post('update-vendor-commission', 'AdminController@updateVendorCommission');
+
+        Route::get('admins/{type?}', 'AdminController@admins')->name('admins.full'); // In case the authenticated user (logged-in user) is superadmin, admin, subadmin, vendor these are the three Admin Management URLs depending on the slug. The slug is the `type` column in `admins` table which can only be: superadmin, admin, subadmin, or vendor    // Used an Optional Route Parameters (or Optional Route Parameters) using a '?' question mark sign, for in case that there's no any {type} passed, the page will show ALL superadmins, admins, subadmins and vendors at the same page
+        Route::get('view-vendor-details/{id}', 'AdminController@viewVendorDetails'); // View further 'vendor' details inside Admin Management table (if the authenticated user is superadmin, admin or subadmin)
        
-        Route::get('sections',  [SectionController::class, 'sections'])->name('admin.sections');
+        Route::get('view-vendor-details/{id}/{slug?}', [AdminController::class, 'viewVendorDetails'])->name('admin.viewVendorDetails');
+      //  Route::post('/admin/update-vendor-details/{id}/{slug}', [AdminController::class, 'updateVendorDetails'])->name('admin.updateVendorDetails');
+       Route::get('admin/view-vendor-details/{id}/{slug}', [AdminController::class, 'viewVendorDetails'])->name('admin.viewVendorDetails');
+        Route::post('admin/update-vendor-details/{id}/{slug}', [AdminController::class, 'updateVendorDetails'])->name('admin.updateVendorDetails');
+        
+        /******************************* */
+// Ruta para ver detalles del vendedor
+//Route::get('admin/view-vendor-details/{id}', 'AdminController@viewVendorDetails')->name('admin.viewVendorDetails');
+
+// Ruta para actualizar detalles del vendedor
+//Route::put('admin/update-vendor-details/{id}', 'AdminController@updateVendorDetails')->name('admin.updateVendorDetails');
+
+
+        /******************************* */
+        
+        Route::post('update-admin-status', 'AdminController@updateAdminStatus'); // Update Admin Status using AJAX in admins.blade.php
+    
+
+        // Sections (Sections, Categories, Subcategories, Products, Attributes)
+        Route::get('sections', 'SectionController@sections');
         Route::post('update-section-status', 'SectionController@updateSectionStatus'); // Update Sections Status using AJAX in sections.blade.php
         Route::get('delete-section/{id}', 'SectionController@deleteSection'); // Delete a section in sections.blade.php
         Route::match(['get', 'post'], 'add-edit-section/{id?}', 'SectionController@addEditSection'); // the slug {id?} is an Optional Parameter, so if it's passed, this means Edit/Update the section, and if not passed, this means Add a Section
@@ -243,6 +120,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get', 'post'], 'add-edit-product/{id?}', 'ProductsController@addEditProduct'); // the slug (Route Parameter) {id?} is an Optional Parameter, so if it's passed, this means 'Edit/Update the Product', and if not passed, this means' Add a Product'    // GET request to render the add_edit_product.blade.php view, and POST request to submit the <form> in that view
         Route::get('delete-product-image/{id}', 'ProductsController@deleteProductImage'); // Delete a product images (in the three folders: small, medium and large) in add_edit_product.blade.php page from BOTH SERVER (FILESYSTEM) & DATABASE
         Route::get('delete-product-video/{id}', 'ProductsController@deleteProductVideo'); // Delete a product video in add_edit_product.blade.php page from BOTH SERVER (FILESYSTEM) & DATABASE
+    
 
         // Attributes
         Route::match(['get', 'post'], 'add-edit-attributes/{id}', 'ProductsController@addAttributes'); // GET request to render the add_edit_attributes.blade.php view, and POST request to submit the <form> in that view
@@ -282,10 +160,15 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('users', 'UserController@users'); // Render admin/users/users.blade.php page in the Admin Panel
         Route::post('update-user-status', 'UserController@updateUserStatus'); // Update User Status (active/inactive) via AJAX in admin/users/users.blade.php, check admin/js/custom.js
 
+
+
+
         // Orders
+
         // Render admin/orders/orders.blade.php page (Orders Management section) in the Admin Panel
         Route::get('orders', 'OrderController@orders');
-
+        // Nueva ruta para rastrear pedido
+      //  Route::get('/user/orders/{id}', 'OrderController@trackOrder')->name('user.orders.track');
         // Render admin/orders/order_details.blade.php (View Order Details page) when clicking on the View Order Details icon in admin/orders/orders.blade.php (Orders tab under Orders Management section in Admin Panel)
         Route::get('orders/{id}', 'OrderController@orderDetails'); 
 
@@ -340,9 +223,11 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
         // Delete a Rating via AJAX in admin/ratings/ratings.blade.php, check admin/js/custom.js
         Route::get('delete-rating/{id}', 'RatingController@deleteRating'); 
-    //});
+    });
 
 });
+
+
 
 
 
@@ -358,7 +243,6 @@ Route::get('orders/invoice/download/{id}', 'App\Http\Controllers\Admin\OrderCont
 // Second: FRONT section routes:
 Route::namespace('App\Http\Controllers\Front')->group(function() {
     Route::get('/', 'IndexController@index');
-
 
     // Dynamic Routes for the `url` column in the `categories` table using a foreach loop    // Listing/Categories Routes
     // Important Note: When you run this Laravel project for the first time and if you're running  the "php artisan migrate" command for the first time, before that you must comment out the $catUrls variable and the following foreach loop in web.php file (routes file), because when we run that artisan command, by then the `categories` table has not been created yet, and this causes an error, so make sure to comment out this code in web.php file before running the "php artisan migrate" command for the first time.
@@ -489,28 +373,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
         Route::get('iyzipay', 'IyzipayController@iyzipay');
 
         // Make an iyzipay payment (redirect the user to iyzico payment gateway with the order details)
-        Route::get('iyzipay/pay', 'IyzipayController@pay'); 
+        Route::get('iyzipay/pay',  'PaypalController@success'); 
     });
 
-});
-/***************** */
-
-
-/* Rutas para que el comunario agregue un nuevo producto o  quite */
-Route::controller(HaceController::class)->group(function(){
-    Route::post('/comunario/producto/{id}', 'addProduct')->name('comunario.producto.add');
-    Route::delete('/comunario/producto/{comunario}/{producto}', 'removeProduct')->name('comunario.producto.remove');
-});
-
-
-/* Rutas para que el comunario agregue una promoción a un producto o la quite */
-Route::controller(TieneController::class)->group(function(){
-    Route::post('/comunario/promocion', 'agregarPromocion')->name('comunario.promocion.add');
-    Route::delete('/comunario/promocion/{producto}/{promocion}', 'removerPromocion')->name('comunario.promocion.remove');
-    Route::delete('/comunario/promocion/expirado/{producto}', 'eliminarPromocionesExpiradas')->name('comunario.promocion.removeExpired');
-});
-
-
-Route::controller(MovilController::class)->group(function(){
-    Route::get('/movil/user','index_user')->name('movil.user');
 });

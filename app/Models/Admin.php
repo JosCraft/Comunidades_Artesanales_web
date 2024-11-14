@@ -3,37 +3,44 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles; // Importa el trait para manejar roles y permisos
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-// For Multiple Authentication:
-use Illuminate\Foundation\Auth\User as Authenticatable; // https://laravel.com/docs/9.x/authentication#the-authenticatable-contract    // https://laravel.com/api/9.x/Illuminate/Contracts/Auth/Authenticatable.html
-
-
-
-// class Admin extends Model
-
-class Admin extends Authenticatable 
+class Admin extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasRoles; // Usamos HasRoles para gestionar roles
 
+    // Multiple Authentication Guard
+    protected $guard = 'admin'; // Definimos el guardia 'admin'
 
-    // Multiple Authentication    // https://laravel.com/docs/9.x/passport#multiple-authentication-guards
-    protected $guard = 'admin'; // Check auth.php file, where we added (in two places) the 'admin' Authentication Guard and 'admin' User Provider
+    // Los campos que pueden ser completados
+    protected $fillable = [
+        'name',
+        'type',
+        'vendor_id',
+        'mobile',
+        'email',
+        'password',
+        'image',
+        'confirm',
+        'status',
+    ];
 
-
-
-    // Defining the relationships    
-    // An admin belongs to a vendor (the inverse of the relationship)
-
-    public function vendorPersonal() { // relationship between `admins` and `vendors` table
-        return $this->belongsTo('App\Models\Vendor', 'vendor_id'); // 'vendor_id' is the foreign key of the `admins` table
+    // Relación con la tabla 'vendors'
+    public function vendorPersonal()
+    {
+        return $this->belongsTo('App\Models\Vendor', 'vendor_id'); // 'vendor_id' es la clave foránea en la tabla `admins`
     }
 
-    public function vendorBusiness() { // relationship between `admins` and `vendors_business_details` table
-        return $this->belongsTo('App\Models\VendorsBusinessDetail', 'vendor_id'); // 'vendor_id' is the foreign key of the `admins` table
+    // Relación con la tabla 'vendors_business_details'
+    public function vendorBusiness()
+    {
+        return $this->belongsTo('App\Models\VendorsBusinessDetail', 'vendor_id'); // Relación con los detalles de negocio del vendor
     }
 
-    public function vendorBank() { // relationship between `admins` and `vendors_bank_details` table
-        return $this->belongsTo('App\Models\VendorsBankDetail', 'vendor_id'); // 'vendor_id' is the foreign key of the `admins` table
+    // Relación con la tabla 'vendors_bank_details'
+    public function vendorBank()
+    {
+        return $this->belongsTo('App\Models\VendorsBankDetail', 'vendor_id'); // Relación con los detalles bancarios del vendor
     }
 }

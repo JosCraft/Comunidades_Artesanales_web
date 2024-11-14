@@ -11,7 +11,10 @@ class Product extends Model
 {
     use HasFactory;
 
-
+    // Agrega la propiedad $fillable aquí
+    protected $fillable = [
+        'product_name', 'product_code', 'product_color', 'product_image', 'category_id', 'section_id', 'stock', 'brand_id' // otros atributos...
+    ];
 
     // Every 'product' belongs to a 'section'
     public function section() {

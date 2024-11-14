@@ -1,0 +1,1 @@
+import{j as o}from"./jquery-duOnZAWn.js";window.$=o;$(document).ready(function(){$("#buscar").on("keyup",function(){const t=$(this).val().toLowerCase();$("tbody tr").filter(function(){$(this).toggle($(this).text().toLowerCase().indexOf(t)>-1)})})});

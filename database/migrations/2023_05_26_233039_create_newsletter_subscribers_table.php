@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('newsletter_subscribers', function (Blueprint $table) {
             
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->string('email');
             $table->tinyInteger('status'); // 0 value to disable sending newsletter emails to the user, 1 to enable them
 

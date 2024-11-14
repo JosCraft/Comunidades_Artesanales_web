@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('products_images', function (Blueprint $table) {
-            $table->id();
-
+            //$table->id();
+            $table->bigIncrements('id');
             $table->integer('product_id');
             $table->string('image'); // image path
             $table->tinyInteger('status'); // 0 means inactive, 1 means active

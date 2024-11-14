@@ -8,7 +8,7 @@
                 <div class="col-md-12 grid-margin">
                     <div class="row">
                         <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                            <h4 class="card-title">Products</h4>
+                            <h4 class="card-title">Productos</h4>
                         </div>
                         <div class="col-12 col-xl-4">
                             <div class="justify-content-end d-flex">
@@ -88,10 +88,10 @@
 
                                 
                                 <div class="form-group">
-                                    <label for="category_id">Select Category</label>
+                                    <label for="category_id">Seleccione Categoria</label>
                                     {{-- <input type="text" class="form-control" id="category_id" placeholder="Enter Category Name" name="category_id" @if (!empty($product['name'])) value="{{ $product['category_id'] }}" @else value="{{ old('category_id') }}" @endif>  --}} {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
                                     <select name="category_id" id="category_id" class="form-control text-dark">
-                                        <option value="">Select Category</option>
+                                        <option value="">Seleccionar Categoria</option>
                                         @foreach ($categories as $section) {{-- $categories are ALL the `sections` with their related 'parent' categories (if any (if exist)) and their subcategories or `child` categories (if any (if exist)) --}} {{-- Check ProductsController.php --}}
                                             <optgroup label="{{ $section['name'] }}"> {{-- sections --}}
                                                 @foreach ($section['categories'] as $category) {{-- parent categories --}} {{-- Check ProductsController.php --}}
@@ -108,111 +108,145 @@
 
 
 
+
                                 {{-- Including the related filters <select> box of a product DEPENDING ON THE SELECTED CATEGORY of the product --}} 
-                                <div class="loadFilters">
-                                    @include('admin.filters.category_filters')
-                                </div>
+                           
 
 
+<div class="loadFilters">
+    @include('admin.filters.category_filters')
+</div>
 
-                                <div class="form-group">
-                                    <label for="brand_id">Select Brand</label>
-                                    <select name="brand_id" id="brand_id" class="form-control text-dark">
-                                        <option value="">Select Brand</option>
-                                        @foreach ($brands as $brand)
-                                            <option value="{{ $brand['id'] }}" @if (!empty($product['brand_id'] == $brand['id'])) selected @endif>{{ $brand['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="product_name">Product Name</label>
-                                    <input type="text" class="form-control" id="product_name" placeholder="Enter Product Name" name="product_name" @if (!empty($product['product_name'])) value="{{ $product['product_name'] }}" @else value="{{ old('product_name') }}" @endif>  {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
-                                <div class="form-group">
-                                    <label for="product_code">Product Code</label>
-                                    <input type="text" class="form-control" id="product_code" placeholder="Enter Code" name="product_code" @if (!empty($product['product_code'])) value="{{ $product['product_code'] }}" @else value="{{ old('product_code') }}" @endif>  {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
-                                <div class="form-group">
-                                    <label for="product_color">Product Color</label>
-                                    <input type="text" class="form-control" id="product_color" placeholder="Enter Product Color" name="product_color" @if (!empty($product['product_color'])) value="{{ $product['product_color'] }}" @else value="{{ old('product_color') }}" @endif>  {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
-                                <div class="form-group">
-                                    <label for="product_price">Product Price</label>
-                                    <input type="text" class="form-control" id="product_price" placeholder="Enter Product Price" name="product_price" @if (!empty($product['product_price'])) value="{{ $product['product_price'] }}" @else value="{{ old('product_price') }}" @endif> {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
-                                <div class="form-group">
-                                    <label for="product_discount">Product Discount (%)</label>
-                                    <input type="text" class="form-control" id="product_discount" placeholder="Enter Product Discount" name="product_discount" @if (!empty($product['product_discount'])) value="{{ $product['product_discount'] }}" @else value="{{ old('product_discount') }}" @endif> {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
-                                <div class="form-group">
-                                    <label for="product_weight">Product Weight (%)</label>
-                                    <input type="text" class="form-control" id="product_weight" placeholder="Enter Product Weight" name="product_weight" @if (!empty($product['product_weight'])) value="{{ $product['product_weight'] }}" @else value="{{ old('product_weight') }}" @endif> {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
+<div class="form-group">
+    <label for="brand_id">Seleccionar Marca</label>
+    <select name="brand_id" id="brand_id" class="form-control text-dark">
+        <option value="">Seleccionar Marca</option>
+        @foreach ($brands as $brand)
+            <option value="{{ $brand['id'] }}" @if (!empty($product['brand_id'] == $brand['id'])) selected @endif>{{ $brand['name'] }}</option>
+        @endforeach
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="product_name">Nombre del Producto</label>
+    <input type="text" class="form-control" id="product_name" placeholder="Ingresar Nombre del Producto" name="product_name" @if (!empty($product['product_name'])) value="{{ $product['product_name'] }}" @else value="{{ old('product_name') }}" @endif>  
+    {{-- Repoblando formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
+
+<div class="form-group">
+    <label for="product_code">Código del Producto</label>
+    <input type="text" class="form-control" id="product_code" placeholder="Ingresar Código" name="product_code" @if (!empty($product['product_code'])) value="{{ $product['product_code'] }}" @else value="{{ old('product_code') }}" @endif>  
+    {{-- Repoblando formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
+
+<div class="form-group">
+    <label for="product_color">Color del Producto</label>
+    <input type="text" class="form-control" id="product_color" placeholder="Ingresar Color del Producto" name="product_color" @if (!empty($product['product_color'])) value="{{ $product['product_color'] }}" @else value="{{ old('product_color') }}" @endif>  
+    {{-- Repoblando formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
+
+<div class="form-group">
+    <label for="product_price">Precio del Producto</label>
+    <input type="text" class="form-control" id="product_price" placeholder="Ingresar Precio del Producto" name="product_price" @if (!empty($product['product_price'])) value="{{ $product['product_price'] }}" @else value="{{ old('product_price') }}" @endif>  
+    {{-- Repoblando formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
+
+<div class="form-group">
+    <label for="product_discount">Descuento del Producto (%)</label>
+    <input type="text" class="form-control" id="product_discount" placeholder="Ingresar Descuento del Producto" name="product_discount" @if (!empty($product['product_discount'])) value="{{ $product['product_discount'] }}" @else value="{{ old('product_discount') }}" @endif>  
+    {{-- Repoblando formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
+
+<div class="form-group">
+    <label for="product_weight">Peso del Producto (%)</label>
+    <input type="text" class="form-control" id="product_weight" placeholder="Ingresar Peso del Producto" name="product_weight" @if (!empty($product['product_weight'])) value="{{ $product['product_weight'] }}" @else value="{{ old('product_weight') }}" @endif>  
+    {{-- Repoblando formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
+
 
 
 
                                 {{-- Managing Product Colors (in front/products/detail.blade.php) --}} 
                                 <div class="form-group">
-                                    <label for="group_code">Group Code</label>
-                                    <input type="text" class="form-control" id="group_code" placeholder="Enter Group Code" name="group_code"  @if (!empty($product['group_code'])) value="{{ $product['group_code'] }}" @else value="{{ old('group_code') }}" @endif> {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
+    <label for="group_code">Código de Grupo</label>
+    <input type="text" class="form-control" id="group_code" placeholder="Ingresar Código de Grupo" name="group_code" 
+    @if (!empty($product['group_code'])) value="{{ $product['group_code'] }}" 
+    @else value="{{ old('group_code') }}" @endif> {{-- Rellenado de formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
 
+<div class="form-group">
+    <label for="product_image">Imagen del Producto (Tamaño Recomendado: 1000x1000)</label> 
+    {{-- Nota Importante: Habrá tres tamaños para la imagen del producto: El administrador subirá la imagen con el tamaño recomendado, que es 1000x1000, que será el tamaño "grande" (se guardará en la carpeta 'large'), pero luego usaremos el paquete 'Intervention' para generar otros dos tamaños: 500x500 que será el tamaño "mediano" (se guardará en la carpeta 'medium') y 250x250 que será el tamaño "pequeño" (se guardará en la carpeta 'small') --}}
+    <input type="file" class="form-control" id="product_image" name="product_image">
+    {{-- Mostrar la imagen si existe --}}
 
+    {{-- Mostrar la imagen del producto si existe --}}
+    @if (!empty($product['product_image']))
+        <a target="_blank" href="{{ url('front/images/product_images/large/' . $product['product_image']) }}">Ver Imagen del Producto</a>&nbsp;|&nbsp; 
+        {{-- Mostrando la imagen "grande" dentro de la carpeta 'large' --}}
+        <a href="JavaScript:void(0)" class="confirmDelete" module="product-image" moduleid="{{ $product['id'] }}">Eliminar Imagen del Producto</a> 
+        {{-- Eliminar la imagen del producto tanto del SERVIDOR (FILESYSTEM) como de la BASE DE DATOS --}}
+    @endif
+</div>
 
-                                <div class="form-group">
-                                    <label for="product_image">Product Image (Recommended Size: 1000x1000)</label> {{-- Important Note: There are going to be 3 three sizes for the product image: Admin will upload the image with the recommended size which 1000*1000 which is the 'large' size (will store it in 'large' folder), but then we're going to use 'Intervention' package to get another two sizes: 500*500 which is the 'medium' size (will store it in 'medium' folder) and 250*250 which is the 'small' size (will store it in 'small' folder) --}}
-                                    <input type="file" class="form-control" id="product_image" name="product_image">
-                                    {{-- Show the admin image if exists --}}
+<div class="form-group">
+    <label for="product_video">Video del Producto (Tamaño Recomendado: Menos de 2 MB)</label> 
+    {{-- Nota Importante: El tamaño máximo de archivo en el archivo php.ini por defecto es 2MB (si subes un archivo más grande, no se cargará). Revisa 'upload_max_filesize' usando el método phpinfo() --}}
+    <input type="file" class="form-control" id="product_video" name="product_video">
 
+    {{-- Mostrar el video si existe --}}
+    @if (!empty($product['product_video']))
+        <a target="_blank" href="{{ url('front/videos/product_videos/' . $product['product_video']) }}">Ver Video del Producto</a>&nbsp;|&nbsp;
+        <a href="JavaScript:void(0)" class="confirmDelete" module="product-video" moduleid="{{ $product['id'] }}">Eliminar Video del Producto</a> 
+        {{-- Eliminar el video del producto tanto del SERVIDOR (FILESYSTEM) como de la BASE DE DATOS --}}
+    @endif
+</div>
 
+<div class="form-group">
+    <label for="description">Descripción del Producto</label>
+    <textarea name="description" id="description" class="form-control" rows="3">{{ $product['description'] }}</textarea>
+</div>
 
+<div class="form-group">
+    <label for="meta_title">Meta Título</label>
+    <input type="text" class="form-control" id="meta_title" placeholder="Ingresar Meta Título" name="meta_title"   
+    @if (!empty($product['meta_title'])) value="{{ $product['meta_title'] }}" 
+    @else value="{{ old('meta_title') }}" @endif> 
+    {{-- Rellenado de formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
 
-                                    {{-- Show the product image, if any (if exits) --}}
-                                    @if (!empty($product['product_image']))
-                                        <a target="_blank" href="{{ url('front/images/product_images/large/' . $product['product_image']) }}">View Product Image</a>&nbsp;|&nbsp; {{-- Showing the 'large' image inside the 'large' folder --}}
-                                        <a href="JavaScript:void(0)" class="confirmDelete" module="product-image" moduleid="{{ $product['id'] }}">Delete Product Image</a> {{-- Delete the product image from BOTH SERVER (FILESYSTEM) & DATABASE --}}    {{-- Check admin/js/custom.js and web.php (routes) --}}
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label for="product_video">Product Video (Recommended Size: Less than 2 MB)</label> {{-- Important Note: Default php.ini file upload Maximum file size is 2MB (If you upload a file with a larger size, it won't be uploaded!). Check upload_max_filesize using phpinfo() method --}}
-                                    <input type="file" class="form-control" id="product_video" name="product_video">
-                                    {{-- Show the admin image if exists --}}
+<div class="form-group">
+    <label for="meta_description">Meta Descripción</label>
+    <input type="text" class="form-control" id="meta_description" placeholder="Ingresar Meta Descripción" name="meta_description"   
+    @if (!empty($product['meta_description'])) value="{{ $product['meta_description'] }}" 
+    @else value="{{ old('meta_description') }}" @endif> 
+    {{-- Rellenado de formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
 
+<div class="form-group">
+    <label for="meta_keywords">Meta Palabras Clave</label>
+    <input type="text" class="form-control" id="meta_keywords" placeholder="Ingresar Meta Palabras Clave" name="meta_keywords"   
+    @if (!empty($product['meta_keywords'])) value="{{ $product['meta_keywords'] }}" 
+    @else value="{{ old('meta_keywords') }}" @endif> 
+    {{-- Rellenado de formularios (usando el método old()): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
+</div>
 
+<div class="form-group">
+    <label for="is_featured">Producto Destacado (Sí/No)</label>
+    <input type="checkbox" name="is_featured" id="is_featured" value="Yes" 
+    @if (!empty($product['is_featured']) && $product['is_featured'] == 'Yes') checked @endif>
+</div>
 
+<div class="form-group">
+    <label for="is_bestseller">Producto Más Vendido (Sí/No)</label> 
+    {{-- Nota: Solo el 'superadmin' puede marcar un producto como 'más vendido', el 'vendedor' no puede --}}
+    <input type="checkbox" name="is_bestseller" id="is_bestseller" value="Yes" 
+    @if (!empty($product['is_bestseller']) && $product['is_bestseller'] == 'Yes') checked @endif>
+</div>
 
-                                    {{-- Show the product video, if any (if exits) --}}
-                                    @if (!empty($product['product_video']))
-                                        <a target="_blank" href="{{ url('front/videos/product_videos/' . $product['product_video']) }}">View Product Video</a>&nbsp;|&nbsp;
-                                        <a href="JavaScript:void(0)" class="confirmDelete" module="product-video" moduleid="{{ $product['id'] }}">Delete Product Video</a> {{-- Delete the product video from BOTH SERVER (FILESYSTEM) & DATABASE --}}    {{-- Check admin/js/custom.js and web.php (routes) --}}
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Product Description</label>
-                                    <textarea name="description" id="description" class="form-control" rows="3">{{ $product['description'] }}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="meta_title">Meta Title</label>
-                                    <input type="text" class="form-control" id="meta_title" placeholder="Enter Meta Title" name="meta_title"   @if (!empty($product['meta_title'])) value="{{ $product['meta_title'] }}" @else value="{{ old('meta_title') }}" @endif >  {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
-                                <div class="form-group">
-                                    <label for="meta_description">Meta Description</label>
-                                    <input type="text" class="form-control" id="meta_description" placeholder="Enter Meta Description" name="meta_description"   @if (!empty($product['meta_description'])) value="{{ $product['meta_description'] }}" @else value="{{ old('meta_description') }}" @endif >  {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
-                                <div class="form-group">
-                                    <label for="meta_keywords">Meta Keywords</label>
-                                    <input type="text" class="form-control" id="meta_keywords" placeholder="Enter Meta Keywords" name="meta_keywords"   @if (!empty($product['meta_keywords'])) value="{{ $product['meta_keywords'] }}" @else value="{{ old('meta_keywords') }}" @endif >  {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
-                                </div>
-                                <div class="form-group">
-                                    <label for="is_featured">Featured Item (Yes/No)</label>
-                                    <input type="checkbox" name="is_featured" id="is_featured" value="Yes" @if (!empty($product['is_featured']) && $product['is_featured'] == 'Yes') checked @endif>
-                                </div>
-                                <div class="form-group">
-                                    <label for="is_bestseller">Best Seller Item (Yes/No)</label> {{-- Note: Only 'superadmin' can mark a product as 'bestseller', but 'vendor' can't --}}
-                                    <input type="checkbox" name="is_bestseller" id="is_bestseller" value="Yes" @if (!empty($product['is_bestseller']) && $product['is_bestseller'] == 'Yes') checked @endif>
-                                </div>
-                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                <button type="reset"  class="btn btn-light">Cancel</button>
+<button type="submit" class="btn btn-primary mr-2">Enviar</button>
+<button type="reset" class="btn btn-light">Cancelar</button>
+
                             </form>
                         </div>
                     </div>

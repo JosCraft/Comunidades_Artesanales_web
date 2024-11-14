@@ -17,7 +17,7 @@ return new class extends Migration
         // Add the `is_bestseller` column after `is_featured` column to the already existing `products` database table
         Schema::table('products', function($table) {
             // Note: Only 'superadmin' can mark a product as 'bestseller', but 'vendor' can't
-            $table->enum('is_bestseller', ['No', 'Yes'])->after('is_featured'); // add the `is_bestseller` column AFTER the `is_featured` column    // 'No' will be picked as the 'DEFAULT' value    // Column Modifiers: https://laravel.com/docs/9.x/migrations#column-modifiers
+            $table->enum('is_bestseller', ['No', 'Yes'])->after('is_featured')->nullable(); // add the `is_bestseller` column AFTER the `is_featured` column    // 'No' will be picked as the 'DEFAULT' value    // Column Modifiers: https://laravel.com/docs/9.x/migrations#column-modifiers
         });
     }
 

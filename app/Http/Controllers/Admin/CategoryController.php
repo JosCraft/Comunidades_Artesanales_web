@@ -58,9 +58,9 @@ class CategoryController extends Controller
 
             $getCategories = array(); // An array that contains all the parent categories that are under this section    
 
-            $message = 'Category added successfully!';
+            $message = 'Categoría agregada exitosamente!';
         } else { // if the $id is passed in the route/URL parameters, this means Edit the Category
-            $title = 'Edit Category';
+            $title = 'Editar Categoria';
             $category = Category::find($id);
             // dd($category->parentCategory);
 
@@ -71,7 +71,7 @@ class CategoryController extends Controller
             ])->get();
 
 
-            $message = 'Category updated successfully!';
+            $message = 'Categoría actualizada exitosamente!';
         }
 
 
